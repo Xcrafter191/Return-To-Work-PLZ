@@ -18,4 +18,4 @@ func _ready() -> void:
 	RoomManager.initialize(player, transition_overlay, room_container)
 	
 	# Load the starting room
-	RoomManager.change_room("Office", "SpawnDefault")
+	RoomManager.change_room("Lobby", "SpawnDefault")

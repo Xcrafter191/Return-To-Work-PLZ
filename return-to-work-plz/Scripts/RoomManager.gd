@@ -16,9 +16,14 @@ const FADE_DURATION: float = 0.4
 # Room registry — maps room names to scene paths.
 # Add new rooms here as they are created.
 var room_registry: Dictionary = {
-	"Office": "res://Scenes/Rooms/Office.tscn",
-	"BreakRoom": "res://Scenes/Rooms/BreakRoom.tscn",
-	"Hallway": "res://Scenes/Rooms/Hallway.tscn",
+	"Lobby": "res://Scenes/Rooms/Lobby.tscn",
+	"Cubicle": "res://Scenes/Rooms/Cubicle.tscn",
+	"Lounge": "res://Scenes/Rooms/Lounge.tscn",
+	"Elevator_F1": "res://Scenes/Rooms/Elevator_F1.tscn",
+	"Elevator_F2": "res://Scenes/Rooms/Elevator_F2.tscn",
+	"Meeting": "res://Scenes/Rooms/Meeting.tscn",
+	"Printer": "res://Scenes/Rooms/Printer.tscn",
+	"Bathroom": "res://Scenes/Rooms/Bathroom.tscn",
 }
 
 func _ready() -> void:
@@ -119,4 +124,4 @@ func _update_camera() -> void:
 			camera.global_position = room_center.global_position
 		else:
 			# Default to center of viewport
-			camera.global_position = Vector2(640, 360)
+			camera.global_position = Vector2(960, 540)

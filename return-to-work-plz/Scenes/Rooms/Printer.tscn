@@ -1,0 +1,118 @@
+[gd_scene format=3 uid="uid://dsdmnrkmh88my"]
+
+[ext_resource type="Script" uid="uid://cge2twkky6a4n" path="res://Scripts/RoomExit.gd" id="1_exit"]
+[ext_resource type="PackedScene" uid="uid://npcstat001" path="res://Scenes/NPCs/StationaryNPC.tscn" id="2_npc_stat"]
+[ext_resource type="PackedScene" uid="uid://npcmov001" path="res://Scenes/NPCs/MovingNPC.tscn" id="3_npc_mov"]
+[ext_resource type="Texture2D" uid="uid://cp7wqdgrxhkw3" path="res://Assets/Sprites/Technician Mark.png" id="4_mark"]
+[ext_resource type="Texture2D" uid="uid://cp0ngqasjl53u" path="res://Assets/Sprites/Intern Olivia.png" id="5_olivia"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
+size = Vector2(1920, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_exit"]
+size = Vector2(40, 300)
+
+[node name="Printer" type="Node2D" unique_id=299845132]
+
+[node name="Background" type="ColorRect" parent="." unique_id=1467448585]
+offset_right = 1920.0
+offset_bottom = 1080.0
+color = Color(0.8, 0.8, 0.82, 1)
+
+[node name="FloorVisual" type="ColorRect" parent="." unique_id=478772491]
+offset_top = 930.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+color = Color(0.5, 0.48, 0.45, 1)
+
+[node name="Floor" type="StaticBody2D" parent="." unique_id=179640740]
+position = Vector2(960, 930)
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=1584806598]
+position = Vector2(-5, 24)
+shape = SubResource("RectangleShape2D_floor")
+
+[node name="RoomCenter" type="Marker2D" parent="." unique_id=680403150]
+position = Vector2(960, 540)
+
+[node name="SpawnDefault" type="Marker2D" parent="." unique_id=2023376993]
+position = Vector2(300, 910)
+
+[node name="SpawnFromMeeting" type="Marker2D" parent="." unique_id=679783424]
+position = Vector2(100, 910)
+
+[node name="RoomLabel" type="Label" parent="." unique_id=289324994]
+offset_left = 830.0
+offset_top = 30.0
+offset_right = 1090.0
+offset_bottom = 60.0
+text = "PRINTER ROOM"
+horizontal_alignment = 1
+
+[node name="PrinterMachine" type="ColorRect" parent="." unique_id=2095595636]
+offset_left = 900.0
+offset_top = 800.0
+offset_right = 1100.0
+offset_bottom = 930.0
+color = Color(0.35, 0.35, 0.38, 1)
+
+[node name="Shelf" type="ColorRect" parent="." unique_id=1626604397]
+offset_left = 1400.0
+offset_top = 700.0
+offset_right = 1600.0
+offset_bottom = 930.0
+color = Color(0.55, 0.45, 0.3, 1)
+
+[node name="TechnicianMark" parent="." unique_id=1090966801 instance=ExtResource("2_npc_stat")]
+position = Vector2(1000, 930)
+npc_name = "Technician Mark"
+dialogue_text = "The ink is running low already."
+sprite_texture = ExtResource("4_mark")
+
+[node name="InternOlivia" parent="." unique_id=1084403409 instance=ExtResource("3_npc_mov")]
+position = Vector2(500, 930)
+npc_name = "Intern Olivia"
+dialogue_text = "I've been here since Tuesday. I think."
+patrol_right_x = 1400.0
+sprite_texture = ExtResource("5_olivia")
+
+[node name="ExitToMeeting" type="Area2D" parent="." unique_id=962044947]
+position = Vector2(10, 780)
+collision_layer = 0
+script = ExtResource("1_exit")
+target_room = "Meeting"
+target_spawn = "SpawnFromPrinter"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitToMeeting" unique_id=238966474]
+shape = SubResource("RectangleShape2D_exit")
+
+[node name="ExitVisual_Left" type="ColorRect" parent="." unique_id=593912857]
+offset_top = 630.0
+offset_right = 30.0
+offset_bottom = 930.0
+color = Color(0.3, 0.3, 0.5, 0.4)
+
+[node name="ExitLabel_Left" type="Label" parent="." unique_id=129268094]
+offset_left = 10.0
+offset_top = 760.0
+offset_right = 120.0
+offset_bottom = 790.0
+text = "← Meeting"
+horizontal_alignment = 1
+
+[node name="WallRight" type="StaticBody2D" parent="." unique_id=1351976246]
+position = Vector2(1930, 540)
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallRight" unique_id=132708336]
+position = Vector2(-21, 240)
+shape = SubResource("RectangleShape2D_exit")
+
+[node name="WallVisual_Right" type="ColorRect" parent="." unique_id=752517234]
+offset_left = 1910.0
+offset_right = 1920.0
+offset_bottom = 930.0
+color = Color(0.4, 0.38, 0.35, 1)

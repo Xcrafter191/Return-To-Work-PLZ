@@ -1,0 +1,86 @@
+[gd_scene format=3 uid="uid://d4g23c65v6xio"]
+
+[ext_resource type="Script" uid="uid://cge2twkky6a4n" path="res://Scripts/RoomExit.gd" id="1_exit"]
+[ext_resource type="PackedScene" uid="uid://npcstat001" path="res://Scenes/NPCs/StationaryNPC.tscn" id="2_npc_stat"]
+[ext_resource type="PackedScene" uid="uid://npcmov001" path="res://Scenes/NPCs/MovingNPC.tscn" id="3_npc_mov"]
+[ext_resource type="Texture2D" uid="uid://bo843u8lcua6o" path="res://Assets/Rooms/Receptionist_P.png" id="4_bg"]
+[ext_resource type="Texture2D" uid="uid://o4tyd1kljagg" path="res://Assets/Sprites/Receptionist Linda.png" id="5_linda"]
+[ext_resource type="Texture2D" uid="uid://dcoufhb0171vs" path="res://Assets/Sprites/Janitor Mike.png" id="6_mike"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
+size = Vector2(1920, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_exit"]
+size = Vector2(40, 300)
+
+[node name="Lobby" type="Node2D" unique_id=484555656]
+
+[node name="Background" type="Sprite2D" parent="." unique_id=755352955]
+position = Vector2(960, 540)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_bg")
+
+[node name="Floor" type="StaticBody2D" parent="." unique_id=1748625071]
+position = Vector2(960, 930)
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=1378997778]
+position = Vector2(0, -18)
+shape = SubResource("RectangleShape2D_floor")
+
+[node name="RoomCenter" type="Marker2D" parent="." unique_id=805069177]
+position = Vector2(960, 540)
+
+[node name="SpawnDefault" type="Marker2D" parent="." unique_id=1416373072]
+position = Vector2(400, 910)
+
+[node name="SpawnFromElevator" type="Marker2D" parent="." unique_id=268082454]
+position = Vector2(1750, 910)
+
+[node name="RoomLabel" type="Label" parent="." unique_id=1047496605]
+offset_left = 860.0
+offset_top = 30.0
+offset_right = 1060.0
+offset_bottom = 60.0
+text = "LOBBY"
+horizontal_alignment = 1
+
+[node name="ReceptionistLinda" parent="." unique_id=790751490 instance=ExtResource("2_npc_stat")]
+position = Vector2(1528, 875)
+npc_name = "Receptionist Linda"
+dialogue_text = "Welcome back. Again."
+sprite_texture = ExtResource("5_linda")
+
+[node name="JanitorMike" parent="." unique_id=211043716 instance=ExtResource("3_npc_mov")]
+position = Vector2(400, 879)
+npc_name = "Janitor Mike"
+dialogue_text = "The stain keeps coming back."
+patrol_left_x = 100.0
+patrol_right_x = 900.0
+sprite_texture = ExtResource("6_mike")
+
+[node name="ExitToElevator" type="Area2D" parent="." unique_id=1613160935]
+position = Vector2(1910, 780)
+collision_layer = 0
+script = ExtResource("1_exit")
+target_room = "Elevator_F1"
+target_spawn = "SpawnFromLobby"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitToElevator" unique_id=552330929]
+shape = SubResource("RectangleShape2D_exit")
+
+[node name="ExitVisual_Right" type="ColorRect" parent="." unique_id=645557851]
+offset_left = 1890.0
+offset_top = 630.0
+offset_right = 1920.0
+offset_bottom = 930.0
+color = Color(0.3, 0.3, 0.5, 0.4)
+
+[node name="ExitLabel_Right" type="Label" parent="." unique_id=1025987007]
+offset_left = 1800.0
+offset_top = 760.0
+offset_right = 1910.0
+offset_bottom = 790.0
+text = "→ Elevator"
+horizontal_alignment = 1

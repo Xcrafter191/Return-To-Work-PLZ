@@ -1,0 +1,135 @@
+[gd_scene format=3 uid="uid://ffbhrgc5bb2f"]
+
+[ext_resource type="Script" uid="uid://cge2twkky6a4n" path="res://Scripts/RoomExit.gd" id="1_exit"]
+[ext_resource type="Texture2D" uid="uid://c8q63rmahv30x" path="res://Assets/Rooms/Elevator_P.png" id="4_bg"]
+[ext_resource type="Script" uid="uid://bkd8s0as4fa0w" path="res://Scripts/ElevatorDoor.gd" id="5_door"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
+size = Vector2(1920, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_exit"]
+size = Vector2(40, 300)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_doorarea"]
+size = Vector2(120, 766)
+
+[node name="Elevator_F1" type="Node2D" unique_id=1777263534]
+
+[node name="Background" type="Sprite2D" parent="." unique_id=1936563762]
+position = Vector2(960, 540)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_bg")
+
+[node name="FloorLabel" type="Label" parent="." unique_id=136923047]
+offset_left = 860.0
+offset_top = 870.0
+offset_right = 1060.0
+offset_bottom = 900.0
+text = "1F - Ground Floor"
+horizontal_alignment = 1
+
+[node name="Floor" type="StaticBody2D" parent="." unique_id=2000970765]
+position = Vector2(960, 930)
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=809670154]
+position = Vector2(0, -26)
+shape = SubResource("RectangleShape2D_floor")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/CollisionShape2D" unique_id=806419157]
+position = Vector2(2, -782)
+shape = SubResource("RectangleShape2D_floor")
+
+[node name="RoomCenter" type="Marker2D" parent="." unique_id=1876408045]
+position = Vector2(960, 540)
+
+[node name="SpawnDefault" type="Marker2D" parent="." unique_id=58855037]
+position = Vector2(960, 910)
+
+[node name="SpawnFromLobby" type="Marker2D" parent="." unique_id=1535282910]
+position = Vector2(150, 910)
+
+[node name="SpawnFromBathroom" type="Marker2D" parent="." unique_id=399734286]
+position = Vector2(1750, 910)
+
+[node name="SpawnFromF2" type="Marker2D" parent="." unique_id=100096357]
+position = Vector2(960, 910)
+
+[node name="RoomLabel" type="Label" parent="." unique_id=1493235667]
+offset_left = 830.0
+offset_top = 30.0
+offset_right = 1090.0
+offset_bottom = 60.0
+text = "ELEVATOR HALL"
+horizontal_alignment = 1
+
+[node name="ExitToLobby" type="Area2D" parent="." unique_id=1386842568]
+position = Vector2(10, 780)
+collision_layer = 0
+script = ExtResource("1_exit")
+target_room = "Lobby"
+target_spawn = "SpawnFromElevator"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitToLobby" unique_id=1227900388]
+shape = SubResource("RectangleShape2D_exit")
+
+[node name="ExitVisual_Left" type="ColorRect" parent="." unique_id=860214878]
+offset_top = 630.0
+offset_right = 30.0
+offset_bottom = 930.0
+color = Color(0.3, 0.3, 0.5, 0.4)
+
+[node name="ExitLabel_Left" type="Label" parent="." unique_id=881625396]
+offset_left = 10.0
+offset_top = 760.0
+offset_right = 120.0
+offset_bottom = 790.0
+text = "← Lobby"
+horizontal_alignment = 1
+
+[node name="ExitToBathroom" type="Area2D" parent="." unique_id=146275455]
+position = Vector2(1910, 780)
+collision_layer = 0
+script = ExtResource("1_exit")
+target_room = "Bathroom"
+target_spawn = "SpawnFromElevator"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitToBathroom" unique_id=1791206633]
+shape = SubResource("RectangleShape2D_exit")
+
+[node name="ExitVisual_Right" type="ColorRect" parent="." unique_id=1168921306]
+offset_left = 1890.0
+offset_top = 630.0
+offset_right = 1920.0
+offset_bottom = 930.0
+color = Color(0.3, 0.3, 0.5, 0.4)
+
+[node name="ExitLabel_Right" type="Label" parent="." unique_id=835586661]
+offset_left = 1790.0
+offset_top = 760.0
+offset_right = 1910.0
+offset_bottom = 790.0
+text = "→ Bathroom"
+horizontal_alignment = 1
+
+[node name="ElevatorDoor" type="Node2D" parent="." unique_id=797959428]
+position = Vector2(960, 910)
+script = ExtResource("5_door")
+target_spawn = "SpawnFromF1"
+
+[node name="DetectionArea" type="Area2D" parent="ElevatorDoor" unique_id=754560793]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ElevatorDoor/DetectionArea" unique_id=1256308807]
+position = Vector2(-105, -386)
+shape = SubResource("RectangleShape2D_doorarea")
+
+[node name="PromptLabel" type="Label" parent="ElevatorDoor" unique_id=1833908716]
+visible = false
+offset_left = -80.0
+offset_top = -160.0
+offset_right = 80.0
+offset_bottom = -140.0
+text = "Press [E] — Go to 2F"
+horizontal_alignment = 1

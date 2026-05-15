@@ -1,0 +1,131 @@
+[gd_scene format=3 uid="uid://b2yijxd3sba01"]
+
+[ext_resource type="Script" uid="uid://cge2twkky6a4n" path="res://Scripts/RoomExit.gd" id="1_exit"]
+[ext_resource type="Texture2D" uid="uid://c8q63rmahv30x" path="res://Assets/Rooms/Elevator_P.png" id="4_bg"]
+[ext_resource type="Script" uid="uid://bkd8s0as4fa0w" path="res://Scripts/ElevatorDoor.gd" id="5_door"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
+size = Vector2(1920, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_exit"]
+size = Vector2(40, 300)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_doorarea"]
+size = Vector2(120, 200)
+
+[node name="Elevator_F2" type="Node2D" unique_id=2000601447]
+
+[node name="Background" type="Sprite2D" parent="." unique_id=1550539619]
+position = Vector2(960, 540)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_bg")
+
+[node name="FloorLabel" type="Label" parent="." unique_id=1123281662]
+offset_left = 860.0
+offset_top = 870.0
+offset_right = 1060.0
+offset_bottom = 900.0
+text = "2F - Office Floor"
+horizontal_alignment = 1
+
+[node name="Floor" type="StaticBody2D" parent="." unique_id=998294157]
+position = Vector2(960, 930)
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=827444282]
+shape = SubResource("RectangleShape2D_floor")
+
+[node name="RoomCenter" type="Marker2D" parent="." unique_id=1872806397]
+position = Vector2(960, 540)
+
+[node name="SpawnDefault" type="Marker2D" parent="." unique_id=907421397]
+position = Vector2(960, 910)
+
+[node name="SpawnFromCubicle" type="Marker2D" parent="." unique_id=1139643109]
+position = Vector2(150, 910)
+
+[node name="SpawnFromMeeting" type="Marker2D" parent="." unique_id=286089548]
+position = Vector2(1750, 910)
+
+[node name="SpawnFromF1" type="Marker2D" parent="." unique_id=1938392119]
+position = Vector2(960, 910)
+
+[node name="RoomLabel" type="Label" parent="." unique_id=1913767294]
+offset_left = 830.0
+offset_top = 30.0
+offset_right = 1090.0
+offset_bottom = 60.0
+text = "ELEVATOR HALL"
+horizontal_alignment = 1
+
+[node name="ExitToCubicle" type="Area2D" parent="." unique_id=658866780]
+position = Vector2(10, 780)
+collision_layer = 0
+script = ExtResource("1_exit")
+target_room = "Cubicle"
+target_spawn = "SpawnFromElevator"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitToCubicle" unique_id=1826135740]
+shape = SubResource("RectangleShape2D_exit")
+
+[node name="ExitVisual_Left" type="ColorRect" parent="." unique_id=170942569]
+offset_top = 630.0
+offset_right = 30.0
+offset_bottom = 930.0
+color = Color(0.3, 0.3, 0.5, 0.4)
+
+[node name="ExitLabel_Left" type="Label" parent="." unique_id=699523320]
+offset_left = 10.0
+offset_top = 760.0
+offset_right = 130.0
+offset_bottom = 790.0
+text = "← Cubicle"
+horizontal_alignment = 1
+
+[node name="ExitToMeeting" type="Area2D" parent="." unique_id=1614508014]
+position = Vector2(1910, 780)
+collision_layer = 0
+script = ExtResource("1_exit")
+target_room = "Meeting"
+target_spawn = "SpawnFromElevator"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitToMeeting" unique_id=192023672]
+shape = SubResource("RectangleShape2D_exit")
+
+[node name="ExitVisual_Right" type="ColorRect" parent="." unique_id=1875826106]
+offset_left = 1890.0
+offset_top = 630.0
+offset_right = 1920.0
+offset_bottom = 930.0
+color = Color(0.3, 0.3, 0.5, 0.4)
+
+[node name="ExitLabel_Right" type="Label" parent="." unique_id=751129699]
+offset_left = 1800.0
+offset_top = 760.0
+offset_right = 1910.0
+offset_bottom = 790.0
+text = "→ Meeting"
+horizontal_alignment = 1
+
+[node name="ElevatorDoor" type="Node2D" parent="." unique_id=1516816332]
+position = Vector2(960, 910)
+script = ExtResource("5_door")
+target_room = "Elevator_F1"
+target_spawn = "SpawnFromF2"
+
+[node name="DetectionArea" type="Area2D" parent="ElevatorDoor" unique_id=1322922666]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ElevatorDoor/DetectionArea" unique_id=1722168315]
+position = Vector2(0, -100)
+shape = SubResource("RectangleShape2D_doorarea")
+
+[node name="PromptLabel" type="Label" parent="ElevatorDoor" unique_id=957982211]
+visible = false
+offset_left = -80.0
+offset_top = -160.0
+offset_right = 80.0
+offset_bottom = -140.0
+text = "Press [E] — Go to 1F"
+horizontal_alignment = 1

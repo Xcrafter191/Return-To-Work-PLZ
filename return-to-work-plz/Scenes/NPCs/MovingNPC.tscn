@@ -1,41 +1,50 @@
-[gd_scene load_steps=3 format=3 uid="uid://npcmov001"]
+[gd_scene format=3 uid="uid://npcmov001"]
 
-[ext_resource type="Script" path="res://Scripts/NPCMoving.gd" id="1_npc"]
+[ext_resource type="Script" uid="uid://dgdbq3ad6jm3b" path="res://Scripts/NPCMoving.gd" id="1_npc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
-size = Vector2(28, 60)
+size = Vector2(205, 365)
 
-[node name="MovingNPC" type="CharacterBody2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_detect"]
+size = Vector2(232, 375)
+
+[node name="MovingNPC" type="CharacterBody2D" unique_id=1243336775]
 collision_layer = 4
 collision_mask = 2
 script = ExtResource("1_npc")
 patrol_left_x = 200.0
-patrol_right_x = 1000.0
+patrol_right_x = 1500.0
 
-[node name="Sprite" type="ColorRect" parent="."]
-offset_left = -16.0
-offset_top = -64.0
-offset_right = 16.0
-offset_bottom = 0.0
-color = Color(0.95, 0.6, 0.1, 1)
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1751596062]
+position = Vector2(0, -183)
+scale = Vector2(0.7, 0.7)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -32)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=379230180]
+position = Vector2(0, -182)
 shape = SubResource("RectangleShape2D_body")
 
-[node name="InteractionArea" type="Area2D" parent="."]
+[node name="InteractionArea" type="Area2D" parent="." unique_id=294909282]
 collision_layer = 4
-collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea"]
-position = Vector2(0, -32)
-shape = SubResource("RectangleShape2D_body")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea" unique_id=1932914831]
+position = Vector2(0, -188)
+shape = SubResource("RectangleShape2D_detect")
 
-[node name="DialogueLabel" type="Label" parent="."]
-offset_left = -80.0
-offset_top = -90.0
-offset_right = 80.0
-offset_bottom = -68.0
+[node name="DialogueBox" type="Node2D" parent="." unique_id=2002028770]
+position = Vector2(0, -120)
+
+[node name="BG" type="ColorRect" parent="DialogueBox" unique_id=238868984]
+offset_left = -130.0
+offset_top = -20.0
+offset_right = 130.0
+offset_bottom = 12.0
+color = Color(0.1, 0.1, 0.12, 0.9)
+
+[node name="Label" type="Label" parent="DialogueBox" unique_id=1148150848]
+offset_left = -125.0
+offset_top = -18.0
+offset_right = 125.0
+offset_bottom = 10.0
 horizontal_alignment = 1
-text = ""
-visible = false
+vertical_alignment = 1
+autowrap_mode = 2
