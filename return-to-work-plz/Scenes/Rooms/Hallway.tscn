@@ -1,0 +1,126 @@
+[gd_scene load_steps=4 format=3 uid="uid://room_hallway"]
+
+[ext_resource type="Script" path="res://Scripts/RoomExit.gd" id="1_exit"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
+size = Vector2(1280, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_exit"]
+size = Vector2(40, 200)
+
+[node name="Hallway" type="Node2D"]
+
+[node name="Background" type="ColorRect" parent="."]
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 1280.0
+offset_bottom = 720.0
+color = Color(0.82, 0.82, 0.85, 1)
+
+[node name="FloorVisual" type="ColorRect" parent="."]
+offset_left = 0.0
+offset_top = 620.0
+offset_right = 1280.0
+offset_bottom = 720.0
+color = Color(0.55, 0.5, 0.45, 1)
+
+[node name="Floor" type="StaticBody2D" parent="."]
+position = Vector2(640, 620)
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
+shape = SubResource("RectangleShape2D_floor")
+
+[node name="RoomCenter" type="Marker2D" parent="."]
+position = Vector2(640, 360)
+
+[node name="SpawnDefault" type="Marker2D" parent="."]
+position = Vector2(640, 600)
+
+[node name="SpawnFromOffice" type="Marker2D" parent="."]
+position = Vector2(100, 600)
+
+[node name="SpawnFromBreakRoom" type="Marker2D" parent="."]
+position = Vector2(1150, 600)
+
+[node name="RoomLabel" type="Label" parent="."]
+offset_left = 540.0
+offset_top = 20.0
+offset_right = 740.0
+offset_bottom = 50.0
+horizontal_alignment = 1
+text = "HALLWAY"
+
+[node name="Plant1" type="ColorRect" parent="."]
+offset_left = 200.0
+offset_top = 570.0
+offset_right = 230.0
+offset_bottom = 620.0
+color = Color(0.2, 0.6, 0.2, 1)
+
+[node name="Plant2" type="ColorRect" parent="."]
+offset_left = 900.0
+offset_top = 570.0
+offset_right = 930.0
+offset_bottom = 620.0
+color = Color(0.2, 0.6, 0.2, 1)
+
+[node name="WaterCooler" type="ColorRect" parent="."]
+offset_left = 600.0
+offset_top = 560.0
+offset_right = 640.0
+offset_bottom = 620.0
+color = Color(0.6, 0.8, 0.95, 1)
+
+[node name="ExitToOffice" type="Area2D" parent="."]
+position = Vector2(10, 520)
+collision_layer = 0
+collision_mask = 1
+script = ExtResource("1_exit")
+target_room = "Office"
+target_spawn = "SpawnFromHallway"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitToOffice"]
+shape = SubResource("RectangleShape2D_exit")
+
+[node name="ExitVisual_Left" type="ColorRect" parent="."]
+offset_left = 0.0
+offset_top = 420.0
+offset_right = 30.0
+offset_bottom = 620.0
+color = Color(0.3, 0.3, 0.5, 0.5)
+
+[node name="ExitLabel_Left" type="Label" parent="."]
+offset_left = 0.0
+offset_top = 500.0
+offset_right = 80.0
+offset_bottom = 530.0
+horizontal_alignment = 1
+text = "← Office"
+
+[node name="ExitToBreakRoom" type="Area2D" parent="."]
+position = Vector2(1270, 520)
+collision_layer = 0
+collision_mask = 1
+script = ExtResource("1_exit")
+target_room = "BreakRoom"
+target_spawn = "SpawnFromHallway"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitToBreakRoom"]
+shape = SubResource("RectangleShape2D_exit")
+
+[node name="ExitVisual_Right" type="ColorRect" parent="."]
+offset_left = 1250.0
+offset_top = 420.0
+offset_right = 1280.0
+offset_bottom = 620.0
+color = Color(0.3, 0.3, 0.5, 0.5)
+
+[node name="ExitLabel_Right" type="Label" parent="."]
+offset_left = 1190.0
+offset_top = 500.0
+offset_right = 1280.0
+offset_bottom = 530.0
+horizontal_alignment = 1
+text = "→ Break Room"
