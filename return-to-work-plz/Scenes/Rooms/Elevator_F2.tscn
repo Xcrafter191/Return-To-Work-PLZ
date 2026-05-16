@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cge2twkky6a4n" path="res://Scripts/RoomExit.gd" id="1_exit"]
 [ext_resource type="Texture2D" uid="uid://c8q63rmahv30x" path="res://Assets/Rooms/Elevator_P.png" id="4_bg"]
-[ext_resource type="Script" path="res://Scripts/ElevatorDoor.gd" id="5_door"]
+[ext_resource type="Script" uid="uid://bkd8s0as4fa0w" path="res://Scripts/ElevatorDoor.gd" id="5_door"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
 size = Vector2(1920, 40)
@@ -67,12 +67,13 @@ target_room = "Cubicle"
 target_spawn = "SpawnFromElevator"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExitToCubicle" unique_id=1826135740]
+position = Vector2(10, -61)
 shape = SubResource("RectangleShape2D_exit")
 
 [node name="ExitVisual_Left" type="ColorRect" parent="." unique_id=170942569]
-offset_top = 630.0
+offset_top = 576.0
 offset_right = 30.0
-offset_bottom = 930.0
+offset_bottom = 876.0
 color = Color(0.3, 0.3, 0.5, 0.4)
 
 [node name="ExitLabel_Left" type="Label" parent="." unique_id=699523320]
@@ -91,13 +92,14 @@ target_room = "Meeting"
 target_spawn = "SpawnFromElevator"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExitToMeeting" unique_id=192023672]
+position = Vector2(0, -52)
 shape = SubResource("RectangleShape2D_exit")
 
 [node name="ExitVisual_Right" type="ColorRect" parent="." unique_id=1875826106]
 offset_left = 1890.0
-offset_top = 630.0
+offset_top = 578.0
 offset_right = 1920.0
-offset_bottom = 930.0
+offset_bottom = 878.0
 color = Color(0.3, 0.3, 0.5, 0.4)
 
 [node name="ExitLabel_Right" type="Label" parent="." unique_id=751129699]
@@ -118,7 +120,7 @@ target_spawn = "SpawnFromF2"
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ElevatorDoor/DetectionArea" unique_id=1722168315]
-position = Vector2(0, -100)
+position = Vector2(-103, -134)
 shape = SubResource("RectangleShape2D_doorarea")
 
 [node name="PromptLabel" type="Label" parent="ElevatorDoor" unique_id=957982211]

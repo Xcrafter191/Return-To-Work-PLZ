@@ -2,14 +2,17 @@ extends Node
 
 ## GameManager — Autoload Singleton
 ## Tracks the core gameplay loop: objectives, quota, loops, NPC state.
+## Tasks are SEQUENTIAL — must be completed in order.
 
 signal objective_completed(task_id: String)
 signal all_objectives_completed()
 signal loop_restarted(loop_number: int)
+signal current_task_changed(task_index: int)
 
 # ── Loop state ──
 var current_loop: int = 1
 var difficulty_modifier: float = 1.0  # Scales task duration
+var current_task_index: int = 0  # Which task is currently active (sequential)
 
 # ── Objective definitions ──
 # Each objective: { "id": String, "label": String, "room": String, "completed": bool }
@@ -23,6 +26,7 @@ func _ready() -> void:
 	_build_objectives()
 
 ## Build the fixed 4-task list (will be 10 in final)
+## ORDER MATTERS — tasks must be done sequentially
 func _build_objectives() -> void:
 	objectives = [
 		{ "id": "coffee", "label": "Make coffee", "room": "Lounge", "completed": false },
@@ -30,38 +34,43 @@ func _build_objectives() -> void:
 		{ "id": "print_paper", "label": "Print documents", "room": "Printer", "completed": false },
 		{ "id": "give_paper", "label": "Give paper to Manager", "room": "Meeting", "completed": false },
 	]
+	current_task_index = 0
+
+## Get the currently active task id (the one the player should do next)
+func get_current_task_id() -> String:
+	if current_task_index < objectives.size():
+		return objectives[current_task_index]["id"]
+	return ""
+
+## Check if a task_id is the currently active task
+func is_task_active(task_id: String) -> bool:
+	return task_id == get_current_task_id()
 
 ## Called by InteractableObject when a task finishes
 func complete_objective(task_id: String) -> void:
-	for obj in objectives:
-		if obj["id"] == task_id and not obj["completed"]:
-			obj["completed"] = true
-			objective_completed.emit(task_id)
-			print("[GameManager] Objective completed: %s" % task_id)
-			if _all_completed():
-				all_objectives_completed.emit()
-				print("[GameManager] All objectives done! Clock out to finish the loop.")
-			return
-
-func _all_completed() -> bool:
-	for obj in objectives:
-		if not obj["completed"]:
-			return false
-	return true
+	if task_id != get_current_task_id():
+		return  # Can't complete out-of-order tasks
+	var obj = objectives[current_task_index]
+	obj["completed"] = true
+	current_task_index += 1
+	objective_completed.emit(task_id)
+	print("[GameManager] Objective completed: %s (%d/%d)" % [task_id, current_task_index, objectives.size()])
+	
+	if current_task_index >= objectives.size():
+		all_objectives_completed.emit()
+		print("[GameManager] All objectives done! Clock out to finish the loop.")
+	else:
+		current_task_changed.emit(current_task_index)
 
 func get_completed_count() -> int:
-	var count: int = 0
-	for obj in objectives:
-		if obj["completed"]:
-			count += 1
-	return count
+	return current_task_index
 
 func get_total_count() -> int:
 	return objectives.size()
 
 ## Check if all objectives are done (for clock-out gate)
 func can_clock_out() -> bool:
-	return _all_completed()
+	return current_task_index >= objectives.size()
 
 ## Called when player clocks out at Lobby wall
 func clock_out() -> void:

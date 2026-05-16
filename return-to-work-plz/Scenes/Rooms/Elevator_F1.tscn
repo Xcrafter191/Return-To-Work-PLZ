@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cge2twkky6a4n" path="res://Scripts/RoomExit.gd" id="1_exit"]
 [ext_resource type="Texture2D" uid="uid://c8q63rmahv30x" path="res://Assets/Rooms/Elevator_P.png" id="4_bg"]
-[ext_resource type="Script" path="res://Scripts/ElevatorDoor.gd" id="5_door"]
+[ext_resource type="Script" uid="uid://bkd8s0as4fa0w" path="res://Scripts/ElevatorDoor.gd" id="5_door"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
 size = Vector2(1920, 40)
@@ -21,10 +21,11 @@ scale = Vector2(0.5, 0.5)
 texture = ExtResource("4_bg")
 
 [node name="FloorLabel" type="Label" parent="." unique_id=136923047]
-offset_left = 860.0
-offset_top = 870.0
-offset_right = 1060.0
-offset_bottom = 900.0
+modulate = Color(0, 0, 0, 1)
+offset_left = 1013.0
+offset_top = 929.0
+offset_right = 1213.0
+offset_bottom = 959.0
 text = "1F - Ground Floor"
 horizontal_alignment = 1
 
@@ -57,9 +58,9 @@ position = Vector2(1750, 910)
 position = Vector2(960, 910)
 
 [node name="RoomLabel" type="Label" parent="." unique_id=1493235667]
-offset_left = 830.0
+offset_left = 829.0
 offset_top = 30.0
-offset_right = 1090.0
+offset_right = 1089.0
 offset_bottom = 60.0
 text = "ELEVATOR HALL"
 horizontal_alignment = 1
@@ -72,21 +73,14 @@ target_room = "Lobby"
 target_spawn = "SpawnFromElevator"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExitToLobby" unique_id=1227900388]
+position = Vector2(0, -59)
 shape = SubResource("RectangleShape2D_exit")
 
 [node name="ExitVisual_Left" type="ColorRect" parent="." unique_id=860214878]
-offset_top = 630.0
+offset_top = 571.0
 offset_right = 30.0
-offset_bottom = 930.0
+offset_bottom = 871.0
 color = Color(0.3, 0.3, 0.5, 0.4)
-
-[node name="ExitLabel_Left" type="Label" parent="." unique_id=881625396]
-offset_left = 10.0
-offset_top = 760.0
-offset_right = 120.0
-offset_bottom = 790.0
-text = "← Lobby"
-horizontal_alignment = 1
 
 [node name="ExitToBathroom" type="Area2D" parent="." unique_id=146275455]
 position = Vector2(1910, 780)
@@ -96,22 +90,15 @@ target_room = "Bathroom"
 target_spawn = "SpawnFromElevator"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExitToBathroom" unique_id=1791206633]
+position = Vector2(0, -57)
 shape = SubResource("RectangleShape2D_exit")
 
 [node name="ExitVisual_Right" type="ColorRect" parent="." unique_id=1168921306]
 offset_left = 1890.0
-offset_top = 630.0
+offset_top = 573.0
 offset_right = 1920.0
-offset_bottom = 930.0
+offset_bottom = 873.0
 color = Color(0.3, 0.3, 0.5, 0.4)
-
-[node name="ExitLabel_Right" type="Label" parent="." unique_id=835586661]
-offset_left = 1790.0
-offset_top = 760.0
-offset_right = 1910.0
-offset_bottom = 790.0
-text = "→ Bathroom"
-horizontal_alignment = 1
 
 [node name="ElevatorDoor" type="Node2D" parent="." unique_id=797959428]
 position = Vector2(960, 910)
@@ -126,10 +113,9 @@ position = Vector2(-105, -386)
 shape = SubResource("RectangleShape2D_doorarea")
 
 [node name="PromptLabel" type="Label" parent="ElevatorDoor" unique_id=1833908716]
-visible = false
-offset_left = -80.0
-offset_top = -160.0
-offset_right = 80.0
-offset_bottom = -140.0
+offset_left = 53.0
+offset_top = -203.0
+offset_right = 213.0
+offset_bottom = -180.0
 text = "Press [E] — Go to 2F"
 horizontal_alignment = 1

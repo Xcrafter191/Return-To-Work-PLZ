@@ -4,7 +4,12 @@ extends CharacterBody2D
 ## Shows dialogue box when player is nearby, faces toward player.
 
 @export var npc_name: String = "Coworker"
-@export var dialogue_text: String = "Hey, back to work..."
+@export var dialogue_text: String = "Hey, back to work...":
+	set(value):
+		dialogue_text = value
+		if is_inside_tree() and dialogue_label:
+			dialogue_label.text = dialogue_text
+			_resize_dialogue_bg()
 @export var gravity: float = 980.0
 @export var sprite_texture: Texture2D = null
 @export var dialogue_offset_y: float = -380.0

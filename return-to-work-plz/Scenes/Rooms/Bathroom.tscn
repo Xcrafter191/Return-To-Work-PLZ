@@ -7,7 +7,7 @@
 size = Vector2(1920, 40)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_exit"]
-size = Vector2(40, 300)
+size = Vector2(40, 902)
 
 [node name="Bathroom" type="Node2D" unique_id=926455875]
 
@@ -22,6 +22,7 @@ collision_layer = 2
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=1044314927]
+position = Vector2(0, -31)
 shape = SubResource("RectangleShape2D_floor")
 
 [node name="RoomCenter" type="Marker2D" parent="." unique_id=346482396]
@@ -50,7 +51,7 @@ text = "\"ALMOST THERE...!\""
 horizontal_alignment = 1
 
 [node name="ExitToElevator" type="Area2D" parent="." unique_id=1159829108]
-position = Vector2(10, 780)
+position = Vector2(10, 450)
 collision_layer = 0
 script = ExtResource("1_exit")
 target_room = "Elevator_F1"
@@ -60,9 +61,9 @@ target_spawn = "SpawnFromBathroom"
 shape = SubResource("RectangleShape2D_exit")
 
 [node name="ExitVisual_Left" type="ColorRect" parent="." unique_id=956779950]
-offset_top = 630.0
+offset_top = 577.0
 offset_right = 30.0
-offset_bottom = 930.0
+offset_bottom = 877.0
 color = Color(0.3, 0.3, 0.5, 0.4)
 
 [node name="ExitLabel_Left" type="Label" parent="." unique_id=1722115855]
@@ -79,5 +80,5 @@ collision_layer = 2
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WallRight" unique_id=54573584]
-position = Vector2(-28, 221)
+position = Vector2(-28, -80)
 shape = SubResource("RectangleShape2D_exit")

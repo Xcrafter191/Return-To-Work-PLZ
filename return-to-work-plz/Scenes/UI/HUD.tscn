@@ -20,17 +20,21 @@ offset_right = 350.0
 offset_bottom = 85.0
 text = "Day #1"
 
-[node name="ObjectivePanel" type="PanelContainer" parent="."]
-offset_left = 1550.0
-offset_top = 20.0
-offset_right = 1900.0
-offset_bottom = 200.0
+[node name="TaskPanel" type="PanelContainer" parent="."]
+offset_left = 1400.0
+offset_top = 30.0
+offset_right = 1880.0
+offset_bottom = 80.0
 
-[node name="ObjectiveList" type="VBoxContainer" parent="ObjectivePanel"]
-offset_left = 10.0
-offset_top = 10.0
-offset_right = 340.0
-offset_bottom = 170.0
+[node name="TaskLabel" type="RichTextLabel" parent="TaskPanel"]
+offset_left = 8.0
+offset_top = 4.0
+offset_right = 472.0
+offset_bottom = 46.0
+bbcode_enabled = true
+text = ""
+fit_content = true
+scroll_active = false
 
 [node name="ClockOutLabel" type="Label" parent="."]
 offset_left = 700.0

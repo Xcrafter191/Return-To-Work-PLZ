@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://bo843u8lcua6o" path="res://Assets/Rooms/Receptionist_P.png" id="4_bg"]
 [ext_resource type="Texture2D" uid="uid://o4tyd1kljagg" path="res://Assets/Sprites/Receptionist Linda.png" id="5_linda"]
 [ext_resource type="Texture2D" uid="uid://dcoufhb0171vs" path="res://Assets/Sprites/Janitor Mike.png" id="6_mike"]
-[ext_resource type="Script" path="res://Scripts/ClockOut.gd" id="7_clockout"]
+[ext_resource type="Script" uid="uid://8n7t80alfs5g" path="res://Scripts/ClockOut.gd" id="7_clockout"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
 size = Vector2(1920, 40)
@@ -15,7 +15,7 @@ size = Vector2(1920, 40)
 size = Vector2(40, 300)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_clockout"]
-size = Vector2(60, 300)
+size = Vector2(60, 1078)
 
 [node name="Lobby" type="Node2D" unique_id=484555656]
 
@@ -25,7 +25,7 @@ scale = Vector2(0.5, 0.5)
 texture = ExtResource("4_bg")
 
 [node name="Floor" type="StaticBody2D" parent="." unique_id=1748625071]
-position = Vector2(960, 930)
+position = Vector2(960, 911)
 collision_layer = 2
 collision_mask = 0
 
@@ -51,13 +51,13 @@ text = "LOBBY"
 horizontal_alignment = 1
 
 [node name="ReceptionistLinda" parent="." unique_id=790751490 instance=ExtResource("2_npc_stat")]
-position = Vector2(1528, 875)
+position = Vector2(1528, 871)
 npc_name = "Receptionist Linda"
 dialogue_text = "Welcome back. Again."
 sprite_texture = ExtResource("5_linda")
 
 [node name="JanitorMike" parent="." unique_id=211043716 instance=ExtResource("3_npc_mov")]
-position = Vector2(400, 879)
+position = Vector2(400, 870)
 npc_name = "Janitor Mike"
 dialogue_text = "The stain keeps coming back."
 patrol_left_x = 100.0
@@ -89,21 +89,20 @@ offset_bottom = 790.0
 text = "→ Elevator"
 horizontal_alignment = 1
 
-[node name="ClockOut" type="Area2D" parent="."]
-position = Vector2(30, 780)
+[node name="ClockOut" type="Area2D" parent="." unique_id=2000493763]
+position = Vector2(30, 743)
 collision_layer = 0
-collision_mask = 1
 script = ExtResource("7_clockout")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ClockOut"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ClockOut" unique_id=1101474869]
+position = Vector2(0, -203)
 shape = SubResource("RectangleShape2D_clockout")
 
-[node name="PromptLabel" type="Label" parent="ClockOut"]
+[node name="PromptLabel" type="Label" parent="ClockOut" unique_id=14423092]
+visible = false
 offset_left = -30.0
 offset_top = -200.0
 offset_right = 170.0
 offset_bottom = -170.0
 text = "Clock Out"
 horizontal_alignment = 1
-visible = false
-

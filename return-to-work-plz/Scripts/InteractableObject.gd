@@ -1,12 +1,14 @@
 extends Node2D
 
 ## InteractableObject — Workstation/desk object that the player can interact with.
-## Shows "Press E" prompt when near, starts a timed task on the player.
+## Shows "Press E" prompt when near AND this task is the current active task.
 ## Reports completion to GameManager.
 
 @export var task_name: String = "Working..."
 @export var task_duration: float = 3.0
 @export var task_id: String = ""  ## Must match a GameManager objective id
+@export var on_complete_npc_path: NodePath = ""  ## Optional: NPC to change dialogue on completion
+@export var on_complete_npc_dialogue: String = ""  ## New dialogue for that NPC
 
 var player_in_range: bool = false
 var current_player: CharacterBody2D = null
@@ -21,9 +23,13 @@ func _ready() -> void:
 	# Listen for loop restart to reset this task
 	GameManager.loop_restarted.connect(_on_loop_restarted)
 
+func _is_available() -> bool:
+	## This task can only be interacted with if it's the current active task
+	return not task_completed and task_id != "" and GameManager.is_task_active(task_id)
+
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("interact") and player_in_range and current_player:
-		if not current_player.is_working and not task_completed:
+		if not current_player.is_working and _is_available():
 			prompt_label.visible = false
 			# Scale duration by difficulty
 			var scaled_dur = GameManager.get_scaled_duration(task_duration)
@@ -34,7 +40,7 @@ func _on_body_entered(body: Node2D) -> void:
 		player_in_range = true
 		current_player = body
 		body.set_nearby_workstation(self)
-		if not body.is_working and not task_completed:
+		if not body.is_working and _is_available():
 			prompt_label.visible = true
 
 func _on_body_exited(body: Node2D) -> void:
@@ -54,6 +60,11 @@ func on_interact_complete() -> void:
 	# Report to GameManager
 	if task_id != "":
 		GameManager.complete_objective(task_id)
+	# Change NPC dialogue if configured
+	if not on_complete_npc_path.is_empty() and on_complete_npc_dialogue != "":
+		var npc = get_node_or_null(on_complete_npc_path)
+		if npc and "dialogue_text" in npc:
+			npc.dialogue_text = on_complete_npc_dialogue
 	var tween = create_tween()
 	tween.tween_interval(1.5)
 	tween.tween_property(prompt_label, "modulate:a", 0.0, 1.0)

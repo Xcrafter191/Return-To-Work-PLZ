@@ -3,7 +3,7 @@ extends CharacterBody2D
 ## Player — Office worker character
 ## Left/right movement only, no jumping. Can work at interactable objects.
 
-@export var move_speed: float = 250.0
+@export var move_speed: float = 320.0
 @export var gravity: float = 980.0
 
 var is_working: bool = false
@@ -42,11 +42,8 @@ func _physics_process(delta: float) -> void:
 	
 	move_and_slide()
 
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("interact") and nearby_workstation and not is_working:
-		if nearby_workstation.has_method("on_interact_start"):
-			nearby_workstation.on_interact_start()
-		start_task()
+## Note: Interaction input is handled by InteractableObject._input,
+## which checks task availability before calling start_task().
 
 ## Called by InteractableObject when player enters range
 func set_nearby_workstation(obj: Node) -> void:
