@@ -17,8 +17,8 @@ var player_nearby: bool = false
 var _fade_tween: Tween = null
 
 @onready var dialogue_box: Node2D = $DialogueBox
-@onready var dialogue_label: Label = $DialogueBox/Bubble/Label
-@onready var dialogue_bg: PanelContainer = $DialogueBox/Bubble
+@onready var dialogue_label: Label = $DialogueBox/Label
+@onready var dialogue_bg: TextureRect = $DialogueBox/Bubble
 @onready var sprite: Sprite2D = $Sprite
 
 func _ready() -> void:

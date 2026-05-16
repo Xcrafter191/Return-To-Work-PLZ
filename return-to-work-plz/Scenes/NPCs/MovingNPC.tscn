@@ -1,14 +1,7 @@
-[gd_scene format=3 uid="uid://npcmov001"]
+[gd_scene load_steps=5 format=3 uid="uid://npcmov001"]
 
 [ext_resource type="Script" uid="uid://dgdbq3ad6jm3b" path="res://Scripts/NPCMoving.gd" id="1_npc"]
-[ext_resource type="Texture2D" path="res://Assets/UI V1/TEXT BOX/CHAT.png" id="2_chat"]
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_chat"]
-texture = ExtResource("2_chat")
-texture_margin_left = 20.0
-texture_margin_top = 40.0
-texture_margin_right = 20.0
-texture_margin_bottom = 20.0
+[ext_resource type="Texture2D" uid="uid://chdut1sfamtsh" path="res://Assets/UI V1/TEXT BOX/CHAT.png" id="2_chat"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
 size = Vector2(205, 365)
@@ -16,47 +9,51 @@ size = Vector2(205, 365)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_detect"]
 size = Vector2(232, 375)
 
-[node name="MovingNPC" type="CharacterBody2D" unique_id=1243336775]
+[node name="MovingNPC" type="CharacterBody2D"]
 collision_layer = 4
 collision_mask = 2
 script = ExtResource("1_npc")
 patrol_left_x = 200.0
 patrol_right_x = 1500.0
 
-[node name="Sprite" type="Sprite2D" parent="." unique_id=1751596062]
+[node name="Sprite" type="Sprite2D" parent="."]
 position = Vector2(0, -183)
 scale = Vector2(0.7, 0.7)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=379230180]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -182)
 shape = SubResource("RectangleShape2D_body")
 
-[node name="InteractionArea" type="Area2D" parent="." unique_id=294909282]
+[node name="InteractionArea" type="Area2D" parent="."]
 collision_layer = 4
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea" unique_id=1932914831]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea"]
 position = Vector2(0, -188)
 shape = SubResource("RectangleShape2D_detect")
 
 [node name="DialogueBox" type="Node2D" parent="."]
 position = Vector2(0, -390)
 
-[node name="Bubble" type="PanelContainer" parent="DialogueBox"]
+[node name="Bubble" type="TextureRect" parent="DialogueBox"]
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -100.0
-offset_top = -60.0
-offset_right = 100.0
-offset_bottom = 0.0
+offset_left = -123.0
+offset_top = -122.0
+offset_right = 127.0
+offset_bottom = -2.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_styles/panel = SubResource("StyleBoxTexture_chat")
+texture = ExtResource("2_chat")
+expand_mode = 1
 
-[node name="Label" type="Label" parent="DialogueBox/Bubble"]
-layout_mode = 2
+[node name="Label" type="Label" parent="DialogueBox"]
+offset_left = -112.0
+offset_top = -93.0
+offset_right = 48.0
+offset_bottom = -70.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 horizontal_alignment = 1
 vertical_alignment = 1
