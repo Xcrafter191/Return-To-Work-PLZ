@@ -61,6 +61,8 @@ func change_room(room_name: String, spawn_point_name: String = "SpawnDefault") -
 	# Unload current room
 	var room_container: Node2D = get_meta("room_container")
 	if current_room:
+		# Save NPC positions before unloading
+		GameManager.save_npc_positions(current_room_name, current_room)
 		# Remove player from current room before freeing
 		if player and player.get_parent() == current_room:
 			current_room.remove_child(player)
@@ -72,6 +74,9 @@ func change_room(room_name: String, spawn_point_name: String = "SpawnDefault") -
 	current_room = room_scene.instantiate()
 	room_container.add_child(current_room)
 	current_room_name = room_name
+	
+	# Restore NPC positions
+	GameManager.restore_npc_positions(room_name, current_room)
 	
 	# Place player at spawn point
 	if player:

@@ -69,7 +69,8 @@ sprite_texture = ExtResource("7_greg")
 [node name="Workstation" type="Node2D" parent="." unique_id=1531955412]
 position = Vector2(1100, 910)
 script = ExtResource("5_interact")
-task_name = "Filing report..."
+task_name = "Typing report..."
+task_id = "type_report"
 
 [node name="DetectionArea" type="Area2D" parent="Workstation" unique_id=1882926841]
 collision_layer = 0

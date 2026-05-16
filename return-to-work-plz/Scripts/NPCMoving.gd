@@ -10,7 +10,7 @@ extends CharacterBody2D
 @export var patrol_left_x: float = 100.0
 @export var patrol_right_x: float = 500.0
 @export var sprite_texture: Texture2D = null
-@export var dialogue_offset_y: float = -280.0
+@export var dialogue_offset_y: float = -20.0
 
 var _moving_right: bool = true
 var player_nearby: bool = false
@@ -28,9 +28,17 @@ func _ready() -> void:
 	dialogue_label.text = dialogue_text
 	if sprite_texture:
 		sprite.texture = sprite_texture
+	_update_dialogue_position()
 	_resize_dialogue_bg()
 	$InteractionArea.body_entered.connect(_on_player_entered)
 	$InteractionArea.body_exited.connect(_on_player_exited)
+
+func _update_dialogue_position() -> void:
+	var sprite_height: float = 0.0
+	if sprite.texture:
+		sprite_height = sprite.texture.get_height() * abs(sprite.scale.y)
+	var sprite_top: float = sprite.position.y - (sprite_height / 2.0)
+	dialogue_box.position.y = sprite_top + dialogue_offset_y
 
 func _resize_dialogue_bg() -> void:
 	await get_tree().process_frame

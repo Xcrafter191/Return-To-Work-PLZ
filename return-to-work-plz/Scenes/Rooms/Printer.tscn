@@ -5,12 +5,16 @@
 [ext_resource type="PackedScene" uid="uid://npcmov001" path="res://Scenes/NPCs/MovingNPC.tscn" id="3_npc_mov"]
 [ext_resource type="Texture2D" uid="uid://cp7wqdgrxhkw3" path="res://Assets/Sprites/Technician Mark.png" id="4_mark"]
 [ext_resource type="Texture2D" uid="uid://cp0ngqasjl53u" path="res://Assets/Sprites/Intern Olivia.png" id="5_olivia"]
+[ext_resource type="Script" path="res://Scripts/InteractableObject.gd" id="6_interact"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
 size = Vector2(1920, 40)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_exit"]
 size = Vector2(40, 300)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_workarea"]
+size = Vector2(80, 80)
 
 [node name="Printer" type="Node2D" unique_id=299845132]
 
@@ -57,6 +61,30 @@ offset_top = 800.0
 offset_right = 1100.0
 offset_bottom = 930.0
 color = Color(0.35, 0.35, 0.38, 1)
+
+[node name="PrintTask" type="Node2D" parent="."]
+position = Vector2(1000, 910)
+script = ExtResource("6_interact")
+task_name = "Printing documents..."
+task_duration = 3.0
+task_id = "print_paper"
+
+[node name="DetectionArea" type="Area2D" parent="PrintTask"]
+collision_layer = 0
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PrintTask/DetectionArea"]
+position = Vector2(0, -40)
+shape = SubResource("RectangleShape2D_workarea")
+
+[node name="PromptLabel" type="Label" parent="PrintTask"]
+offset_left = -80.0
+offset_top = -100.0
+offset_right = 80.0
+offset_bottom = -80.0
+horizontal_alignment = 1
+text = "Press [E] - Print documents"
+visible = false
 
 [node name="Shelf" type="ColorRect" parent="." unique_id=1626604397]
 offset_left = 1400.0

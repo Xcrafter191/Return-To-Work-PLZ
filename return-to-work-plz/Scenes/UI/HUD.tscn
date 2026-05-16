@@ -12,3 +12,30 @@ offset_top = 20.0
 offset_right = 350.0
 offset_bottom = 55.0
 text = "..."
+
+[node name="LoopLabel" type="Label" parent="."]
+offset_left = 30.0
+offset_top = 55.0
+offset_right = 350.0
+offset_bottom = 85.0
+text = "Day #1"
+
+[node name="ObjectivePanel" type="PanelContainer" parent="."]
+offset_left = 1550.0
+offset_top = 20.0
+offset_right = 1900.0
+offset_bottom = 200.0
+
+[node name="ObjectiveList" type="VBoxContainer" parent="ObjectivePanel"]
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 340.0
+offset_bottom = 170.0
+
+[node name="ClockOutLabel" type="Label" parent="."]
+offset_left = 700.0
+offset_top = 950.0
+offset_right = 1220.0
+offset_bottom = 990.0
+text = "All tasks done! Go to the Lobby and clock out."
+horizontal_alignment = 1

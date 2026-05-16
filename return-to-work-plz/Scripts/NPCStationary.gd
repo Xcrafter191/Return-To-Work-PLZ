@@ -7,7 +7,7 @@ extends CharacterBody2D
 @export var dialogue_text: String = "Hey, back to work..."
 @export var gravity: float = 980.0
 @export var sprite_texture: Texture2D = null
-@export var dialogue_offset_y: float = -280.0
+@export var dialogue_offset_y: float = -380.0
 
 var player_nearby: bool = false
 var _fade_tween: Tween = null

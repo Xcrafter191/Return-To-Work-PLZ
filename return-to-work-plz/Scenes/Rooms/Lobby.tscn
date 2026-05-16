@@ -6,12 +6,16 @@
 [ext_resource type="Texture2D" uid="uid://bo843u8lcua6o" path="res://Assets/Rooms/Receptionist_P.png" id="4_bg"]
 [ext_resource type="Texture2D" uid="uid://o4tyd1kljagg" path="res://Assets/Sprites/Receptionist Linda.png" id="5_linda"]
 [ext_resource type="Texture2D" uid="uid://dcoufhb0171vs" path="res://Assets/Sprites/Janitor Mike.png" id="6_mike"]
+[ext_resource type="Script" path="res://Scripts/ClockOut.gd" id="7_clockout"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
 size = Vector2(1920, 40)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_exit"]
 size = Vector2(40, 300)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_clockout"]
+size = Vector2(60, 300)
 
 [node name="Lobby" type="Node2D" unique_id=484555656]
 
@@ -84,3 +88,22 @@ offset_right = 1910.0
 offset_bottom = 790.0
 text = "→ Elevator"
 horizontal_alignment = 1
+
+[node name="ClockOut" type="Area2D" parent="."]
+position = Vector2(30, 780)
+collision_layer = 0
+collision_mask = 1
+script = ExtResource("7_clockout")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ClockOut"]
+shape = SubResource("RectangleShape2D_clockout")
+
+[node name="PromptLabel" type="Label" parent="ClockOut"]
+offset_left = -30.0
+offset_top = -200.0
+offset_right = 170.0
+offset_bottom = -170.0
+text = "Clock Out"
+horizontal_alignment = 1
+visible = false
+

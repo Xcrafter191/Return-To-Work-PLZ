@@ -31,7 +31,7 @@ position = Vector2(0, -188)
 shape = SubResource("RectangleShape2D_detect")
 
 [node name="DialogueBox" type="Node2D" parent="." unique_id=2002028770]
-position = Vector2(0, -120)
+position = Vector2(0, -392)
 
 [node name="BG" type="ColorRect" parent="DialogueBox" unique_id=238868984]
 offset_left = -130.0
