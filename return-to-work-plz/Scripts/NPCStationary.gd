@@ -7,6 +7,7 @@ extends CharacterBody2D
 @export var dialogue_text: String = "Hey, back to work..."
 @export var gravity: float = 980.0
 @export var sprite_texture: Texture2D = null
+@export var dialogue_offset_y: float = -280.0
 
 var player_nearby: bool = false
 var _fade_tween: Tween = null
@@ -19,6 +20,7 @@ var _fade_tween: Tween = null
 func _ready() -> void:
 	dialogue_box.visible = false
 	dialogue_box.modulate.a = 0.0
+	dialogue_box.position.y = dialogue_offset_y
 	dialogue_label.text = dialogue_text
 	if sprite_texture:
 		sprite.texture = sprite_texture
@@ -28,13 +30,12 @@ func _ready() -> void:
 
 func _resize_dialogue_bg() -> void:
 	await get_tree().process_frame
-	var text_width = dialogue_label.get_minimum_size().x
-	var padding = 16.0
-	var half_w = max(text_width / 2.0 + padding, 60.0)
-	dialogue_bg.offset_left = -half_w
-	dialogue_bg.offset_right = half_w
-	dialogue_label.offset_left = -half_w + 6.0
-	dialogue_label.offset_right = half_w - 6.0
+	# Set label to max width first so autowrap can calculate height
+	var max_w: float = 350.0
+	dialogue_label.offset_left = -max_w / 2.0
+	dialogue_label.offset_right = max_w / 2.0
+	dialogue_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	await get_tree().process_frame
 
 func _physics_process(delta: float) -> void:
 	if not is_on_floor():
@@ -50,10 +51,8 @@ func _physics_process(delta: float) -> void:
 		if players.size() > 0:
 			var player = players[0]
 			if player.global_position.x > global_position.x:
-				# Player is to the right → flip sprite to face right (negative scale)
 				sprite.scale.x = -abs(sprite.scale.x)
 			else:
-				# Player is to the left → default facing (positive scale)
 				sprite.scale.x = abs(sprite.scale.x)
 
 func _on_player_entered(body: Node2D) -> void:

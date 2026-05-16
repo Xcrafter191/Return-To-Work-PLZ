@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://npcstat001" path="res://Scenes/NPCs/StationaryNPC.tscn" id="2_npc_stat"]
 [ext_resource type="PackedScene" uid="uid://npcmov001" path="res://Scenes/NPCs/MovingNPC.tscn" id="3_npc_mov"]
 [ext_resource type="Texture2D" uid="uid://cvpq4n138qar5" path="res://Assets/Rooms/Cubicle_A_P.png" id="4_bg"]
-[ext_resource type="Script" uid="uid://dr0o7y0vodg2x" path="res://Scripts/InteractableObject.gd" id="5_interact"]
+[ext_resource type="Script" path="res://Scripts/InteractableObject.gd" id="5_interact"]
 [ext_resource type="Texture2D" uid="uid://ddorakgx6g7gn" path="res://Assets/Sprites/Coworker Amelia.png" id="6_amelia"]
 [ext_resource type="Texture2D" uid="uid://cxr46orh408pa" path="res://Assets/Sprites/Coworker Greg.png" id="7_greg"]
 
