@@ -9,6 +9,12 @@ signal all_objectives_completed()
 signal loop_restarted(loop_number: int)
 signal current_task_changed(task_index: int)
 signal npc_talk_updated(count: int)
+signal morale_changed(value: float)
+signal productivity_changed(value: float)
+
+# ── Player Stats (Dummy values for UI) ──
+var morale: float = 100.0
+var productivity: float = 50.0
 
 # ── Loop state ──
 var current_loop: int = 1
@@ -27,6 +33,18 @@ var npc_positions: Dictionary = {}
 
 func _ready() -> void:
 	_build_objectives()
+	# Dummy init so UI gets the starting values
+	call_deferred("emit_signal", "morale_changed", morale)
+	call_deferred("emit_signal", "productivity_changed", productivity)
+
+## Stat Helpers
+func set_morale(val: float) -> void:
+	morale = clamp(val, 0.0, 100.0)
+	morale_changed.emit(morale)
+
+func set_productivity(val: float) -> void:
+	productivity = clamp(val, 0.0, 100.0)
+	productivity_changed.emit(productivity)
 
 ## Build the full 10-task list. ORDER MATTERS — tasks are sequential.
 func _build_objectives() -> void:
