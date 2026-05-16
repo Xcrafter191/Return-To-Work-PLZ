@@ -13,6 +13,12 @@ size = Vector2(40, 300)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_doorarea"]
 size = Vector2(120, 200)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d47w8"]
+size = Vector2(42, 972.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rydhx"]
+size = Vector2(44, 917)
+
 [node name="Elevator_F2" type="Node2D" unique_id=2000601447]
 
 [node name="Background" type="Sprite2D" parent="." unique_id=1550539619]
@@ -29,7 +35,7 @@ text = "2F - Office Floor"
 horizontal_alignment = 1
 
 [node name="Floor" type="StaticBody2D" parent="." unique_id=998294157]
-position = Vector2(960, 930)
+position = Vector2(960, 899)
 collision_layer = 2
 collision_mask = 0
 
@@ -40,16 +46,16 @@ shape = SubResource("RectangleShape2D_floor")
 position = Vector2(960, 540)
 
 [node name="SpawnDefault" type="Marker2D" parent="." unique_id=907421397]
-position = Vector2(960, 910)
+position = Vector2(960, 869)
 
 [node name="SpawnFromCubicle" type="Marker2D" parent="." unique_id=1139643109]
-position = Vector2(150, 910)
+position = Vector2(150, 869)
 
 [node name="SpawnFromMeeting" type="Marker2D" parent="." unique_id=286089548]
-position = Vector2(1750, 910)
+position = Vector2(1750, 869)
 
 [node name="SpawnFromF1" type="Marker2D" parent="." unique_id=1938392119]
-position = Vector2(960, 910)
+position = Vector2(960, 869)
 
 [node name="RoomLabel" type="Label" parent="." unique_id=1913767294]
 offset_left = 830.0
@@ -131,3 +137,21 @@ offset_right = 80.0
 offset_bottom = -140.0
 text = "Press [E] — Go to 1F"
 horizontal_alignment = 1
+
+[node name="WallRight" type="StaticBody2D" parent="." unique_id=390477245]
+position = Vector2(1930, 540)
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallRight" unique_id=1440201720]
+position = Vector2(-13, -109)
+shape = SubResource("RectangleShape2D_d47w8")
+
+[node name="WallLeft" type="StaticBody2D" parent="." unique_id=1895214739]
+position = Vector2(-10, 511)
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallLeft" unique_id=39485163]
+position = Vector2(-4, -49.5)
+shape = SubResource("RectangleShape2D_rydhx")

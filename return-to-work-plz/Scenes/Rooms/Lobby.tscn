@@ -12,10 +12,13 @@
 size = Vector2(1920, 40)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_exit"]
-size = Vector2(40, 300)
+size = Vector2(37, 743)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_clockout"]
 size = Vector2(60, 1078)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ced4q"]
+size = Vector2(40, 708)
 
 [node name="Lobby" type="Node2D" unique_id=484555656]
 
@@ -37,12 +40,13 @@ shape = SubResource("RectangleShape2D_floor")
 position = Vector2(960, 540)
 
 [node name="SpawnDefault" type="Marker2D" parent="." unique_id=1416373072]
-position = Vector2(400, 910)
+position = Vector2(170, 869)
 
 [node name="SpawnFromElevator" type="Marker2D" parent="." unique_id=268082454]
-position = Vector2(1750, 910)
+position = Vector2(1750, 868)
 
 [node name="RoomLabel" type="Label" parent="." unique_id=1047496605]
+modulate = Color(0, 0, 0, 1)
 offset_left = 860.0
 offset_top = 30.0
 offset_right = 1060.0
@@ -65,20 +69,21 @@ patrol_right_x = 900.0
 sprite_texture = ExtResource("6_mike")
 
 [node name="ExitToElevator" type="Area2D" parent="." unique_id=1613160935]
-position = Vector2(1910, 780)
+position = Vector2(1910, 722)
 collision_layer = 0
 script = ExtResource("1_exit")
 target_room = "Elevator_F1"
 target_spawn = "SpawnFromLobby"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExitToElevator" unique_id=552330929]
+position = Vector2(1.5, -221.5)
 shape = SubResource("RectangleShape2D_exit")
 
 [node name="ExitVisual_Right" type="ColorRect" parent="." unique_id=645557851]
-offset_left = 1890.0
-offset_top = 630.0
-offset_right = 1920.0
-offset_bottom = 930.0
+offset_left = 1892.0
+offset_top = 575.0
+offset_right = 1922.0
+offset_bottom = 875.0
 color = Color(0.3, 0.3, 0.5, 0.4)
 
 [node name="ExitLabel_Right" type="Label" parent="." unique_id=1025987007]
@@ -106,3 +111,12 @@ offset_right = 170.0
 offset_bottom = -170.0
 text = "Clock Out"
 horizontal_alignment = 1
+
+[node name="WallLeft" type="StaticBody2D" parent="." unique_id=970441749]
+position = Vector2(4, 513)
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallLeft" unique_id=1375926425]
+position = Vector2(-2, 55)
+shape = SubResource("RectangleShape2D_ced4q")

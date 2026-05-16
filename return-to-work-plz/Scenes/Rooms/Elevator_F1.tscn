@@ -11,7 +11,13 @@ size = Vector2(1920, 40)
 size = Vector2(40, 300)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_doorarea"]
-size = Vector2(120, 766)
+size = Vector2(332, 766)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nuuul"]
+size = Vector2(44, 917)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3xbwk"]
+size = Vector2(42, 972.5)
 
 [node name="Elevator_F1" type="Node2D" unique_id=1777263534]
 
@@ -49,13 +55,13 @@ position = Vector2(960, 540)
 position = Vector2(960, 910)
 
 [node name="SpawnFromLobby" type="Marker2D" parent="." unique_id=1535282910]
-position = Vector2(150, 910)
+position = Vector2(150, 876)
 
 [node name="SpawnFromBathroom" type="Marker2D" parent="." unique_id=399734286]
-position = Vector2(1750, 910)
+position = Vector2(1750, 877)
 
 [node name="SpawnFromF2" type="Marker2D" parent="." unique_id=100096357]
-position = Vector2(960, 910)
+position = Vector2(858, 879)
 
 [node name="RoomLabel" type="Label" parent="." unique_id=1493235667]
 offset_left = 829.0
@@ -109,7 +115,7 @@ target_spawn = "SpawnFromF1"
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ElevatorDoor/DetectionArea" unique_id=1256308807]
-position = Vector2(-105, -386)
+position = Vector2(-104, -386)
 shape = SubResource("RectangleShape2D_doorarea")
 
 [node name="PromptLabel" type="Label" parent="ElevatorDoor" unique_id=1833908716]
@@ -119,3 +125,21 @@ offset_right = 213.0
 offset_bottom = -180.0
 text = "Press [E] — Go to 2F"
 horizontal_alignment = 1
+
+[node name="WallLeft" type="StaticBody2D" parent="." unique_id=2013151717]
+position = Vector2(-10, 511)
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallLeft" unique_id=309527039]
+position = Vector2(-4, -49.5)
+shape = SubResource("RectangleShape2D_nuuul")
+
+[node name="WallRight" type="StaticBody2D" parent="." unique_id=23325087]
+position = Vector2(1930, 540)
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallRight" unique_id=1009696081]
+position = Vector2(-3, -100)
+shape = SubResource("RectangleShape2D_3xbwk")

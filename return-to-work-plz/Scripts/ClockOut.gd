@@ -1,8 +1,8 @@
 extends Area2D
 
 ## ClockOut — Placed at the far-left wall of Lobby.
-## When player walks into this area AND all objectives are complete,
-## triggers the loop restart.
+## Handles both "Clock In" (first task) and "Clock Out" (last task).
+## Player must press E to interact — no auto-trigger.
 
 var player_in_range: bool = false
 
@@ -12,39 +12,68 @@ func _ready() -> void:
 	prompt_label.visible = false
 	body_entered.connect(_on_body_entered)
 	body_exited.connect(_on_body_exited)
-	# Listen for all objectives completed to show prompt if player already here
-	GameManager.all_objectives_completed.connect(_check_show_prompt)
+	GameManager.current_task_changed.connect(_on_task_changed)
+	GameManager.loop_restarted.connect(_on_loop_restarted)
+
+func _input(event: InputEvent) -> void:
+	if not player_in_range:
+		return
+	if not event.is_action_pressed("interact"):
+		return
+	
+	var current_task = GameManager.get_current_task_id()
+	
+	if current_task == "clock_in":
+		_do_clock_in()
+	elif current_task == "clock_out":
+		_do_clock_out()
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		player_in_range = true
-		if GameManager.can_clock_out():
-			_do_clock_out()
+		_update_prompt()
 
 func _on_body_exited(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		player_in_range = false
 		prompt_label.visible = false
 
-func _check_show_prompt() -> void:
+func _on_task_changed(_idx: int) -> void:
 	if player_in_range:
-		_do_clock_out()
+		_update_prompt()
+
+func _on_loop_restarted(_loop: int) -> void:
+	prompt_label.visible = false
+
+func _update_prompt() -> void:
+	var current_task = GameManager.get_current_task_id()
+	if current_task == "clock_in":
+		prompt_label.text = "Press [E] — Clock In"
+		prompt_label.visible = true
+	elif current_task == "clock_out":
+		prompt_label.text = "Press [E] — Clock Out"
+		prompt_label.visible = true
+	else:
+		prompt_label.visible = false
+
+func _do_clock_in() -> void:
+	prompt_label.text = "Clocking in..."
+	prompt_label.visible = true
+	GameManager.complete_objective("clock_in")
+	await get_tree().create_timer(0.5).timeout
+	prompt_label.visible = false
 
 func _do_clock_out() -> void:
-	# Show brief "Clocking out..." feedback then restart loop
-	prompt_label.visible = true
 	prompt_label.text = "Clocking out..."
+	prompt_label.visible = true
 	
-	# Disable player movement briefly
+	# Disable player movement
 	var players = get_tree().get_nodes_in_group("player")
 	if players.size() > 0:
 		players[0].set_physics_process(false)
 		players[0].set_process_input(false)
 	
-	# Short delay then restart
 	await get_tree().create_timer(1.0).timeout
 	GameManager.clock_out()
 	RoomManager.change_room("Lobby", "SpawnDefault")
-	
-	# Re-enable player (RoomManager handles this after transition)
 	prompt_label.visible = false

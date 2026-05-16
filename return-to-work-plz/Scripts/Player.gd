@@ -3,7 +3,7 @@ extends CharacterBody2D
 ## Player — Office worker character
 ## Left/right movement only, no jumping. Can work at interactable objects.
 
-@export var move_speed: float = 320.0
+@export var move_speed: float = 1000.0
 @export var gravity: float = 980.0
 
 var is_working: bool = false

@@ -29,10 +29,10 @@ shape = SubResource("RectangleShape2D_floor")
 position = Vector2(960, 540)
 
 [node name="SpawnDefault" type="Marker2D" parent="." unique_id=410503834]
-position = Vector2(960, 910)
+position = Vector2(960, 871)
 
 [node name="SpawnFromElevator" type="Marker2D" parent="." unique_id=819907653]
-position = Vector2(150, 910)
+position = Vector2(150, 868)
 
 [node name="RoomLabel" type="Label" parent="." unique_id=172636904]
 offset_left = 860.0

@@ -5,8 +5,14 @@
 [ext_resource type="Texture2D" uid="uid://cqpqnrj5pmvwh" path="res://Assets/Sprites/Manager Luke.png" id="3_luke"]
 [ext_resource type="Script" uid="uid://dr0o7y0vodg2x" path="res://Scripts/InteractableObject.gd" id="4_interact"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_am3xq"]
+size = Vector2(42, 972.5)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
 size = Vector2(1920, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_efn1h"]
+size = Vector2(40, 931)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_workarea"]
 size = Vector2(288, 369)
@@ -14,12 +20,24 @@ size = Vector2(288, 369)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_exit"]
 size = Vector2(40, 300)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_presentarea"]
+size = Vector2(80, 80)
+
 [node name="Meeting" type="Node2D" unique_id=1827779666]
 
 [node name="Background" type="ColorRect" parent="." unique_id=1013269679]
 offset_right = 1920.0
 offset_bottom = 1080.0
 color = Color(0.78, 0.78, 0.82, 1)
+
+[node name="WallRight" type="StaticBody2D" parent="Background" unique_id=1111566876]
+position = Vector2(1930, 540)
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Background/WallRight" unique_id=1157437231]
+position = Vector2(-8, -73.5)
+shape = SubResource("RectangleShape2D_am3xq")
 
 [node name="FloorVisual" type="ColorRect" parent="." unique_id=1467659198]
 offset_top = 930.0
@@ -39,13 +57,22 @@ shape = SubResource("RectangleShape2D_floor")
 position = Vector2(960, 540)
 
 [node name="SpawnDefault" type="Marker2D" parent="." unique_id=196036621]
-position = Vector2(300, 910)
+position = Vector2(300, 925)
 
 [node name="SpawnFromElevator" type="Marker2D" parent="." unique_id=989275961]
-position = Vector2(100, 903)
+position = Vector2(100, 926)
 
 [node name="SpawnFromPrinter" type="Marker2D" parent="." unique_id=1998937114]
-position = Vector2(1750, 910)
+position = Vector2(1750, 926)
+
+[node name="WallLeft" type="StaticBody2D" parent="SpawnFromPrinter" unique_id=392321566]
+position = Vector2(-1754, -402)
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SpawnFromPrinter/WallLeft" unique_id=1262776008]
+position = Vector2(-2, -56.5)
+shape = SubResource("RectangleShape2D_efn1h")
 
 [node name="RoomLabel" type="Label" parent="." unique_id=803910164]
 offset_left = 830.0
@@ -148,3 +175,27 @@ offset_right = 1910.0
 offset_bottom = 790.0
 text = "→ Printer"
 horizontal_alignment = 1
+
+[node name="PresentTask" type="Node2D" parent="."]
+position = Vector2(950, 910)
+script = ExtResource("4_interact")
+task_name = "Presenting to Manager..."
+task_duration = 4.0
+task_id = "present_manager"
+
+[node name="DetectionArea" type="Area2D" parent="PresentTask"]
+collision_layer = 0
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PresentTask/DetectionArea"]
+position = Vector2(0, -40)
+shape = SubResource("RectangleShape2D_presentarea")
+
+[node name="PromptLabel" type="Label" parent="PresentTask"]
+offset_left = -80.0
+offset_top = -100.0
+offset_right = 80.0
+offset_bottom = -80.0
+horizontal_alignment = 1
+text = "Press [E] - Present"
+visible = false

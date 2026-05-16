@@ -2,6 +2,7 @@ extends Node2D
 
 ## InteractableObject — Workstation/desk object that the player can interact with.
 ## Shows "Press E" prompt when near AND this task is the current active task.
+## Skippable tasks also show "Press Q to skip".
 ## Reports completion to GameManager.
 
 @export var task_name: String = "Working..."
@@ -20,34 +21,58 @@ func _ready() -> void:
 	prompt_label.visible = false
 	$DetectionArea.body_entered.connect(_on_body_entered)
 	$DetectionArea.body_exited.connect(_on_body_exited)
-	# Listen for loop restart to reset this task
 	GameManager.loop_restarted.connect(_on_loop_restarted)
+	# Update prompt when task changes (in case player is already standing here)
+	GameManager.current_task_changed.connect(_on_task_changed)
 
 func _is_available() -> bool:
-	## This task can only be interacted with if it's the current active task
 	return not task_completed and task_id != "" and GameManager.is_task_active(task_id)
 
+func _is_skippable() -> bool:
+	return _is_available() and GameManager.is_current_task_skippable()
+
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("interact") and player_in_range and current_player:
+	if not player_in_range or not current_player:
+		return
+	
+	# E key: do the task
+	if event.is_action_pressed("interact"):
 		if not current_player.is_working and _is_available():
 			prompt_label.visible = false
-			# Scale duration by difficulty
 			var scaled_dur = GameManager.get_scaled_duration(task_duration)
 			current_player.start_task(scaled_dur)
+	
+	# Q key: skip the task (only for skippable tasks)
+	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_Q:
+		if not current_player.is_working and _is_skippable():
+			_skip_task()
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		player_in_range = true
 		current_player = body
 		body.set_nearby_workstation(self)
-		if not body.is_working and _is_available():
-			prompt_label.visible = true
+		_update_prompt()
 
 func _on_body_exited(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		player_in_range = false
 		body.clear_nearby_workstation(self)
 		current_player = null
+		prompt_label.visible = false
+
+func _on_task_changed(_idx: int) -> void:
+	if player_in_range:
+		_update_prompt()
+
+func _update_prompt() -> void:
+	if _is_available():
+		if _is_skippable():
+			prompt_label.text = "Press [E] - %s  |  [Q] Skip" % task_name
+		else:
+			prompt_label.text = "Press [E] - %s" % task_name
+		prompt_label.visible = true
+	else:
 		prompt_label.visible = false
 
 func on_interact_start() -> void:
@@ -57,7 +82,6 @@ func on_interact_complete() -> void:
 	task_completed = true
 	prompt_label.text = "Done!"
 	prompt_label.visible = true
-	# Report to GameManager
 	if task_id != "":
 		GameManager.complete_objective(task_id)
 	# Change NPC dialogue if configured
@@ -70,8 +94,18 @@ func on_interact_complete() -> void:
 	tween.tween_property(prompt_label, "modulate:a", 0.0, 1.0)
 	tween.tween_callback(func(): prompt_label.visible = false; prompt_label.modulate.a = 1.0)
 
+func _skip_task() -> void:
+	task_completed = true
+	prompt_label.text = "Skipped"
+	prompt_label.visible = true
+	if task_id != "":
+		GameManager.complete_objective(task_id)
+	var tween = create_tween()
+	tween.tween_interval(1.0)
+	tween.tween_property(prompt_label, "modulate:a", 0.0, 0.5)
+	tween.tween_callback(func(): prompt_label.visible = false; prompt_label.modulate.a = 1.0)
+
 func _on_loop_restarted(_loop_number: int) -> void:
-	# Reset this task for the new loop
 	task_completed = false
 	prompt_label.text = "Press [E] - " + task_name
 	prompt_label.modulate.a = 1.0

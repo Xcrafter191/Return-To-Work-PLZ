@@ -5,16 +5,16 @@
 [ext_resource type="PackedScene" uid="uid://npcmov001" path="res://Scenes/NPCs/MovingNPC.tscn" id="3_npc_mov"]
 [ext_resource type="Texture2D" uid="uid://cp7wqdgrxhkw3" path="res://Assets/Sprites/Technician Mark.png" id="4_mark"]
 [ext_resource type="Texture2D" uid="uid://cp0ngqasjl53u" path="res://Assets/Sprites/Intern Olivia.png" id="5_olivia"]
-[ext_resource type="Script" path="res://Scripts/InteractableObject.gd" id="6_interact"]
+[ext_resource type="Script" uid="uid://dr0o7y0vodg2x" path="res://Scripts/InteractableObject.gd" id="6_interact"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
 size = Vector2(1920, 40)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_exit"]
-size = Vector2(40, 300)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_workarea"]
 size = Vector2(80, 80)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_exit"]
+size = Vector2(42, 972.5)
 
 [node name="Printer" type="Node2D" unique_id=299845132]
 
@@ -42,10 +42,10 @@ shape = SubResource("RectangleShape2D_floor")
 position = Vector2(960, 540)
 
 [node name="SpawnDefault" type="Marker2D" parent="." unique_id=2023376993]
-position = Vector2(300, 910)
+position = Vector2(300, 930)
 
 [node name="SpawnFromMeeting" type="Marker2D" parent="." unique_id=679783424]
-position = Vector2(100, 910)
+position = Vector2(100, 930)
 
 [node name="RoomLabel" type="Label" parent="." unique_id=289324994]
 offset_left = 830.0
@@ -62,29 +62,27 @@ offset_right = 1100.0
 offset_bottom = 930.0
 color = Color(0.35, 0.35, 0.38, 1)
 
-[node name="PrintTask" type="Node2D" parent="."]
+[node name="PrintTask" type="Node2D" parent="." unique_id=2105807191]
 position = Vector2(1000, 910)
 script = ExtResource("6_interact")
 task_name = "Printing documents..."
-task_duration = 3.0
 task_id = "print_paper"
 
-[node name="DetectionArea" type="Area2D" parent="PrintTask"]
+[node name="DetectionArea" type="Area2D" parent="PrintTask" unique_id=338332480]
 collision_layer = 0
-collision_mask = 1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PrintTask/DetectionArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PrintTask/DetectionArea" unique_id=1291473026]
 position = Vector2(0, -40)
 shape = SubResource("RectangleShape2D_workarea")
 
-[node name="PromptLabel" type="Label" parent="PrintTask"]
+[node name="PromptLabel" type="Label" parent="PrintTask" unique_id=1262610746]
+visible = false
 offset_left = -80.0
 offset_top = -100.0
 offset_right = 80.0
 offset_bottom = -80.0
-horizontal_alignment = 1
 text = "Press [E] - Print documents"
-visible = false
+horizontal_alignment = 1
 
 [node name="Shelf" type="ColorRect" parent="." unique_id=1626604397]
 offset_left = 1400.0
@@ -114,6 +112,7 @@ target_room = "Meeting"
 target_spawn = "SpawnFromPrinter"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExitToMeeting" unique_id=238966474]
+position = Vector2(0, -289.75)
 shape = SubResource("RectangleShape2D_exit")
 
 [node name="ExitVisual_Left" type="ColorRect" parent="." unique_id=593912857]
@@ -136,7 +135,7 @@ collision_layer = 2
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WallRight" unique_id=132708336]
-position = Vector2(-21, 240)
+position = Vector2(-22, -73.5)
 shape = SubResource("RectangleShape2D_exit")
 
 [node name="WallVisual_Right" type="ColorRect" parent="." unique_id=752517234]

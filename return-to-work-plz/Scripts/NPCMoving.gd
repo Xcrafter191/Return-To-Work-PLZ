@@ -71,6 +71,7 @@ func _physics_process(delta: float) -> void:
 func _on_player_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		player_nearby = true
+		GameManager.register_npc_talk(npc_name)
 		_show_dialogue()
 
 func _on_player_exited(body: Node2D) -> void:
