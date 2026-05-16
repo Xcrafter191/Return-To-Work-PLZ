@@ -9,7 +9,6 @@ extends CharacterBody2D
 		dialogue_text = value
 		if is_inside_tree() and dialogue_label:
 			dialogue_label.text = dialogue_text
-			_resize_dialogue_bg()
 @export var gravity: float = 980.0
 @export var sprite_texture: Texture2D = null
 @export var dialogue_offset_y: float = -380.0
@@ -18,8 +17,8 @@ var player_nearby: bool = false
 var _fade_tween: Tween = null
 
 @onready var dialogue_box: Node2D = $DialogueBox
-@onready var dialogue_label: Label = $DialogueBox/Label
-@onready var dialogue_bg: ColorRect = $DialogueBox/BG
+@onready var dialogue_label: Label = $DialogueBox/Bubble/Label
+@onready var dialogue_bg: PanelContainer = $DialogueBox/Bubble
 @onready var sprite: Sprite2D = $Sprite
 
 func _ready() -> void:
@@ -29,18 +28,13 @@ func _ready() -> void:
 	dialogue_label.text = dialogue_text
 	if sprite_texture:
 		sprite.texture = sprite_texture
-	_resize_dialogue_bg()
+	
+	# Set a max width so it wraps if text is too long
+	dialogue_label.custom_minimum_size.x = 100 # Min width
+	dialogue_bg.custom_minimum_size.x = 100
+	
 	$InteractionArea.body_entered.connect(_on_player_entered)
 	$InteractionArea.body_exited.connect(_on_player_exited)
-
-func _resize_dialogue_bg() -> void:
-	await get_tree().process_frame
-	# Set label to max width first so autowrap can calculate height
-	var max_w: float = 350.0
-	dialogue_label.offset_left = -max_w / 2.0
-	dialogue_label.offset_right = max_w / 2.0
-	dialogue_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	await get_tree().process_frame
 
 func _physics_process(delta: float) -> void:
 	if not is_on_floor():
