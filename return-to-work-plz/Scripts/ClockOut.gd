@@ -70,10 +70,14 @@ func _do_clock_out() -> void:
 	# Disable player movement
 	var players = get_tree().get_nodes_in_group("player")
 	if players.size() > 0:
-		players[0].set_physics_process(false)
-		players[0].set_process_input(false)
+		var p = players[0]
+		p.velocity.x = 0
+		if p.has_method("_update_animation"):
+			p._update_animation(0.0)
+		p.set_physics_process(false)
+		p.set_process_input(false)
 	
 	await get_tree().create_timer(1.0).timeout
 	GameManager.clock_out()
-	RoomManager.change_room("Lobby", "SpawnDefault")
+	RoomManager.change_room("Lobby", "SpawnDefault", true)
 	prompt_label.visible = false

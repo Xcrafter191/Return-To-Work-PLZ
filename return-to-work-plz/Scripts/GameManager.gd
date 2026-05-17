@@ -47,10 +47,11 @@ func _process(delta: float) -> void:
 		task_deadline_time -= delta
 		if task_deadline_time <= 0:
 			# Failed deadline!
-			is_deadline_active = false
 			set_productivity(productivity - 10.0)
 			consecutive_tasks = 0
 			print("[GameManager] Task deadline missed! Productivity dropped.")
+			# Reset to 20 seconds to keep the pressure on!
+			task_deadline_time = 20.0
 
 ## Stat Helpers
 func set_morale(val: float) -> void:
@@ -211,9 +212,8 @@ func get_scaled_duration(base_duration: float) -> float:
 func save_npc_positions(room_name: String, room_node: Node2D) -> void:
 	var positions: Dictionary = {}
 	for child in room_node.get_children():
-		if child is CharacterBody2D and child.has_method("_physics_process"):
-			if not child.is_in_group("player"):
-				positions[child.name] = child.global_position
+		if child.is_in_group("npc"):
+			positions[child.name] = child.global_position
 	if positions.size() > 0:
 		npc_positions[room_name] = positions
 

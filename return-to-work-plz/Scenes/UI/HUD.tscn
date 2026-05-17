@@ -84,7 +84,7 @@ offset_bottom = 325.0
 texture = ExtResource("8_i4i0y")
 expand_mode = 1
 
-[node name="TaskLabel" type="RichTextLabel" parent="TaskBackground"]
+[node name="TaskLabel" type="Label" parent="TaskBackground"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -95,13 +95,13 @@ offset_right = -10.0
 offset_bottom = -13.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_colors/default_color = Color(0, 0, 0, 1)
-theme_override_fonts/normal_font = ExtResource("9_yenib")
-theme_override_font_sizes/normal_font_size = 15
-bbcode_enabled = true
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("9_yenib")
+theme_override_font_sizes/font_size = 15
 text = "Task 1/10"
-fit_content = true
-scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
 
 [node name="ClockOutLabel" type="Label" parent="."]
 visible = false

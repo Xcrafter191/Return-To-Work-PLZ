@@ -41,8 +41,10 @@ func initialize(p_player: CharacterBody2D, p_overlay: ColorRect, room_container:
 ## Change to a new room with fade transition.
 ## room_name: key in room_registry
 ## spawn_point_name: name of the Marker2D to place the player at
-func change_room(room_name: String, spawn_point_name: String = "SpawnDefault") -> void:
+func change_room(room_name: String, spawn_point_name: String = "SpawnDefault", force_reload: bool = false) -> void:
 	if is_transitioning:
+		return
+	if room_name == current_room_name and not force_reload:
 		return
 	if room_name not in room_registry:
 		push_error("RoomManager: Room '%s' not found in registry!" % room_name)

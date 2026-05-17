@@ -59,7 +59,7 @@ position = Vector2(1528, 871)
 
 [node name="JanitorMike" parent="." unique_id=211043716 instance=ExtResource("3_mike")]
 position = Vector2(400, 870)
-patrol_left_x = 100.0
+patrol_left_x = 200.0
 patrol_right_x = 900.0
 
 [node name="ExitToElevator" type="Area2D" parent="." unique_id=1613160935]

@@ -16,7 +16,8 @@ var triggered = {
 	Difficulty.MAJOR: 0
 }
 
-var current_chance: float = 0.0
+var base_chance: float = 0.0
+var accumulated_chance: float = 0.0
 
 # Active permanent inconveniences
 var is_shaky: bool = false
@@ -35,11 +36,6 @@ var red_ambience_rect: ColorRect = null
 var blur_rect: ColorRect = null
 
 func _process(_delta: float) -> void:
-	if is_gibberish:
-		var scene = get_tree().current_scene
-		if scene:
-			_scramble_all_labels(scene)
-			
 	if is_unpause_hack and get_tree().paused:
 		get_tree().paused = false
 		print("[InconvenienceManager] Hacker un-paused the game!")
@@ -48,8 +44,16 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	GameManager.objective_completed.connect(_on_objective_completed)
 	GameManager.loop_restarted.connect(_on_loop_restarted)
+	RoomManager.room_changed.connect(_on_room_changed)
 	_setup_red_ambience()
 	_setup_loop_quotas(GameManager.current_loop)
+
+func _on_room_changed(_room_name: String) -> void:
+	if is_gibberish:
+		var scene = get_tree().current_scene
+		if scene:
+			# Re-scramble new room
+			_scramble_all_labels(scene)
 
 func _setup_red_ambience() -> void:
 	var canvas = CanvasLayer.new()
@@ -70,32 +74,34 @@ func _setup_loop_quotas(loop_num: int) -> void:
 	triggered = { Difficulty.MINOR: 0, Difficulty.MEDIUM: 0, Difficulty.MAJOR: 0 }
 	
 	if loop_num == 1:
-		current_chance = 0.0
+		base_chance = 0.0
 		quotas = { Difficulty.MINOR: 0, Difficulty.MEDIUM: 0, Difficulty.MAJOR: 0 }
 	elif loop_num == 2:
-		current_chance = 0.05
+		base_chance = 0.05
 		quotas = { Difficulty.MINOR: 1, Difficulty.MEDIUM: 0, Difficulty.MAJOR: 0 }
 	elif loop_num == 3:
-		current_chance = 0.10
+		base_chance = 0.10
 		quotas = { Difficulty.MINOR: 1, Difficulty.MEDIUM: 0, Difficulty.MAJOR: 0 }
 	elif loop_num == 4:
-		current_chance = 0.12
+		base_chance = 0.12
 		quotas = { Difficulty.MINOR: 1, Difficulty.MEDIUM: 1, Difficulty.MAJOR: 0 }
 	elif loop_num == 5:
-		current_chance = 0.15
+		base_chance = 0.15
 		quotas = { Difficulty.MINOR: 1, Difficulty.MEDIUM: 1, Difficulty.MAJOR: 0 }
 	elif loop_num == 6:
-		current_chance = 0.50
+		base_chance = 0.20 # Smoothed curve instead of jumping to 0.50
 		quotas = { Difficulty.MINOR: 3, Difficulty.MEDIUM: 2, Difficulty.MAJOR: 1 }
 	elif loop_num >= 7 and loop_num <= 10:
-		current_chance = 0.80
+		base_chance = 0.50
 		quotas = { Difficulty.MINOR: 5, Difficulty.MEDIUM: 4, Difficulty.MAJOR: 2 }
 	elif loop_num >= 11 and loop_num <= 20:
-		current_chance = 0.90
+		base_chance = 0.80
 		quotas = { Difficulty.MINOR: 8, Difficulty.MEDIUM: 5, Difficulty.MAJOR: 3 }
 	else:
-		current_chance = 1.00
+		base_chance = 1.00
 		quotas = { Difficulty.MINOR: 99, Difficulty.MEDIUM: 99, Difficulty.MAJOR: 99 }
+	
+	accumulated_chance = base_chance
 
 func _on_loop_restarted(loop_num: int) -> void:
 	_setup_loop_quotas(loop_num)
@@ -133,11 +139,18 @@ func _reset_permanent_inconveniences() -> void:
 	if main_cam:
 		main_cam.rotation = 0.0
 		
+	var pm = get_tree().current_scene.get_node_or_null("PauseMenu")
+	if pm:
+		InputMap.load_from_project_settings()
+		for action in pm.keybind_actions:
+			if action in pm.keybind_buttons:
+				pm.keybind_buttons[action].text = pm._get_action_key_name(action)
+		
 	# Reset window resizer if it was triggered
 	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 
 func _on_objective_completed(_task_id: String) -> void:
-	if current_chance <= 0.0: return
+	if base_chance <= 0.0: return
 	
 	var all_met = true
 	for diff in quotas:
@@ -146,12 +159,16 @@ func _on_objective_completed(_task_id: String) -> void:
 			break
 	
 	if all_met:
-		current_chance = 0.0
+		base_chance = 0.0
+		accumulated_chance = 0.0
 		print("[InconvenienceManager] All quotas met. Chance dropped to 0.")
 		return
 		
-	if randf() <= current_chance:
+	if randf() <= accumulated_chance:
 		_trigger_random_inconvenience()
+		accumulated_chance = base_chance # Reset after trigger
+	else:
+		accumulated_chance += base_chance # Accumulate chance over time
 
 func _trigger_random_inconvenience() -> void:
 	var pool = []
@@ -294,6 +311,9 @@ func _execute_major() -> void:
 		_spawn_fake_ad()
 	elif choice == "gibberish":
 		is_gibberish = true
+		var scene = get_tree().current_scene
+		if scene:
+			_scramble_all_labels(scene)
 	elif choice == "task_deception":
 		is_task_deception = true
 	elif choice == "stuck_99":
@@ -321,21 +341,17 @@ func _spawn_fake_ad() -> void:
 		
 		panel.add_child(label)
 		
-		var close_btn = Button.new()
-		close_btn.text = "X"
-		close_btn.size = Vector2(30, 30)
-		close_btn.position = Vector2(w - 30, 0)
-		close_btn.visible = false
-		close_btn.pressed.connect(func(): panel.queue_free())
-		panel.add_child(close_btn)
-		
-		var timer = get_tree().create_timer(10.0)
-		timer.timeout.connect(func():
-			if is_instance_valid(close_btn):
-				close_btn.visible = true
-		)
+		panel.mouse_filter = Control.MOUSE_FILTER_STOP
+		panel.gui_input.connect(_on_fake_ad_gui_input.bind(panel))
 		
 		fake_ads_container.add_child(panel)
+
+func _on_fake_ad_gui_input(event: InputEvent, panel: Panel) -> void:
+	if event is InputEventMouseMotion and (event.button_mask & MOUSE_BUTTON_MASK_LEFT) != 0:
+		panel.position += event.relative
+		var bounds = panel.get_rect()
+		if bounds.position.x > 1600 or bounds.position.y > 900 or bounds.end.x < 300 or bounds.end.y < 200:
+			panel.queue_free()
 
 func _scramble_all_labels(node: Node) -> void:
 	if node is Label or node is RichTextLabel or node is Button:

@@ -8,7 +8,7 @@ extends CanvasLayer
 @onready var productivity_bar: TextureProgressBar = $ProductivityContainer/Bar
 @onready var morale_bar: TextureProgressBar = $MoraleContainer/Bar
 @onready var task_bg: TextureRect = $TaskBackground
-@onready var task_label: RichTextLabel = $TaskBackground/TaskLabel
+@onready var task_label: Label = $TaskBackground/TaskLabel
 @onready var clockout_label: Label = $ClockOutLabel
 @onready var value_productivity: Label = $ProdBarBackground/LabelValueProduct
 @onready var value_moral: Label = $MoraleBarBackgroumd/LabelValueMoral
@@ -115,7 +115,7 @@ func _update_task_texture() -> void:
 	pass
 func _refresh_task_text() -> void:
 	var idx = GameManager.current_task_index
-	task_label.text = "[center]%s[/center]" % _get_task_display_text(idx)
+	task_label.text = _get_task_display_text(idx)
 	_update_task_texture()
 
 func _show_current_task() -> void:
@@ -126,7 +126,7 @@ func _show_current_task() -> void:
 		return
 	
 	task_bg.visible = true
-	task_label.text = "[center]%s[/center]" % _get_task_display_text(idx)
+	task_label.text = _get_task_display_text(idx)
 	_update_task_texture()
 	
 	task_bg.position.x = 1920.0
@@ -143,7 +143,7 @@ func _animate_task_complete() -> void:
 		_animating = false
 		return
 	
-	task_label.text = "[center][s]%s[/s][/center]" % _get_task_display_text(idx)
+	task_label.text = "DONE - %s" % _get_task_display_text(idx)
 	
 	var tween = create_tween()
 	tween.tween_interval(0.8)

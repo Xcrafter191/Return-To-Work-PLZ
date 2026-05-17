@@ -30,9 +30,12 @@ func _ready() -> void:
 	if sprite and sprite_texture:
 		sprite.texture = sprite_texture
 	
-	if anim_sprite:
+	if anim_sprite and anim_sprite.sprite_frames and anim_sprite.sprite_frames.has_animation("walk") and anim_sprite.sprite_frames.get_frame_count("walk") > 0:
 		if sprite: sprite.visible = false
 		anim_sprite.play("walk")
+	else:
+		if anim_sprite: anim_sprite.visible = false
+		if sprite: sprite.visible = true
 		
 	_update_dialogue_position()
 	
@@ -73,9 +76,10 @@ func _physics_process(delta: float) -> void:
 			_moving_right = true
 	
 	# Only face movement direction (negated: sprites face left by default)
-	var target_node = sprite if sprite else anim_sprite
-	if target_node:
-		target_node.scale.x = (-1.0 if _moving_right else 1.0) * abs(target_node.scale.x)
+	if sprite:
+		sprite.scale.x = (-1.0 if _moving_right else 1.0) * abs(sprite.scale.x)
+	if anim_sprite:
+		anim_sprite.scale.x = (-1.0 if _moving_right else 1.0) * abs(anim_sprite.scale.x)
 	
 	move_and_slide()
 

@@ -176,26 +176,25 @@ offset_bottom = 790.0
 text = "→ Printer"
 horizontal_alignment = 1
 
-[node name="PresentTask" type="Node2D" parent="."]
+[node name="PresentTask" type="Node2D" parent="." unique_id=289251370]
 position = Vector2(950, 910)
 script = ExtResource("4_interact")
 task_name = "Presenting to Manager..."
 task_duration = 4.0
 task_id = "present_manager"
 
-[node name="DetectionArea" type="Area2D" parent="PresentTask"]
+[node name="DetectionArea" type="Area2D" parent="PresentTask" unique_id=1755646548]
 collision_layer = 0
-collision_mask = 1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PresentTask/DetectionArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PresentTask/DetectionArea" unique_id=615380312]
 position = Vector2(0, -40)
 shape = SubResource("RectangleShape2D_presentarea")
 
-[node name="PromptLabel" type="Label" parent="PresentTask"]
+[node name="PromptLabel" type="Label" parent="PresentTask" unique_id=1015776932]
+visible = false
 offset_left = -80.0
 offset_top = -100.0
 offset_right = 80.0
 offset_bottom = -80.0
-horizontal_alignment = 1
 text = "Press [E] - Present"
-visible = false
+horizontal_alignment = 1

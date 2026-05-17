@@ -3,7 +3,7 @@ extends CharacterBody2D
 ## Player — Office worker character
 ## Left/right movement only, no jumping. Can work at interactable objects.
 
-@export var move_speed: float = 1000.0
+@export var move_speed: float = 700.0
 @export var gravity: float = 980.0
 
 var is_working: bool = false
@@ -34,6 +34,10 @@ func _physics_process(delta: float) -> void:
 	if is_working:
 		velocity.x = 0.0
 		
+		if not Input.is_action_pressed("interact"):
+			cancel_task()
+			return
+		
 		if InconvenienceManager.is_stuck_99 and work_progress >= 0.99 and not _is_stuck_timer_started:
 			work_progress = 0.99
 			_update_progress_bar()
@@ -53,6 +57,8 @@ func _physics_process(delta: float) -> void:
 			_update_progress_bar()
 			if work_progress >= 1.0:
 				_complete_task()
+		
+		_update_animation(0.0)
 	else:
 		# Horizontal movement
 		var input_dir: float = Input.get_axis("move_left", "move_right")
@@ -87,9 +93,7 @@ func _update_animation(input_dir: float) -> void:
 	if not anim_sprite: return
 	
 	if is_working:
-		if current_anim_state != "interact":
-			current_anim_state = "interact"
-			_play_anim("interact")
+		_play_anim("interact")
 		return
 		
 	var is_moving = input_dir != 0.0
@@ -168,6 +172,14 @@ func _complete_task() -> void:
 	if nearby_workstation and nearby_workstation.has_method("on_interact_complete"):
 		nearby_workstation.on_interact_complete()
 	_blink_and_fade()
+
+func cancel_task() -> void:
+	is_working = false
+	work_progress = 0.0
+	_is_stuck_timer_started = false
+	_hide_progress()
+	if nearby_workstation and nearby_workstation.has_method("_update_prompt"):
+		nearby_workstation._update_prompt()
 
 func _blink_and_fade() -> void:
 	var tween = create_tween()
