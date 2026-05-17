@@ -1,92 +1,18 @@
-[gd_scene load_steps=8 format=3 uid="uid://hud001"]
+[gd_scene load_steps=10 format=3 uid="uid://hud001"]
 
 [ext_resource type="Script" uid="uid://bgvawfiayxhjc" path="res://Scripts/HUD.gd" id="1_hud"]
-[ext_resource type="Texture2D" uid="uid://gcckjr86kewp" path="res://Assets/UI V1/PRODUCTIVITY BAR/PRODUCTIVITY EMPTY.png" id="2_prod_e"]
-[ext_resource type="Texture2D" uid="uid://b1wi74jnd83d8" path="res://Assets/UI V1/PRODUCTIVITY BAR/PRODUCTIVITY FULL.png" id="3_prod_f"]
-[ext_resource type="Texture2D" uid="uid://do2o88oyg0uas" path="res://Assets/UI V1/BADGE/QUOTA MID.png" id="4_badge"]
-[ext_resource type="Texture2D" uid="uid://lxhvdkxp5mkt" path="res://Assets/UI V1/MORAL BAR/MORAL EMPTY.png" id="5_mor_e"]
-[ext_resource type="Texture2D" uid="uid://cyiu1exhv43nw" path="res://Assets/UI V1/MORAL BAR/MORAL FULL.png" id="6_mor_f"]
-[ext_resource type="Texture2D" uid="uid://xmsqnohoqhkc" path="res://Assets/UI V1/TEXT BOX/TASK SMALL.png" id="7_1ree7"]
+[ext_resource type="Texture2D" uid="uid://ckm0qw1xidsnc" path="res://Assets/UI V4/PRODUCTIVITY BAR/CONDITION/EMPTY.png" id="4_1ree7"]
+[ext_resource type="Texture2D" uid="uid://cj7e47tphqi3n" path="res://Assets/UI V4/PRODUCTIVITY BAR/BAR/GOOD.png" id="5_1ree7"]
+[ext_resource type="Texture2D" uid="uid://dl0ravoqjmlxm" path="res://Assets/UI V4/PRODUCTIVITY BAR/CONDITION/FULL.png" id="5_d2sja"]
+[ext_resource type="Texture2D" uid="uid://b2be7ukql7m3b" path="res://Assets/UI V4/MORAL/MORAL/GOOD.png" id="5_i4i0y"]
+[ext_resource type="Texture2D" uid="uid://bnpbj4m7nc6de" path="res://Assets/UI V4/MORAL/CONDITION/EMPTY.png" id="6_yenib"]
+[ext_resource type="Texture2D" uid="uid://cv3gtss7ivpwr" path="res://Assets/UI V4/MORAL/CONDITION/FULL.png" id="7_pydgx"]
+[ext_resource type="Texture2D" uid="uid://bkb3lautlmt7v" path="res://Assets/UI V4/TEXTBOX/TASK.png" id="8_i4i0y"]
+[ext_resource type="FontFile" uid="uid://c41kv0pko2t4q" path="res://Assets/Font/Pixeled.ttf" id="9_yenib"]
 
 [node name="HUD" type="CanvasLayer"]
 layer = 5
 script = ExtResource("1_hud")
-
-[node name="ProdBarBackground" type="TextureRect" parent="."]
-offset_left = 396.0
-offset_top = 10.0
-offset_right = 596.0
-offset_bottom = 60.0
-texture = ExtResource("5_mor_e")
-expand_mode = 1
-
-[node name="Badge" type="TextureRect" parent="ProdBarBackground"]
-layout_mode = 0
-offset_left = 6.0
-offset_top = 10.0
-offset_right = 356.0
-offset_bottom = 110.0
-scale = Vector2(0.3, 0.3)
-texture = ExtResource("4_badge")
-expand_mode = 1
-
-[node name="LabelValueProduct" type="Label" parent="ProdBarBackground"]
-layout_mode = 0
-offset_left = 116.0
-offset_top = 6.0
-offset_right = 187.0
-offset_bottom = 41.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 25
-text = "100 %"
-
-[node name="ProductiBackground" type="TextureRect" parent="."]
-offset_left = 36.0
-offset_top = 9.0
-offset_right = 286.0
-offset_bottom = 59.0
-texture = ExtResource("5_mor_e")
-expand_mode = 1
-
-[node name="LabelProduct" type="Label" parent="ProductiBackground"]
-layout_mode = 0
-offset_left = -50.0
-offset_top = 3.0
-offset_right = 291.0
-offset_bottom = 45.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 18
-text = "PRODUCTIVITY OUTPUT"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="MoraleBarBackgroumd" type="TextureRect" parent="."]
-offset_left = 1706.0
-offset_top = 10.0
-offset_right = 1883.0
-offset_bottom = 57.0
-texture = ExtResource("5_mor_e")
-expand_mode = 1
-
-[node name="LabelMoral" type="Label" parent="MoraleBarBackgroumd"]
-layout_mode = 0
-offset_left = 97.0
-offset_top = 5.0
-offset_right = 168.0
-offset_bottom = 40.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 25
-text = "Moral"
-
-[node name="LabelValueMoral" type="Label" parent="MoraleBarBackgroumd"]
-layout_mode = 0
-offset_left = 11.0
-offset_top = 6.0
-offset_right = 75.0
-offset_bottom = 41.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 25
-text = "100%"
 
 [node name="ProductivityContainer" type="Control" parent="."]
 layout_mode = 3
@@ -96,16 +22,26 @@ offset_top = 50.0
 offset_right = 50.0
 offset_bottom = 50.0
 
+[node name="ProductiveTexture" type="TextureRect" parent="ProductivityContainer"]
+layout_mode = 0
+offset_left = -39.0
+offset_top = -31.0
+offset_right = 889.0
+offset_bottom = 114.0
+texture = ExtResource("5_1ree7")
+expand_mode = 1
+
 [node name="Bar" type="TextureProgressBar" parent="ProductivityContainer"]
 layout_mode = 0
-offset_left = -18.0
-offset_top = 10.0
-offset_right = 2022.0
-offset_bottom = 270.0
+offset_left = -25.0
+offset_top = 17.0
+offset_right = 3210.0
+offset_bottom = 299.0
 scale = Vector2(0.28, 0.28)
 value = 50.0
-texture_under = ExtResource("2_prod_e")
-texture_progress = ExtResource("3_prod_f")
+nine_patch_stretch = true
+texture_under = ExtResource("4_1ree7")
+texture_progress = ExtResource("5_d2sja")
 
 [node name="MoraleContainer" type="Control" parent="."]
 layout_mode = 3
@@ -118,24 +54,34 @@ offset_right = -374.0
 offset_bottom = 54.0
 grow_horizontal = 0
 
+[node name="MoralTexture" type="TextureRect" parent="MoraleContainer"]
+layout_mode = 0
+offset_left = -40.0
+offset_top = -40.0
+offset_right = 359.0
+offset_bottom = 105.0
+texture = ExtResource("5_i4i0y")
+expand_mode = 1
+
 [node name="Bar" type="TextureProgressBar" parent="MoraleContainer"]
 layout_mode = 0
-offset_left = -1.0
-offset_top = 2.0
-offset_right = 1143.0
-offset_bottom = 262.0
+offset_left = -27.0
+offset_top = 11.0
+offset_right = 1226.0
+offset_bottom = 254.0
 scale = Vector2(0.3, 0.3)
 value = 100.0
-texture_under = ExtResource("5_mor_e")
-texture_progress = ExtResource("6_mor_f")
+nine_patch_stretch = true
+texture_under = ExtResource("6_yenib")
+texture_progress = ExtResource("7_pydgx")
 
 [node name="TaskBackground" type="TextureRect" parent="."]
 custom_minimum_size = Vector2(50, 60)
-offset_left = 1550.0
-offset_top = 142.0
-offset_right = 1900.0
-offset_bottom = 232.0
-texture = ExtResource("7_1ree7")
+offset_left = 1500.0
+offset_top = 202.0
+offset_right = 1894.0
+offset_bottom = 325.0
+texture = ExtResource("8_i4i0y")
 expand_mode = 1
 
 [node name="TaskLabel" type="RichTextLabel" parent="TaskBackground"]
@@ -143,14 +89,15 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 19.0
-offset_top = 26.0
-offset_right = -7.0
-offset_bottom = -14.0
+offset_left = 8.0
+offset_top = 41.0
+offset_right = -10.0
+offset_bottom = -13.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/default_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/normal_font_size = 28
+theme_override_fonts/normal_font = ExtResource("9_yenib")
+theme_override_font_sizes/normal_font_size = 15
 bbcode_enabled = true
 text = "Task 1/10"
 fit_content = true
@@ -158,9 +105,14 @@ scroll_active = false
 
 [node name="ClockOutLabel" type="Label" parent="."]
 visible = false
-offset_left = 700.0
-offset_top = 950.0
-offset_right = 1220.0
-offset_bottom = 990.0
+anchors_preset = -1
+anchor_left = 0.017
+anchor_top = 0.189
+anchor_right = 0.017
+anchor_bottom = 0.189
+offset_left = 667.36
+offset_top = 745.88
+offset_right = 1187.36
+offset_bottom = 785.88
 text = "All tasks done! Go to the Lobby and clock out."
 horizontal_alignment = 1

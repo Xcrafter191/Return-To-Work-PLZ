@@ -3,7 +3,8 @@ extends CanvasLayer
 ## HUD — Main UI overlay.
 ## Shows Productivity, Morale, and Current Task.
 
-@onready var productivity_badge: TextureRect = $ProdBarBackground/Badge
+@onready var productive_texture: TextureRect = $ProductivityContainer/ProductiveTexture
+@onready var moral_texture: TextureRect = $MoraleContainer/MoralTexture
 @onready var productivity_bar: TextureProgressBar = $ProductivityContainer/Bar
 @onready var morale_bar: TextureProgressBar = $MoraleContainer/Bar
 @onready var task_bg: TextureRect = $TaskBackground
@@ -15,11 +16,13 @@ extends CanvasLayer
 var deadline_label: Label = null
 
 
-var tex_task_small: Texture2D = preload("res://Assets/UI V1/TEXT BOX/TASK SMALL.png")
-var tex_task_big: Texture2D = preload("res://Assets/UI V1/TEXT BOX/TASK SMALL.png")
-var tex_badge_bad: Texture2D = preload("res://Assets/UI V1/BADGE/QUOTA BAD.png")
-var tex_badge_mid: Texture2D = preload("res://Assets/UI V1/BADGE/QUOTA MID.png")
-var tex_badge_good: Texture2D = preload("res://Assets/UI V1/BADGE/QUOTA GOOD.png")
+var texbox_task: Texture2D = preload("res://Assets/UI V4/TEXTBOX/TASK.png")
+var productive_good: Texture2D = preload("res://Assets/UI V4/PRODUCTIVITY BAR/BAR/GOOD.png")
+var productive_mid: Texture2D = preload("res://Assets/UI V4/PRODUCTIVITY BAR/BAR/ALERT.png")
+var productive_bad: Texture2D = preload("res://Assets/UI V4/PRODUCTIVITY BAR/BAR/BAD.png")
+var moral_good: Texture2D = preload("res://Assets/UI V4/MORAL/MORAL/GOOD.png")
+var moral_mid: Texture2D = preload("res://Assets/UI V4/MORAL/MORAL/ALERT.png")
+var moral_bad: Texture2D = preload("res://Assets/UI V4/MORAL/MORAL/BAD.png")
 
 var _animating: bool = false
 
@@ -63,21 +66,25 @@ func _process(_delta: float) -> void:
 func _on_morale_changed(val: float) -> void:
 	var tween = create_tween()
 	tween.tween_property(morale_bar, "value", val, 0.3).set_ease(Tween.EASE_OUT)
-	value_moral.text = str(int(val)) + " %"
+	
+	if val < 33.0:
+		moral_texture.texture = moral_bad
+	elif val > 66.0:
+		moral_texture.texture = moral_good
+	else:
+		moral_texture.texture = moral_mid
 
 func _on_productivity_changed(val: float) -> void:
 	var tween = create_tween()
 	tween.tween_property(productivity_bar, "value", val, 0.3).set_ease(Tween.EASE_OUT)
-	value_productivity.text = str(int(val)) + " %"
-	
-	# Swap badge
-	if val < 33.0:
-		productivity_badge.texture = tex_badge_bad
-	elif val > 66.0:
-		productivity_badge.texture = tex_badge_good
-	else:
-		productivity_badge.texture = tex_badge_mid
 
+	
+	if val < 33.0:
+		productive_texture.texture = productive_bad
+	elif val > 66.0:
+		productive_texture.texture = productive_good
+	else:
+		productive_texture.texture = productive_mid
 func _on_objective_completed(_task_id: String) -> void:
 	_animate_task_complete()
 
@@ -105,11 +112,7 @@ func _get_task_display_text(idx: int) -> String:
 func _update_task_texture() -> void:
 	# If text is long, use big texture, else small
 	# A typical short task is ~25 chars including bbcode tags
-	if task_label.text.length() > 38: 
-		task_bg.texture = tex_task_big
-	else:
-		task_bg.texture = tex_task_small
-
+	pass
 func _refresh_task_text() -> void:
 	var idx = GameManager.current_task_index
 	task_label.text = "[center]%s[/center]" % _get_task_display_text(idx)
@@ -128,7 +131,7 @@ func _show_current_task() -> void:
 	
 	task_bg.position.x = 1920.0
 	var tween = create_tween()
-	tween.tween_property(task_bg, "position:x", 1550.0, 0.4).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
+	tween.tween_property(task_bg, "position:x", 1500.0, 0.4).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
 
 func _animate_task_complete() -> void:
 	if _animating:
