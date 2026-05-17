@@ -1,0 +1,269 @@
+[gd_scene format=3 uid="uid://r5ay6vcnopve"]
+
+[ext_resource type="PackedScene" uid="uid://npcstat001" path="res://Scenes/NPCs/StationaryNPC.tscn" id="1_npc"]
+[ext_resource type="Texture2D" uid="uid://ddorakgx6g7gn" path="res://Assets/Sprites/Coworker Amelia.png" id="2_tex"]
+[ext_resource type="Texture2D" uid="uid://b8tfibcri0h1h" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_000.png" id="3_48v1c"]
+[ext_resource type="Texture2D" uid="uid://dvtf53t4cob1f" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_001.png" id="4_8yolt"]
+[ext_resource type="Texture2D" uid="uid://ciiwtkwvvy5df" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_002.png" id="5_06rtb"]
+[ext_resource type="Texture2D" uid="uid://dsn36lr3qgupa" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_003.png" id="6_tbojl"]
+[ext_resource type="Texture2D" uid="uid://cjj3vjwdga372" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_004.png" id="7_k0ytt"]
+[ext_resource type="Texture2D" uid="uid://ciilh7coy47eo" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_005.png" id="8_n8ujl"]
+[ext_resource type="Texture2D" uid="uid://btbw7dcivwnsl" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_006.png" id="9_obafw"]
+[ext_resource type="Texture2D" uid="uid://bdyywi5vynfsj" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_007.png" id="10_icg2x"]
+[ext_resource type="Texture2D" uid="uid://c3nnn4sy0wxap" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_008.png" id="11_qe48a"]
+[ext_resource type="Texture2D" uid="uid://jnxocpmn8p7r" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_009.png" id="12_3u51w"]
+[ext_resource type="Texture2D" uid="uid://cn0atwciody1j" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_010.png" id="13_m6a26"]
+[ext_resource type="Texture2D" uid="uid://bk4m2k3x05kje" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_011.png" id="14_icfpj"]
+[ext_resource type="Texture2D" uid="uid://bygv68iynle6s" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_012.png" id="15_orxlw"]
+[ext_resource type="Texture2D" uid="uid://duhnn8epq75i6" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_013.png" id="16_fshob"]
+[ext_resource type="Texture2D" uid="uid://cnle16d00aemw" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_014.png" id="17_ihdoj"]
+[ext_resource type="Texture2D" uid="uid://b2xl5itetprc8" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_015.png" id="18_uxx6o"]
+[ext_resource type="Texture2D" uid="uid://b7wv1ay0f6dnu" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_016.png" id="19_2sd7q"]
+[ext_resource type="Texture2D" uid="uid://dxahho2ml7ohi" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_017.png" id="20_j6gum"]
+[ext_resource type="Texture2D" uid="uid://hjsnclmox1ie" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_018.png" id="21_gdqiq"]
+[ext_resource type="Texture2D" uid="uid://ckvjeaf0lft1t" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_019.png" id="22_nwxd4"]
+[ext_resource type="Texture2D" uid="uid://54jkgypq8ccs" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_020.png" id="23_7kjnx"]
+[ext_resource type="Texture2D" uid="uid://dl6b1x6tbc1gx" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_021.png" id="24_gwcxq"]
+[ext_resource type="Texture2D" uid="uid://csdjklv4qvhjs" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_022.png" id="25_ngpem"]
+[ext_resource type="Texture2D" uid="uid://c4mlrim6douj8" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_023.png" id="26_q7p68"]
+[ext_resource type="Texture2D" uid="uid://75fakpmp6rkx" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_024.png" id="27_43rh7"]
+[ext_resource type="Texture2D" uid="uid://dglblxua36p3x" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_025.png" id="28_hxspi"]
+[ext_resource type="Texture2D" uid="uid://ier2pyfwefem" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_026.png" id="29_3xceq"]
+[ext_resource type="Texture2D" uid="uid://b6ipwo1c8fnn" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_027.png" id="30_q0n52"]
+[ext_resource type="Texture2D" uid="uid://cph8odsuti2uk" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_028.png" id="31_htrrn"]
+[ext_resource type="Texture2D" uid="uid://bl2igjpmb8thp" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_029.png" id="32_55nsl"]
+[ext_resource type="Texture2D" uid="uid://wwppxhghhbn1" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_030.png" id="33_bid24"]
+[ext_resource type="Texture2D" uid="uid://cdkpiuqumqugc" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_031.png" id="34_hjgmo"]
+[ext_resource type="Texture2D" uid="uid://wghl0ejn2shr" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_032.png" id="35_nvkam"]
+[ext_resource type="Texture2D" uid="uid://dkdxywn55n7fi" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_033.png" id="36_kwne0"]
+[ext_resource type="Texture2D" uid="uid://dfjt8vdgmh0ic" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_034.png" id="37_4hp2w"]
+[ext_resource type="Texture2D" uid="uid://bqh6mvkm6g4tr" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_035.png" id="38_c17m8"]
+[ext_resource type="Texture2D" uid="uid://daxnswbe3urry" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_036.png" id="39_3lraa"]
+[ext_resource type="Texture2D" uid="uid://bk8cw66tcedpw" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_037.png" id="40_64qns"]
+[ext_resource type="Texture2D" uid="uid://kstq4epe1ted" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_038.png" id="41_6smd7"]
+[ext_resource type="Texture2D" uid="uid://dshcon704bfk1" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_039.png" id="42_mq4af"]
+[ext_resource type="Texture2D" uid="uid://bthad8dn5y6tc" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_040.png" id="43_lcjn7"]
+[ext_resource type="Texture2D" uid="uid://hig0qn6k72hp" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_041.png" id="44_s87x3"]
+[ext_resource type="Texture2D" uid="uid://boj8uhuutn2em" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_042.png" id="45_0ab5i"]
+[ext_resource type="Texture2D" uid="uid://d0nrd5imyexp1" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_043.png" id="46_dqi1k"]
+[ext_resource type="Texture2D" uid="uid://ic1ey6iel866" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_044.png" id="47_6rc72"]
+[ext_resource type="Texture2D" uid="uid://bwucn8xdlqt3e" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_045.png" id="48_hviaj"]
+[ext_resource type="Texture2D" uid="uid://dmch4yijxmh45" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_046.png" id="49_a0ig5"]
+[ext_resource type="Texture2D" uid="uid://bxbx54xi75fqb" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_047.png" id="50_phwyl"]
+[ext_resource type="Texture2D" uid="uid://ruq1a2jtprgx" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_048.png" id="51_1qjhe"]
+[ext_resource type="Texture2D" uid="uid://cl54280gong7f" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_049.png" id="52_hviyr"]
+[ext_resource type="Texture2D" uid="uid://cixasy8in6ts3" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_050.png" id="53_ynqk6"]
+[ext_resource type="Texture2D" uid="uid://ca5cue2sh3iui" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_051.png" id="54_bq61d"]
+[ext_resource type="Texture2D" uid="uid://dpjhki7fgkaid" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_052.png" id="55_35p5h"]
+[ext_resource type="Texture2D" uid="uid://bal7q2pye1m35" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_053.png" id="56_ebg6a"]
+[ext_resource type="Texture2D" uid="uid://ctema70yk48bt" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_054.png" id="57_sy66f"]
+[ext_resource type="Texture2D" uid="uid://biemdh14m3cxw" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_055.png" id="58_cjl1x"]
+[ext_resource type="Texture2D" uid="uid://but6k4nuuqyq1" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_056.png" id="59_rs7ig"]
+[ext_resource type="Texture2D" uid="uid://ducvvb8ofdik1" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_057.png" id="60_yy52b"]
+[ext_resource type="Texture2D" uid="uid://b5v1w03apks3w" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_058.png" id="61_krysn"]
+[ext_resource type="Texture2D" uid="uid://boo0ynyq6dfga" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_059.png" id="62_mho5u"]
+[ext_resource type="Texture2D" uid="uid://buj0u2utopcyd" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_060.png" id="63_4q8u0"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_anim"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_48v1c")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_8yolt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_06rtb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_tbojl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_k0ytt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_n8ujl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_obafw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_icg2x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_qe48a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_3u51w")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_m6a26")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_icfpj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_orxlw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_fshob")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_ihdoj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_uxx6o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_2sd7q")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_j6gum")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_gdqiq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_nwxd4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_7kjnx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_gwcxq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("25_ngpem")
+}, {
+"duration": 1.0,
+"texture": ExtResource("26_q7p68")
+}, {
+"duration": 1.0,
+"texture": ExtResource("27_43rh7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("28_hxspi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("29_3xceq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("30_q0n52")
+}, {
+"duration": 1.0,
+"texture": ExtResource("31_htrrn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("32_55nsl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("33_bid24")
+}, {
+"duration": 1.0,
+"texture": ExtResource("34_hjgmo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("35_nvkam")
+}, {
+"duration": 1.0,
+"texture": ExtResource("36_kwne0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("37_4hp2w")
+}, {
+"duration": 1.0,
+"texture": ExtResource("38_c17m8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("39_3lraa")
+}, {
+"duration": 1.0,
+"texture": ExtResource("40_64qns")
+}, {
+"duration": 1.0,
+"texture": ExtResource("41_6smd7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("42_mq4af")
+}, {
+"duration": 1.0,
+"texture": ExtResource("43_lcjn7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("44_s87x3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("45_0ab5i")
+}, {
+"duration": 1.0,
+"texture": ExtResource("46_dqi1k")
+}, {
+"duration": 1.0,
+"texture": ExtResource("47_6rc72")
+}, {
+"duration": 1.0,
+"texture": ExtResource("48_hviaj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("49_a0ig5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("50_phwyl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("51_1qjhe")
+}, {
+"duration": 1.0,
+"texture": ExtResource("52_hviyr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("53_ynqk6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("54_bq61d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("55_35p5h")
+}, {
+"duration": 1.0,
+"texture": ExtResource("56_ebg6a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("57_sy66f")
+}, {
+"duration": 1.0,
+"texture": ExtResource("58_cjl1x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("59_rs7ig")
+}, {
+"duration": 1.0,
+"texture": ExtResource("60_yy52b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("61_krysn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("62_mho5u")
+}, {
+"duration": 1.0,
+"texture": ExtResource("63_4q8u0")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 24.0
+}]
+
+[node name="Amelia" unique_id=432457901 instance=ExtResource("1_npc")]
+npc_name = "Coworker Amelia"
+dialogue_text = "Did the clocks always tick that loud?"
+sprite_texture = ExtResource("2_tex")
+
+[node name="AnimSprite" type="AnimatedSprite2D" parent="." index="3" unique_id=896991045]
+position = Vector2(0, -185)
+scale = Vector2(0.6, 0.6)
+sprite_frames = SubResource("SpriteFrames_anim")
+animation = &"idle"
+frame = 43
+frame_progress = 0.13032942

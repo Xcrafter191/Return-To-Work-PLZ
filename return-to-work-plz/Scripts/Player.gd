@@ -10,6 +10,7 @@ var is_working: bool = false
 var work_progress: float = 0.0
 var work_duration: float = 3.0
 var nearby_workstation: Node = null
+var _is_stuck_timer_started: bool = false
 
 @onready var progress_container: Node2D = $ProgressContainer
 @onready var progress_bg: ColorRect = $ProgressContainer/ProgressBG
@@ -32,11 +33,26 @@ func _physics_process(delta: float) -> void:
 	
 	if is_working:
 		velocity.x = 0.0
-		work_progress += delta / work_duration
-		work_progress = min(work_progress, 1.0)
-		_update_progress_bar()
-		if work_progress >= 1.0:
-			_complete_task()
+		
+		if InconvenienceManager.is_stuck_99 and work_progress >= 0.99 and not _is_stuck_timer_started:
+			work_progress = 0.99
+			_update_progress_bar()
+			_is_stuck_timer_started = true
+			var t = get_tree().create_timer(5.0)
+			t.timeout.connect(func():
+				if is_working:
+					_is_stuck_timer_started = false
+					work_progress = 1.0
+					_update_progress_bar()
+					_complete_task()
+			)
+			
+		if not _is_stuck_timer_started:
+			work_progress += delta / work_duration
+			work_progress = min(work_progress, 1.0)
+			_update_progress_bar()
+			if work_progress >= 1.0:
+				_complete_task()
 	else:
 		# Horizontal movement
 		var input_dir: float = Input.get_axis("move_left", "move_right")
@@ -137,6 +153,7 @@ func clear_nearby_workstation(obj: Node) -> void:
 func start_task(duration: float = 3.0) -> void:
 	is_working = true
 	work_progress = 0.0
+	_is_stuck_timer_started = false
 	work_duration = duration
 	progress_container.visible = true
 	progress_container.modulate.a = 1.0

@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://cy74wclfa7p2"]
 
 [ext_resource type="Script" uid="uid://cge2twkky6a4n" path="res://Scripts/RoomExit.gd" id="1_exit"]
-[ext_resource type="PackedScene" uid="uid://npcstat001" path="res://Scenes/NPCs/StationaryNPC.tscn" id="2_npc_stat"]
-[ext_resource type="PackedScene" uid="uid://npcmov001" path="res://Scenes/NPCs/MovingNPC.tscn" id="3_npc_mov"]
+[ext_resource type="PackedScene" path="res://Scenes/NPCs/Amelia.tscn" id="2_amelia"]
+[ext_resource type="PackedScene" path="res://Scenes/NPCs/Greg.tscn" id="3_greg"]
 [ext_resource type="Texture2D" uid="uid://cvpq4n138qar5" path="res://Assets/Rooms/Cubicle_A_P.png" id="4_bg"]
 [ext_resource type="Script" uid="uid://dr0o7y0vodg2x" path="res://Scripts/InteractableObject.gd" id="5_interact"]
 [ext_resource type="Texture2D" uid="uid://ddorakgx6g7gn" path="res://Assets/Sprites/Coworker Amelia.png" id="6_amelia"]
@@ -65,18 +65,12 @@ offset_bottom = 60.0
 text = "CUBICLE FLOOR"
 horizontal_alignment = 1
 
-[node name="CoworkerAmelia" parent="." unique_id=1833570719 instance=ExtResource("2_npc_stat")]
+[node name="CoworkerAmelia" parent="." unique_id=1833570719 instance=ExtResource("2_amelia")]
 position = Vector2(700, 876)
-npc_name = "Coworker Amelia"
-dialogue_text = "Did the clocks always tick that loud?"
-sprite_texture = ExtResource("6_amelia")
 
-[node name="CoworkerGreg" parent="." unique_id=1935286389 instance=ExtResource("3_npc_mov")]
+[node name="CoworkerGreg" parent="." unique_id=1935286389 instance=ExtResource("3_greg")]
 position = Vector2(400, 876)
-npc_name = "Coworker Greg"
-dialogue_text = "Living the dream."
 patrol_right_x = 1600.0
-sprite_texture = ExtResource("7_greg")
 
 [node name="Workstation" type="Node2D" parent="." unique_id=1531955412]
 position = Vector2(1100, 910)

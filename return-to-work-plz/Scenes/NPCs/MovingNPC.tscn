@@ -1,7 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://npcmov001"]
+[gd_scene format=3 uid="uid://npcmov001"]
 
 [ext_resource type="Script" uid="uid://dgdbq3ad6jm3b" path="res://Scripts/NPCMoving.gd" id="1_npc"]
 [ext_resource type="Texture2D" uid="uid://chdut1sfamtsh" path="res://Assets/UI V1/TEXT BOX/CHAT.png" id="2_chat"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_81pg6"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
 size = Vector2(205, 365)
@@ -9,32 +17,33 @@ size = Vector2(205, 365)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_detect"]
 size = Vector2(232, 375)
 
-[node name="MovingNPC" type="CharacterBody2D"]
+[node name="MovingNPC" type="CharacterBody2D" unique_id=2037962147]
 collision_layer = 4
 collision_mask = 2
 script = ExtResource("1_npc")
 patrol_left_x = 200.0
 patrol_right_x = 1500.0
 
-[node name="Sprite" type="Sprite2D" parent="."]
+[node name="AnimSprite" type="AnimatedSprite2D" parent="." unique_id=753604976]
 position = Vector2(0, -183)
 scale = Vector2(0.7, 0.7)
+sprite_frames = SubResource("SpriteFrames_81pg6")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1239832612]
 position = Vector2(0, -182)
 shape = SubResource("RectangleShape2D_body")
 
-[node name="InteractionArea" type="Area2D" parent="."]
+[node name="InteractionArea" type="Area2D" parent="." unique_id=1196092417]
 collision_layer = 4
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea" unique_id=1906122488]
 position = Vector2(0, -188)
 shape = SubResource("RectangleShape2D_detect")
 
-[node name="DialogueBox" type="Node2D" parent="."]
+[node name="DialogueBox" type="Node2D" parent="." unique_id=2067099687]
 position = Vector2(0, -390)
 
-[node name="Bubble" type="TextureRect" parent="DialogueBox"]
+[node name="Bubble" type="TextureRect" parent="DialogueBox" unique_id=884432541]
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
@@ -49,7 +58,7 @@ grow_vertical = 0
 texture = ExtResource("2_chat")
 expand_mode = 1
 
-[node name="Label" type="Label" parent="DialogueBox"]
+[node name="Label" type="Label" parent="DialogueBox" unique_id=2091947656]
 offset_left = -112.0
 offset_top = -93.0
 offset_right = 48.0

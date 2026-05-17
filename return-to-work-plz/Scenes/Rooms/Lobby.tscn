@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://d4g23c65v6xio"]
 
 [ext_resource type="Script" uid="uid://cge2twkky6a4n" path="res://Scripts/RoomExit.gd" id="1_exit"]
-[ext_resource type="PackedScene" uid="uid://npcstat001" path="res://Scenes/NPCs/StationaryNPC.tscn" id="2_npc_stat"]
-[ext_resource type="PackedScene" uid="uid://npcmov001" path="res://Scenes/NPCs/MovingNPC.tscn" id="3_npc_mov"]
+[ext_resource type="PackedScene" path="res://Scenes/NPCs/Linda.tscn" id="2_linda"]
+[ext_resource type="PackedScene" path="res://Scenes/NPCs/Mike.tscn" id="3_mike"]
 [ext_resource type="Texture2D" uid="uid://bo843u8lcua6o" path="res://Assets/Rooms/Receptionist_P.png" id="4_bg"]
 [ext_resource type="Texture2D" uid="uid://o4tyd1kljagg" path="res://Assets/Sprites/Receptionist Linda.png" id="5_linda"]
 [ext_resource type="Texture2D" uid="uid://dcoufhb0171vs" path="res://Assets/Sprites/Janitor Mike.png" id="6_mike"]
@@ -54,19 +54,13 @@ offset_bottom = 60.0
 text = "LOBBY"
 horizontal_alignment = 1
 
-[node name="ReceptionistLinda" parent="." unique_id=790751490 instance=ExtResource("2_npc_stat")]
+[node name="ReceptionistLinda" parent="." unique_id=790751490 instance=ExtResource("2_linda")]
 position = Vector2(1528, 871)
-npc_name = "Receptionist Linda"
-dialogue_text = "Welcome back. Again."
-sprite_texture = ExtResource("5_linda")
 
-[node name="JanitorMike" parent="." unique_id=211043716 instance=ExtResource("3_npc_mov")]
+[node name="JanitorMike" parent="." unique_id=211043716 instance=ExtResource("3_mike")]
 position = Vector2(400, 870)
-npc_name = "Janitor Mike"
-dialogue_text = "The stain keeps coming back."
 patrol_left_x = 100.0
 patrol_right_x = 900.0
-sprite_texture = ExtResource("6_mike")
 
 [node name="ExitToElevator" type="Area2D" parent="." unique_id=1613160935]
 position = Vector2(1910, 722)

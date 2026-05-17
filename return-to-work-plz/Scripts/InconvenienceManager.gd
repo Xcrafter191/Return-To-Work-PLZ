@@ -23,17 +23,48 @@ var is_shaky: bool = false
 var is_gibberish: bool = false
 var fake_ads_container: CanvasLayer = null
 
+# New Inconveniences
+var is_clock_stopped: bool = false
+var is_sprite_flipped: bool = false
+var is_unpause_hack: bool = false
+var is_upside_down: bool = false
+var is_task_deception: bool = false
+var is_stuck_99: bool = false
+
+var red_ambience_rect: ColorRect = null
+var blur_rect: ColorRect = null
+
 func _process(_delta: float) -> void:
 	if is_gibberish:
 		var scene = get_tree().current_scene
 		if scene:
 			_scramble_all_labels(scene)
+			
+	if is_unpause_hack and get_tree().paused:
+		get_tree().paused = false
+		print("[InconvenienceManager] Hacker un-paused the game!")
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	GameManager.objective_completed.connect(_on_objective_completed)
 	GameManager.loop_restarted.connect(_on_loop_restarted)
+	_setup_red_ambience()
 	_setup_loop_quotas(GameManager.current_loop)
+
+func _setup_red_ambience() -> void:
+	var canvas = CanvasLayer.new()
+	canvas.layer = 10 # Below most UI, above world
+	red_ambience_rect = ColorRect.new()
+	red_ambience_rect.color = Color(1.0, 0.0, 0.0, 0.0)
+	red_ambience_rect.set_anchors_preset(Control.PRESET_FULL_RECT)
+	red_ambience_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	canvas.add_child(red_ambience_rect)
+	add_child(canvas)
+
+func _update_red_ambience(loop_num: int) -> void:
+	if red_ambience_rect:
+		var alpha = clampf((loop_num - 1) * 0.05, 0.0, 0.6)
+		red_ambience_rect.color.a = alpha
 
 func _setup_loop_quotas(loop_num: int) -> void:
 	triggered = { Difficulty.MINOR: 0, Difficulty.MEDIUM: 0, Difficulty.MAJOR: 0 }
@@ -53,22 +84,32 @@ func _setup_loop_quotas(loop_num: int) -> void:
 	elif loop_num == 5:
 		current_chance = 0.15
 		quotas = { Difficulty.MINOR: 1, Difficulty.MEDIUM: 1, Difficulty.MAJOR: 0 }
-	elif loop_num >= 6 and loop_num <= 10:
-		current_chance = 0.20
-		quotas = { Difficulty.MINOR: 0, Difficulty.MEDIUM: 1, Difficulty.MAJOR: 1 }
-	elif loop_num >= 11 and loop_num <= 20:
-		current_chance = 0.40
-		quotas = { Difficulty.MINOR: 1, Difficulty.MEDIUM: 1, Difficulty.MAJOR: 1 }
-	else:
+	elif loop_num == 6:
 		current_chance = 0.50
-		quotas = { Difficulty.MINOR: 2, Difficulty.MEDIUM: 2, Difficulty.MAJOR: 1 }
+		quotas = { Difficulty.MINOR: 3, Difficulty.MEDIUM: 2, Difficulty.MAJOR: 1 }
+	elif loop_num >= 7 and loop_num <= 10:
+		current_chance = 0.80
+		quotas = { Difficulty.MINOR: 5, Difficulty.MEDIUM: 4, Difficulty.MAJOR: 2 }
+	elif loop_num >= 11 and loop_num <= 20:
+		current_chance = 0.90
+		quotas = { Difficulty.MINOR: 8, Difficulty.MEDIUM: 5, Difficulty.MAJOR: 3 }
+	else:
+		current_chance = 1.00
+		quotas = { Difficulty.MINOR: 99, Difficulty.MEDIUM: 99, Difficulty.MAJOR: 99 }
 
 func _on_loop_restarted(loop_num: int) -> void:
 	_setup_loop_quotas(loop_num)
+	_update_red_ambience(loop_num)
 	_reset_permanent_inconveniences()
 
 func _reset_permanent_inconveniences() -> void:
 	is_shaky = false
+	is_clock_stopped = false
+	is_sprite_flipped = false
+	is_unpause_hack = false
+	is_upside_down = false
+	is_task_deception = false
+	is_stuck_99 = false
 	
 	if is_gibberish:
 		is_gibberish = false
@@ -79,10 +120,21 @@ func _reset_permanent_inconveniences() -> void:
 	if is_instance_valid(fake_ads_container):
 		fake_ads_container.queue_free()
 		fake_ads_container = null
+		
+	if is_instance_valid(blur_rect):
+		blur_rect.queue_free()
+		blur_rect = null
 	
 	var hud = get_tree().current_scene.get_node_or_null("HUD")
 	if hud:
 		hud.scale = Vector2.ONE
+		
+	var main_cam = get_tree().current_scene.get_node_or_null("Camera2D")
+	if main_cam:
+		main_cam.rotation = 0.0
+		
+	# Reset window resizer if it was triggered
+	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 
 func _on_objective_completed(_task_id: String) -> void:
 	if current_chance <= 0.0: return
@@ -121,7 +173,7 @@ func _trigger_random_inconvenience() -> void:
 
 # ── MINOR ──
 func _execute_minor() -> void:
-	var options = ["lights_out", "random_ui", "shaky"]
+	var options = ["lights_out", "random_ui", "shaky", "clock_stop", "sprite_flip", "blur"]
 	var choice = options.pick_random()
 	print("[InconvenienceManager] Minor Executing: ", choice)
 	
@@ -139,11 +191,43 @@ func _execute_minor() -> void:
 			hud.scale = Vector2(randf_range(0.5, 1.8), randf_range(0.5, 1.8))
 	
 	elif choice == "shaky":
-		is_shaky = true # Camera shaky logic handled in Player.gd
+		is_shaky = true
+		
+	elif choice == "clock_stop":
+		is_clock_stopped = true
+		
+	elif choice == "sprite_flip":
+		is_sprite_flipped = true
+		var players = get_tree().get_nodes_in_group("player")
+		for p in players:
+			if p.has_node("AnimSprite"):
+				p.get_node("AnimSprite").scale.y = -abs(p.get_node("AnimSprite").scale.y)
+				
+	elif choice == "blur":
+		if not is_instance_valid(blur_rect):
+			var canvas = CanvasLayer.new()
+			canvas.layer = 99
+			blur_rect = ColorRect.new()
+			blur_rect.set_anchors_preset(Control.PRESET_FULL_RECT)
+			blur_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			
+			var mat = ShaderMaterial.new()
+			var shader = Shader.new()
+			shader.code = """
+shader_type canvas_item;
+uniform sampler2D screen_texture : hint_screen_texture, filter_linear_mipmap;
+void fragment() {
+	COLOR = textureLod(screen_texture, SCREEN_UV, 4.0);
+}
+"""
+			mat.shader = shader
+			blur_rect.material = mat
+			canvas.add_child(blur_rect)
+			get_tree().current_scene.add_child(canvas)
 
 # ── MEDIUM ──
 func _execute_medium() -> void:
-	var options = ["fps", "unplug", "keybind"]
+	var options = ["fps", "unplug", "keybind", "unpause_hack", "upside_down", "window_resizer"]
 	var choice = options.pick_random()
 	print("[InconvenienceManager] Medium Executing: ", choice)
 	
@@ -174,6 +258,19 @@ func _execute_medium() -> void:
 			pm.keybind_buttons["move_left"].text = pm._get_action_key_name("move_left")
 			pm.keybind_buttons["move_right"].text = pm._get_action_key_name("move_right")
 			pm.save_settings()
+			
+	elif choice == "unpause_hack":
+		is_unpause_hack = true
+		
+	elif choice == "upside_down":
+		is_upside_down = true
+		var main_cam = get_tree().current_scene.get_node_or_null("Camera2D")
+		if main_cam:
+			main_cam.rotation = PI
+			
+	elif choice == "window_resizer":
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+		DisplayServer.window_set_size(Vector2i(640, 360))
 
 func _spawn_unplug_fake() -> void:
 	var canvas = CanvasLayer.new()
@@ -189,7 +286,7 @@ func _spawn_unplug_fake() -> void:
 
 # ── MAJOR ──
 func _execute_major() -> void:
-	var options = ["fake_ad", "gibberish"]
+	var options = ["fake_ad", "gibberish", "task_deception", "stuck_99"]
 	var choice = options.pick_random()
 	print("[InconvenienceManager] Major Executing: ", choice)
 	
@@ -197,6 +294,10 @@ func _execute_major() -> void:
 		_spawn_fake_ad()
 	elif choice == "gibberish":
 		is_gibberish = true
+	elif choice == "task_deception":
+		is_task_deception = true
+	elif choice == "stuck_99":
+		is_stuck_99 = true
 
 func _spawn_fake_ad() -> void:
 	if fake_ads_container == null:
@@ -219,6 +320,21 @@ func _spawn_fake_ad() -> void:
 		label.set_anchors_preset(Control.PRESET_FULL_RECT)
 		
 		panel.add_child(label)
+		
+		var close_btn = Button.new()
+		close_btn.text = "X"
+		close_btn.size = Vector2(30, 30)
+		close_btn.position = Vector2(w - 30, 0)
+		close_btn.visible = false
+		close_btn.pressed.connect(func(): panel.queue_free())
+		panel.add_child(close_btn)
+		
+		var timer = get_tree().create_timer(10.0)
+		timer.timeout.connect(func():
+			if is_instance_valid(close_btn):
+				close_btn.visible = true
+		)
+		
 		fake_ads_container.add_child(panel)
 
 func _scramble_all_labels(node: Node) -> void:

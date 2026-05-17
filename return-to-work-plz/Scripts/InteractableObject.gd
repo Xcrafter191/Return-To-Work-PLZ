@@ -26,7 +26,9 @@ func _ready() -> void:
 	GameManager.current_task_changed.connect(_on_task_changed)
 
 func _is_available() -> bool:
-	return not task_completed and task_id != "" and GameManager.is_task_active(task_id)
+	if task_completed or task_id == "": return false
+	if InconvenienceManager.is_task_deception: return true
+	return GameManager.is_task_active(task_id)
 
 func _is_skippable() -> bool:
 	return _is_available() and GameManager.is_current_task_skippable()
@@ -67,10 +69,15 @@ func _on_task_changed(_idx: int) -> void:
 
 func _update_prompt() -> void:
 	if _is_available():
+		var display_name = task_name
+		if InconvenienceManager.is_task_deception:
+			var fake_names = ["Typing report...", "Fixing spreadsheet...", "Replying email...", "Print documents", "Present to Manager"]
+			display_name = fake_names.pick_random()
+			
 		if _is_skippable():
-			prompt_label.text = "Press [E] - %s  |  [Q] Skip" % task_name
+			prompt_label.text = "Press [E] - %s  |  [Q] Skip" % display_name
 		else:
-			prompt_label.text = "Press [E] - %s" % task_name
+			prompt_label.text = "Press [E] - %s" % display_name
 		prompt_label.visible = true
 	else:
 		prompt_label.visible = false
@@ -83,6 +90,10 @@ func on_interact_complete() -> void:
 	prompt_label.text = "Done!"
 	prompt_label.visible = true
 	if task_id != "":
+		if InconvenienceManager.is_task_deception and not GameManager.is_task_active(task_id):
+			print("[InteractableObject] Wrong task completed during deception! Punishing player.")
+			GameManager.punish_wrong_task()
+			return
 		GameManager.complete_objective(task_id)
 	# Change NPC dialogue if configured
 	if not on_complete_npc_path.is_empty() and on_complete_npc_dialogue != "":

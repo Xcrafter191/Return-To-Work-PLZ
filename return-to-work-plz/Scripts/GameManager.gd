@@ -126,6 +126,8 @@ func complete_objective(task_id: String) -> void:
 		total_drop = 20.0
 	elif current_loop == 2:
 		total_drop = 40.0
+	elif current_loop >= 7:
+		total_drop = 1000.0 # Instantly drains morale to 0 on 1 task
 	else:
 		total_drop = 250.0 # 25% per task (assuming 10 tasks)
 	
@@ -144,6 +146,15 @@ func complete_objective(task_id: String) -> void:
 		current_task_changed.emit(current_task_index)
 		# Check if the NEW current task can auto-complete
 		_check_auto_complete()
+
+func punish_wrong_task() -> void:
+	print("[GameManager] Player did the WRONG task! Knocking back 1 loop.")
+	current_loop = maxi(1, current_loop - 1)
+	difficulty_modifier = maxf(1.0, difficulty_modifier - 0.15)
+	set_morale(100.0)
+	_build_objectives()
+	npc_positions.clear()
+	loop_restarted.emit(current_loop)
 
 ## Check if the current task can be auto-completed (e.g., talk_npcs already met)
 func _check_auto_complete() -> void:

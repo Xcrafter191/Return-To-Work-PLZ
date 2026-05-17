@@ -1,0 +1,269 @@
+[gd_scene format=3 uid="uid://cs816ugb3wtle"]
+
+[ext_resource type="PackedScene" uid="uid://npcstat001" path="res://Scenes/NPCs/StationaryNPC.tscn" id="1_npc"]
+[ext_resource type="Texture2D" uid="uid://o4tyd1kljagg" path="res://Assets/Sprites/Receptionist Linda.png" id="2_tex"]
+[ext_resource type="Texture2D" uid="uid://xft5wjn5w4oh" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_000.png" id="3_o02cb"]
+[ext_resource type="Texture2D" uid="uid://bptgin0hqcery" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_001.png" id="4_vlpvk"]
+[ext_resource type="Texture2D" uid="uid://dikaeinvlnlrq" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_002.png" id="5_du8bv"]
+[ext_resource type="Texture2D" uid="uid://ba1cc4me0qfew" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_003.png" id="6_ojyed"]
+[ext_resource type="Texture2D" uid="uid://yob1jk4w5cih" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_004.png" id="7_oabp5"]
+[ext_resource type="Texture2D" uid="uid://b51t8g45wdh3x" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_005.png" id="8_wsgd5"]
+[ext_resource type="Texture2D" uid="uid://vb2hf5d3vxaj" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_006.png" id="9_6sirg"]
+[ext_resource type="Texture2D" uid="uid://db3appm3ra8mg" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_007.png" id="10_ujsyy"]
+[ext_resource type="Texture2D" uid="uid://cuurhtukxyw51" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_008.png" id="11_5n4bf"]
+[ext_resource type="Texture2D" uid="uid://cb1xecyc54qui" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_009.png" id="12_tlhk1"]
+[ext_resource type="Texture2D" uid="uid://mekg7wrwhtd2" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_010.png" id="13_ktii8"]
+[ext_resource type="Texture2D" uid="uid://bet27nffh81b6" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_011.png" id="14_s5bv3"]
+[ext_resource type="Texture2D" uid="uid://c3mt83eshm2ju" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_012.png" id="15_gsnrt"]
+[ext_resource type="Texture2D" uid="uid://dhu4ryp5ibpnh" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_013.png" id="16_16ipy"]
+[ext_resource type="Texture2D" uid="uid://c45mamtokikh5" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_014.png" id="17_jxwvg"]
+[ext_resource type="Texture2D" uid="uid://ctwr4q6iirkkv" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_015.png" id="18_0vrn0"]
+[ext_resource type="Texture2D" uid="uid://bh2qrlb2qxasj" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_016.png" id="19_nosgt"]
+[ext_resource type="Texture2D" uid="uid://rjb7m6dkmrqa" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_017.png" id="20_eml0s"]
+[ext_resource type="Texture2D" uid="uid://br3fq0t1bfjjr" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_018.png" id="21_fo8vt"]
+[ext_resource type="Texture2D" uid="uid://dv2xlngd23d2r" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_019.png" id="22_cnsix"]
+[ext_resource type="Texture2D" uid="uid://cck47rrrffpf" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_020.png" id="23_8erhf"]
+[ext_resource type="Texture2D" uid="uid://b5qm3vvokfimv" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_021.png" id="24_0gkdq"]
+[ext_resource type="Texture2D" uid="uid://b0bx3x4sk2vay" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_022.png" id="25_w45lr"]
+[ext_resource type="Texture2D" uid="uid://bot1u1kqufkfw" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_023.png" id="26_lhyly"]
+[ext_resource type="Texture2D" uid="uid://5wesxr66mol4" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_024.png" id="27_7kkp7"]
+[ext_resource type="Texture2D" uid="uid://jley1e1cyp21" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_025.png" id="28_nderv"]
+[ext_resource type="Texture2D" uid="uid://dy47yhdp1mof3" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_026.png" id="29_vrv2u"]
+[ext_resource type="Texture2D" uid="uid://kptjjapexiya" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_027.png" id="30_fwux1"]
+[ext_resource type="Texture2D" uid="uid://cttu4o4j3mj0y" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_028.png" id="31_vupey"]
+[ext_resource type="Texture2D" uid="uid://dbabn1b7y2vmg" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_029.png" id="32_imim7"]
+[ext_resource type="Texture2D" uid="uid://dswo2sbnfmy2s" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_030.png" id="33_a8f1x"]
+[ext_resource type="Texture2D" uid="uid://beo72kmskxut0" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_031.png" id="34_oyh2f"]
+[ext_resource type="Texture2D" uid="uid://j5w0darj8vte" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_032.png" id="35_31olk"]
+[ext_resource type="Texture2D" uid="uid://bq5krxfp5bu6d" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_033.png" id="36_1bcf4"]
+[ext_resource type="Texture2D" uid="uid://dibme2216yd40" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_034.png" id="37_jss8h"]
+[ext_resource type="Texture2D" uid="uid://cs7it7g3klo5a" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_035.png" id="38_osa6a"]
+[ext_resource type="Texture2D" uid="uid://jh70ks6uqk0v" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_036.png" id="39_dohhq"]
+[ext_resource type="Texture2D" uid="uid://cnbtl6u7nv851" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_037.png" id="40_fuee5"]
+[ext_resource type="Texture2D" uid="uid://bcmc0rod0uf1d" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_038.png" id="41_mou11"]
+[ext_resource type="Texture2D" uid="uid://bkt6konuobdra" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_039.png" id="42_o858s"]
+[ext_resource type="Texture2D" uid="uid://5n0nqhxso6xt" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_040.png" id="43_yrjq3"]
+[ext_resource type="Texture2D" uid="uid://qyj5nj6avhol" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_041.png" id="44_gntr0"]
+[ext_resource type="Texture2D" uid="uid://crjy1vrj752l" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_042.png" id="45_6b6ep"]
+[ext_resource type="Texture2D" uid="uid://tm0pqaxqrjf7" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_043.png" id="46_n6rj5"]
+[ext_resource type="Texture2D" uid="uid://ce4pd220476ne" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_044.png" id="47_wwgtu"]
+[ext_resource type="Texture2D" uid="uid://be1myxxiyl7uf" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_045.png" id="48_1daqw"]
+[ext_resource type="Texture2D" uid="uid://dir3qa7tqx40l" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_046.png" id="49_r1pnk"]
+[ext_resource type="Texture2D" uid="uid://l3dubfajo7da" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_047.png" id="50_p76jw"]
+[ext_resource type="Texture2D" uid="uid://bp4f5utqtjbsi" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_048.png" id="51_qr18s"]
+[ext_resource type="Texture2D" uid="uid://d4m1jgr1k1yoi" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_049.png" id="52_emaw6"]
+[ext_resource type="Texture2D" uid="uid://cgr1nwhd1n1he" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_050.png" id="53_awrev"]
+[ext_resource type="Texture2D" uid="uid://dkc3c82hn5o8d" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_051.png" id="54_0u78m"]
+[ext_resource type="Texture2D" uid="uid://bxgoa76437gpo" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_052.png" id="55_wisdq"]
+[ext_resource type="Texture2D" uid="uid://besttllvtn2xq" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_053.png" id="56_r6dex"]
+[ext_resource type="Texture2D" uid="uid://btl0lmqhdfqom" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_054.png" id="57_tly1s"]
+[ext_resource type="Texture2D" uid="uid://byqy1c0ivtina" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_055.png" id="58_50qv6"]
+[ext_resource type="Texture2D" uid="uid://j7adeneoyy7c" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_056.png" id="59_3ig02"]
+[ext_resource type="Texture2D" uid="uid://cxrqfdvjfs5d5" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_057.png" id="60_n0oor"]
+[ext_resource type="Texture2D" uid="uid://d0bryh4u7sjsv" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_058.png" id="61_tyvyw"]
+[ext_resource type="Texture2D" uid="uid://brk16qf08fcv4" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_059.png" id="62_tmkxm"]
+[ext_resource type="Texture2D" uid="uid://bt8lgxr7me7xk" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_060.png" id="63_nhto0"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_anim"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_o02cb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_vlpvk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_du8bv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_ojyed")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_oabp5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_wsgd5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_6sirg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_ujsyy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_5n4bf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_tlhk1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_ktii8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_s5bv3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_gsnrt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_16ipy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_jxwvg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_0vrn0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_nosgt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_eml0s")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_fo8vt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_cnsix")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_8erhf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_0gkdq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("25_w45lr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("26_lhyly")
+}, {
+"duration": 1.0,
+"texture": ExtResource("27_7kkp7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("28_nderv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("29_vrv2u")
+}, {
+"duration": 1.0,
+"texture": ExtResource("30_fwux1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("31_vupey")
+}, {
+"duration": 1.0,
+"texture": ExtResource("32_imim7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("33_a8f1x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("34_oyh2f")
+}, {
+"duration": 1.0,
+"texture": ExtResource("35_31olk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("36_1bcf4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("37_jss8h")
+}, {
+"duration": 1.0,
+"texture": ExtResource("38_osa6a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("39_dohhq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("40_fuee5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("41_mou11")
+}, {
+"duration": 1.0,
+"texture": ExtResource("42_o858s")
+}, {
+"duration": 1.0,
+"texture": ExtResource("43_yrjq3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("44_gntr0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("45_6b6ep")
+}, {
+"duration": 1.0,
+"texture": ExtResource("46_n6rj5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("47_wwgtu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("48_1daqw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("49_r1pnk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("50_p76jw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("51_qr18s")
+}, {
+"duration": 1.0,
+"texture": ExtResource("52_emaw6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("53_awrev")
+}, {
+"duration": 1.0,
+"texture": ExtResource("54_0u78m")
+}, {
+"duration": 1.0,
+"texture": ExtResource("55_wisdq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("56_r6dex")
+}, {
+"duration": 1.0,
+"texture": ExtResource("57_tly1s")
+}, {
+"duration": 1.0,
+"texture": ExtResource("58_50qv6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("59_3ig02")
+}, {
+"duration": 1.0,
+"texture": ExtResource("60_n0oor")
+}, {
+"duration": 1.0,
+"texture": ExtResource("61_tyvyw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("62_tmkxm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("63_nhto0")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 24.0
+}]
+
+[node name="Linda" unique_id=27633746 instance=ExtResource("1_npc")]
+npc_name = "Receptionist Linda"
+dialogue_text = "Welcome back. Again."
+sprite_texture = ExtResource("2_tex")
+
+[node name="AnimSprite" type="AnimatedSprite2D" parent="." index="3" unique_id=1260437521]
+position = Vector2(0, -183)
+scale = Vector2(0.6, 0.6)
+sprite_frames = SubResource("SpriteFrames_anim")
+animation = &"idle"
+frame = 5
+frame_progress = 0.13305049

@@ -12,6 +12,8 @@ extends CanvasLayer
 @onready var value_productivity: Label = $ProdBarBackground/LabelValueProduct
 @onready var value_moral: Label = $MoraleBarBackgroumd/LabelValueMoral
 
+var deadline_label: Label = null
+
 
 var tex_task_small: Texture2D = preload("res://Assets/UI V1/TEXT BOX/TASK SMALL.png")
 var tex_task_big: Texture2D = preload("res://Assets/UI V1/TEXT BOX/TASK SMALL.png")
@@ -35,6 +37,28 @@ func _ready() -> void:
 	# Init bars
 	_on_morale_changed(GameManager.morale)
 	_on_productivity_changed(GameManager.productivity)
+	
+	# Create Deadline Label dynamically
+	deadline_label = Label.new()
+	deadline_label.set_anchors_preset(Control.PRESET_TOP_WIDE)
+	deadline_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	deadline_label.offset_top = 40
+	deadline_label.add_theme_font_size_override("font_size", 36)
+	deadline_label.add_theme_color_override("font_color", Color(0.8, 0.1, 0.1))
+	add_child(deadline_label)
+
+func _process(_delta: float) -> void:
+	if not deadline_label: return
+	
+	if GameManager.is_deadline_active:
+		if InconvenienceManager.is_clock_stopped:
+			# Freeze the text
+			pass
+		else:
+			var t = maxf(GameManager.task_deadline_time, 0.0)
+			deadline_label.text = "TIME REMAINING: %.1fs" % t
+	else:
+		deadline_label.text = ""
 
 func _on_morale_changed(val: float) -> void:
 	var tween = create_tween()
