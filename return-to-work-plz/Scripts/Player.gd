@@ -41,10 +41,6 @@ func _physics_process(delta: float) -> void:
 		# Horizontal movement
 		var input_dir: float = Input.get_axis("move_left", "move_right")
 		
-		# Inconvenience: Swap movement keys
-		if InconvenienceManager.is_offset_movement:
-			input_dir = -input_dir
-			
 		velocity.x = input_dir * move_speed
 		
 		# Flip sprite direction
@@ -73,28 +69,58 @@ func _play_anim(anim_name: String) -> void:
 
 func _update_animation(input_dir: float) -> void:
 	if not anim_sprite: return
-	if is_working: return
 	
+	if is_working:
+		if current_anim_state != "interact":
+			current_anim_state = "interact"
+			_play_anim("interact")
+		return
+		
 	var is_moving = input_dir != 0.0
 	
-	if current_anim_state == "idle" and is_moving:
-		current_anim_state = "trans-idle-walk"
-		_play_anim("trans-idle-walk")
-	elif current_anim_state == "walk" and not is_moving:
-		current_anim_state = "trans-walk-idle"
-		_play_anim("trans-walk-idle")
-	elif current_anim_state == "idle" and not is_moving:
-		_play_anim("idle")
-	elif current_anim_state == "walk" and is_moving:
-		_play_anim("walk")
+	match current_anim_state:
+		"interact":
+			# We finished working
+			current_anim_state = "idle"
+			_play_anim("idle")
+		"idle":
+			if is_moving:
+				current_anim_state = "trans-idle-walk"
+				_play_anim("trans-idle-walk")
+			else:
+				_play_anim("idle")
+		"walk":
+			if not is_moving:
+				current_anim_state = "trans-walk-idle"
+				_play_anim("trans-walk-idle")
+			else:
+				_play_anim("walk")
+		"trans-idle-walk":
+			pass # Lock state until animation finishes
+		"trans-walk-idle":
+			if is_moving:
+				current_anim_state = "walk"
+				_play_anim("walk")
 
 func _on_animation_finished() -> void:
 	if current_anim_state == "trans-idle-walk":
-		current_anim_state = "walk"
-		_play_anim("walk")
+		var input_dir: float = Input.get_axis("move_left", "move_right")
+		if input_dir != 0.0:
+			current_anim_state = "walk"
+			_play_anim("walk")
+		else:
+			# Player stopped before the transition finished
+			current_anim_state = "trans-walk-idle"
+			_play_anim("trans-walk-idle")
+			
 	elif current_anim_state == "trans-walk-idle":
-		current_anim_state = "idle"
-		_play_anim("idle")
+		var input_dir: float = Input.get_axis("move_left", "move_right")
+		if input_dir != 0.0:
+			current_anim_state = "trans-idle-walk"
+			_play_anim("trans-idle-walk")
+		else:
+			current_anim_state = "idle"
+			_play_anim("idle")
 
 ## Note: Interaction input is handled by InteractableObject._input,
 ## which checks task availability before calling start_task().

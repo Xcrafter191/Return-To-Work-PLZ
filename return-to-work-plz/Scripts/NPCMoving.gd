@@ -19,15 +19,21 @@ var _fade_tween: Tween = null
 @onready var dialogue_box: Node2D = $DialogueBox
 @onready var dialogue_label: Label = $DialogueBox/Label
 @onready var dialogue_bg: TextureRect = $DialogueBox/Bubble
-@onready var sprite: Sprite2D = $Sprite
+@onready var sprite: Sprite2D = $Sprite if has_node("Sprite") else null
+@onready var anim_sprite: AnimatedSprite2D = $AnimSprite if has_node("AnimSprite") else null
 
 func _ready() -> void:
 	dialogue_box.visible = false
 	dialogue_box.modulate.a = 0.0
 	dialogue_box.position.y = dialogue_offset_y
 	dialogue_label.text = dialogue_text
-	if sprite_texture:
+	if sprite and sprite_texture:
 		sprite.texture = sprite_texture
+	
+	if anim_sprite:
+		if sprite: sprite.visible = false
+		anim_sprite.play("walk")
+		
 	_update_dialogue_position()
 	
 	# Set a max width so it wraps if text is too long
@@ -38,10 +44,17 @@ func _ready() -> void:
 	$InteractionArea.body_exited.connect(_on_player_exited)
 
 func _update_dialogue_position() -> void:
+	var target_node = sprite if sprite else anim_sprite
+	if not target_node: return
+	
 	var sprite_height: float = 0.0
-	if sprite.texture:
-		sprite_height = sprite.texture.get_height() * abs(sprite.scale.y)
-	var sprite_top: float = sprite.position.y - (sprite_height / 2.0)
+	if target_node is Sprite2D and target_node.texture:
+		sprite_height = target_node.texture.get_height() * abs(target_node.scale.y)
+	elif target_node is AnimatedSprite2D and target_node.sprite_frames:
+		var tex = target_node.sprite_frames.get_frame_texture(target_node.animation, 0)
+		if tex: sprite_height = tex.get_height() * abs(target_node.scale.y)
+		
+	var sprite_top: float = target_node.position.y - (sprite_height / 2.0)
 	dialogue_box.position.y = sprite_top + dialogue_offset_y
 
 func _physics_process(delta: float) -> void:
@@ -60,7 +73,9 @@ func _physics_process(delta: float) -> void:
 			_moving_right = true
 	
 	# Only face movement direction (negated: sprites face left by default)
-	sprite.scale.x = (-1.0 if _moving_right else 1.0) * abs(sprite.scale.x)
+	var target_node = sprite if sprite else anim_sprite
+	if target_node:
+		target_node.scale.x = (-1.0 if _moving_right else 1.0) * abs(target_node.scale.x)
 	
 	move_and_slide()
 

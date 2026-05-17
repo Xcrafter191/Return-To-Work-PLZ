@@ -121,12 +121,16 @@ func complete_objective(task_id: String) -> void:
 			print("[GameManager] 2 tasks done in time! Recovered 5% productivity.")
 	
 	# -- Morale Logic --
-	if current_loop >= 3:
-		set_morale(0.0) # Instant rebel
+	var total_drop = 0.0
+	if current_loop == 1:
+		total_drop = 20.0
+	elif current_loop == 2:
+		total_drop = 40.0
 	else:
-		var total_drop = 20.0 if current_loop == 1 else 40.0
-		var drop_per_task = total_drop / objectives.size()
-		set_morale(morale - drop_per_task)
+		total_drop = 250.0 # 25% per task (assuming 10 tasks)
+	
+	var drop_per_task = total_drop / objectives.size()
+	set_morale(morale - drop_per_task)
 	
 	objective_completed.emit(task_id)
 	print("[GameManager] Objective completed: %s (%d/%d)" % [task_id, current_task_index, objectives.size()])
@@ -180,10 +184,7 @@ func clock_out() -> void:
 	difficulty_modifier += 0.15
 	
 	# Morale resets every loop. Productivity carries over.
-	if current_loop < 3:
-		set_morale(100.0)
-	else:
-		set_morale(0.0)
+	set_morale(100.0)
 	
 	_build_objectives()
 	npc_positions.clear()

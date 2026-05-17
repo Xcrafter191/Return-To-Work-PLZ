@@ -20,10 +20,17 @@ var current_chance: float = 0.0
 
 # Active permanent inconveniences
 var is_shaky: bool = false
-var is_offset_movement: bool = false
 var is_gibberish: bool = false
+var fake_ads_container: CanvasLayer = null
+
+func _process(_delta: float) -> void:
+	if is_gibberish:
+		var scene = get_tree().current_scene
+		if scene:
+			_scramble_all_labels(scene)
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	GameManager.objective_completed.connect(_on_objective_completed)
 	GameManager.loop_restarted.connect(_on_loop_restarted)
 	_setup_loop_quotas(GameManager.current_loop)
@@ -62,9 +69,16 @@ func _on_loop_restarted(loop_num: int) -> void:
 
 func _reset_permanent_inconveniences() -> void:
 	is_shaky = false
-	is_offset_movement = false
-	is_gibberish = false
-	Engine.max_fps = 0
+	
+	if is_gibberish:
+		is_gibberish = false
+		var scene = get_tree().current_scene
+		if scene:
+			_unscramble_all_labels(scene)
+			
+	if is_instance_valid(fake_ads_container):
+		fake_ads_container.queue_free()
+		fake_ads_container = null
 	
 	var hud = get_tree().current_scene.get_node_or_null("HUD")
 	if hud:
@@ -113,16 +127,16 @@ func _execute_minor() -> void:
 	
 	if choice == "lights_out":
 		var main = get_tree().current_scene
-		if main.has_node("BrightnessOverlay"):
-			# Forces pitch black until user opens settings and clicks Apply!
-			main.get_node("BrightnessOverlay").color = Color(0.0, 0.0, 0.0, 1.0) 
+		var pm = main.get_node_or_null("PauseMenu")
+		if pm:
+			pm.brightness_slider.value = 0.0
+			pm._apply_settings()
+			pm.save_settings()
 	
 	elif choice == "random_ui":
 		var hud = get_tree().current_scene.get_node_or_null("HUD")
 		if hud:
 			hud.scale = Vector2(randf_range(0.5, 1.8), randf_range(0.5, 1.8))
-			var timer = get_tree().create_timer(30.0)
-			timer.timeout.connect(func(): if is_instance_valid(hud): hud.scale = Vector2.ONE)
 	
 	elif choice == "shaky":
 		is_shaky = true # Camera shaky logic handled in Player.gd
@@ -134,15 +148,32 @@ func _execute_medium() -> void:
 	print("[InconvenienceManager] Medium Executing: ", choice)
 	
 	if choice == "fps":
-		Engine.max_fps = 5
-		var timer = get_tree().create_timer(30.0)
-		timer.timeout.connect(func(): Engine.max_fps = 0)
+		var main = get_tree().current_scene
+		var pm = main.get_node_or_null("PauseMenu")
+		if pm:
+			pm.fps_input.value = 5.0
+			pm._apply_settings()
+			pm.save_settings()
 	
 	elif choice == "unplug":
 		_spawn_unplug_fake()
 	
 	elif choice == "keybind":
-		is_offset_movement = true # Movement swapped in Player.gd
+		var main = get_tree().current_scene
+		var pm = main.get_node_or_null("PauseMenu")
+		if pm:
+			var left_events = InputMap.action_get_events("move_left")
+			var right_events = InputMap.action_get_events("move_right")
+			InputMap.action_erase_events("move_left")
+			InputMap.action_erase_events("move_right")
+			for ev in right_events:
+				InputMap.action_add_event("move_left", ev)
+			for ev in left_events:
+				InputMap.action_add_event("move_right", ev)
+			
+			pm.keybind_buttons["move_left"].text = pm._get_action_key_name("move_left")
+			pm.keybind_buttons["move_right"].text = pm._get_action_key_name("move_right")
+			pm.save_settings()
 
 func _spawn_unplug_fake() -> void:
 	var canvas = CanvasLayer.new()
@@ -153,7 +184,7 @@ func _spawn_unplug_fake() -> void:
 	canvas.add_child(rect)
 	get_tree().current_scene.add_child(canvas)
 	
-	var timer = get_tree().create_timer(2.0)
+	var timer = get_tree().create_timer(5.0)
 	timer.timeout.connect(func(): if is_instance_valid(canvas): canvas.queue_free())
 
 # ── MAJOR ──
@@ -165,33 +196,54 @@ func _execute_major() -> void:
 	if choice == "fake_ad":
 		_spawn_fake_ad()
 	elif choice == "gibberish":
-		is_gibberish = true # HUD and Dialogues will scramble
-		_scramble_all_labels(get_tree().current_scene)
-		
+		is_gibberish = true
+
 func _spawn_fake_ad() -> void:
-	var canvas = CanvasLayer.new()
-	canvas.layer = 101
-	var panel = Panel.new()
-	panel.set_anchors_and_offsets_preset(Control.PRESET_CENTER, Control.PRESET_MODE_MINSIZE)
-	panel.custom_minimum_size = Vector2(800, 600)
-	panel.position = Vector2(560, 240)
+	if fake_ads_container == null:
+		fake_ads_container = CanvasLayer.new()
+		fake_ads_container.layer = 101
+		get_tree().current_scene.add_child(fake_ads_container)
 	
-	var label = Label.new()
-	label.text = "BUY MORE COFFEE!\nUnskippable Ad\nPlease wait 5 seconds..."
-	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	label.set_anchors_preset(Control.PRESET_FULL_RECT)
-	label.theme_override_font_sizes.font_size = 48
-	
-	panel.add_child(label)
-	canvas.add_child(panel)
-	get_tree().current_scene.add_child(canvas)
-	
-	var timer = get_tree().create_timer(5.0)
-	timer.timeout.connect(func(): if is_instance_valid(canvas): canvas.queue_free())
+	var num_ads = randi_range(5, 15)
+	for i in num_ads:
+		var panel = Panel.new()
+		var w = randf_range(200, 600)
+		var h = randf_range(150, 400)
+		panel.custom_minimum_size = Vector2(w, h)
+		panel.position = Vector2(randf_range(0, 1920 - w), randf_range(0, 1080 - h))
+		
+		var label = Label.new()
+		label.text = "BUY MORE COFFEE!\nUnskippable Ad"
+		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		label.set_anchors_preset(Control.PRESET_FULL_RECT)
+		
+		panel.add_child(label)
+		fake_ads_container.add_child(panel)
 
 func _scramble_all_labels(node: Node) -> void:
-	if node is Label or node is RichTextLabel:
-		node.text = "!@#$%^&*()_+"
+	if node is Label or node is RichTextLabel or node is Button:
+		if node.text != "!@#$%^&*()_+":
+			node.set_meta("orig_text", node.text)
+			node.text = "!@#$%^&*()_+"
+	elif node is OptionButton:
+		for i in node.item_count:
+			var txt = node.get_item_text(i)
+			if txt != "!@#$%^&*()_+":
+				node.set_meta("orig_text_" + str(i), txt)
+				node.set_item_text(i, "!@#$%^&*()_+")
 	for child in node.get_children():
 		_scramble_all_labels(child)
+
+func _unscramble_all_labels(node: Node) -> void:
+	if node is Label or node is RichTextLabel or node is Button:
+		if node.has_meta("orig_text"):
+			node.text = node.get_meta("orig_text")
+			node.remove_meta("orig_text")
+	elif node is OptionButton:
+		for i in node.item_count:
+			if node.has_meta("orig_text_" + str(i)):
+				node.set_item_text(i, node.get_meta("orig_text_" + str(i)))
+				node.remove_meta("orig_text_" + str(i))
+	for child in node.get_children():
+		_unscramble_all_labels(child)

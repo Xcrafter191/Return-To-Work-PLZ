@@ -19,15 +19,20 @@ var _fade_tween: Tween = null
 @onready var dialogue_box: Node2D = $DialogueBox
 @onready var dialogue_label: Label = $DialogueBox/Label
 @onready var dialogue_bg: TextureRect = $DialogueBox/Bubble
-@onready var sprite: Sprite2D = $Sprite
+@onready var sprite: Sprite2D = $Sprite if has_node("Sprite") else null
+@onready var anim_sprite: AnimatedSprite2D = $AnimSprite if has_node("AnimSprite") else null
 
 func _ready() -> void:
 	dialogue_box.visible = false
 	dialogue_box.modulate.a = 0.0
 	dialogue_box.position.y = dialogue_offset_y
 	dialogue_label.text = dialogue_text
-	if sprite_texture:
+	if sprite and sprite_texture:
 		sprite.texture = sprite_texture
+		
+	if anim_sprite:
+		if sprite: sprite.visible = false
+		anim_sprite.play("idle")
 	
 	# Set a max width so it wraps if text is too long
 	dialogue_label.custom_minimum_size.x = 100 # Min width
@@ -49,10 +54,12 @@ func _physics_process(delta: float) -> void:
 		var players = get_tree().get_nodes_in_group("player")
 		if players.size() > 0:
 			var player = players[0]
-			if player.global_position.x > global_position.x:
-				sprite.scale.x = -abs(sprite.scale.x)
-			else:
-				sprite.scale.x = abs(sprite.scale.x)
+			var target_node = sprite if sprite else anim_sprite
+			if target_node:
+				if player.global_position.x > global_position.x:
+					target_node.scale.x = -abs(target_node.scale.x)
+				else:
+					target_node.scale.x = abs(target_node.scale.x)
 
 func _on_player_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):

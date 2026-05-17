@@ -24,6 +24,7 @@ config/icon="res://icon.svg"
 RoomManager="*res://Scripts/RoomManager.gd"
 GameManager="*res://Scripts/GameManager.gd"
 InconvenienceManager="*res://Scripts/InconvenienceManager.gd"
+AdminPanel="*res://Scripts/AdminPanel.gd"
 
 [display]
 
