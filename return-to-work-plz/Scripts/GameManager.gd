@@ -14,7 +14,12 @@ signal productivity_changed(value: float)
 
 # ── Player Stats (Dummy values for UI) ──
 var morale: float = 100.0
-var productivity: float = 50.0
+var productivity: float = 100.0
+
+# ── Deadline State ──
+var task_deadline_time: float = 0.0
+var is_deadline_active: bool = false
+var consecutive_tasks: int = 0
 
 # ── Loop state ──
 var current_loop: int = 1
@@ -36,6 +41,16 @@ func _ready() -> void:
 	# Dummy init so UI gets the starting values
 	call_deferred("emit_signal", "morale_changed", morale)
 	call_deferred("emit_signal", "productivity_changed", productivity)
+
+func _process(delta: float) -> void:
+	if is_deadline_active and task_deadline_time > 0:
+		task_deadline_time -= delta
+		if task_deadline_time <= 0:
+			# Failed deadline!
+			is_deadline_active = false
+			set_productivity(productivity - 10.0)
+			consecutive_tasks = 0
+			print("[GameManager] Task deadline missed! Productivity dropped.")
 
 ## Stat Helpers
 func set_morale(val: float) -> void:
@@ -62,6 +77,16 @@ func _build_objectives() -> void:
 	]
 	current_task_index = 0
 	talked_npcs.clear()
+	_start_task_deadline()
+
+func _start_task_deadline() -> void:
+	if current_task_index >= objectives.size():
+		is_deadline_active = false
+		return
+	var time_to_complete = 40.0 * difficulty_modifier
+	task_deadline_time = time_to_complete
+	is_deadline_active = true
+	print("[GameManager] Deadline started: %.1fs" % time_to_complete)
 
 ## Get the currently active task id
 func get_current_task_id() -> String:
@@ -86,13 +111,32 @@ func complete_objective(task_id: String) -> void:
 	var obj = objectives[current_task_index]
 	obj["completed"] = true
 	current_task_index += 1
+	
+	# -- Productivity Logic --
+	if is_deadline_active and task_deadline_time > 0:
+		consecutive_tasks += 1
+		if consecutive_tasks >= 2:
+			set_productivity(productivity + 5.0)
+			consecutive_tasks = 0
+			print("[GameManager] 2 tasks done in time! Recovered 5% productivity.")
+	
+	# -- Morale Logic --
+	if current_loop >= 3:
+		set_morale(0.0) # Instant rebel
+	else:
+		var total_drop = 20.0 if current_loop == 1 else 40.0
+		var drop_per_task = total_drop / objectives.size()
+		set_morale(morale - drop_per_task)
+	
 	objective_completed.emit(task_id)
 	print("[GameManager] Objective completed: %s (%d/%d)" % [task_id, current_task_index, objectives.size()])
 	
 	if current_task_index >= objectives.size():
+		is_deadline_active = false
 		all_objectives_completed.emit()
 		print("[GameManager] All objectives done!")
 	else:
+		_start_task_deadline()
 		current_task_changed.emit(current_task_index)
 		# Check if the NEW current task can auto-complete
 		_check_auto_complete()
@@ -134,6 +178,13 @@ func clock_out() -> void:
 	complete_objective("clock_out")
 	current_loop += 1
 	difficulty_modifier += 0.15
+	
+	# Morale resets every loop. Productivity carries over.
+	if current_loop < 3:
+		set_morale(100.0)
+	else:
+		set_morale(0.0)
+	
 	_build_objectives()
 	npc_positions.clear()
 	loop_restarted.emit(current_loop)

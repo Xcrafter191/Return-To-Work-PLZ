@@ -116,7 +116,7 @@ func _build_ui() -> void:
 	add_child(pause_panel)
 	
 	var title = Label.new()
-	title.text = "RETURN TO WORK, PLZ"
+	title.text = "GAME PAUSED"
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	title.add_theme_font_size_override("font_size", 36)
 	pause_panel.add_child(title)

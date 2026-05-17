@@ -14,6 +14,14 @@ var nearby_workstation: Node = null
 @onready var progress_container: Node2D = $ProgressContainer
 @onready var progress_bg: ColorRect = $ProgressContainer/ProgressBG
 @onready var progress_fill: ColorRect = $ProgressContainer/ProgressFill
+@onready var anim_sprite: AnimatedSprite2D = $AnimSprite if has_node("AnimSprite") else null
+
+var current_anim_state: String = "idle"
+
+func _ready() -> void:
+	if anim_sprite:
+		anim_sprite.animation_finished.connect(_on_animation_finished)
+		anim_sprite.play("idle")
 
 func _physics_process(delta: float) -> void:
 	# Apply gravity
@@ -32,15 +40,61 @@ func _physics_process(delta: float) -> void:
 	else:
 		# Horizontal movement
 		var input_dir: float = Input.get_axis("move_left", "move_right")
+		
+		# Inconvenience: Swap movement keys
+		if InconvenienceManager.is_offset_movement:
+			input_dir = -input_dir
+			
 		velocity.x = input_dir * move_speed
 		
 		# Flip sprite direction
 		if input_dir != 0.0:
-			var sprite = $Sprite
+			var sprite = $Sprite if has_node("Sprite") else anim_sprite
 			if sprite:
 				sprite.scale.x = -sign(input_dir) * abs(sprite.scale.x)
+		
+		_update_animation(input_dir)
+		
+	# Inconvenience: Shaky
+	var cam = $Camera2D if has_node("Camera2D") else null
+	if cam:
+		if InconvenienceManager.is_shaky and velocity.x != 0.0:
+			cam.offset = Vector2(randf_range(-15, 15), randf_range(-15, 15))
+		else:
+			cam.offset = Vector2.ZERO
 	
 	move_and_slide()
+
+# ── Animation State Machine ──
+func _play_anim(anim_name: String) -> void:
+	if not anim_sprite: return
+	if anim_sprite.animation == anim_name: return
+	anim_sprite.play(anim_name)
+
+func _update_animation(input_dir: float) -> void:
+	if not anim_sprite: return
+	if is_working: return
+	
+	var is_moving = input_dir != 0.0
+	
+	if current_anim_state == "idle" and is_moving:
+		current_anim_state = "trans-idle-walk"
+		_play_anim("trans-idle-walk")
+	elif current_anim_state == "walk" and not is_moving:
+		current_anim_state = "trans-walk-idle"
+		_play_anim("trans-walk-idle")
+	elif current_anim_state == "idle" and not is_moving:
+		_play_anim("idle")
+	elif current_anim_state == "walk" and is_moving:
+		_play_anim("walk")
+
+func _on_animation_finished() -> void:
+	if current_anim_state == "trans-idle-walk":
+		current_anim_state = "walk"
+		_play_anim("walk")
+	elif current_anim_state == "trans-walk-idle":
+		current_anim_state = "idle"
+		_play_anim("idle")
 
 ## Note: Interaction input is handled by InteractableObject._input,
 ## which checks task availability before calling start_task().
