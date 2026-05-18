@@ -10,8 +10,6 @@ var is_working: bool = false
 var work_progress: float = 0.0
 var work_duration: float = 3.0
 var nearby_workstation: Node = null
-var _is_stuck_timer_started: bool = false
-
 @onready var progress_container: Node2D = $ProgressContainer
 @onready var progress_bg: ColorRect = $ProgressContainer/ProgressBG
 @onready var progress_fill: ColorRect = $ProgressContainer/ProgressFill
@@ -33,31 +31,6 @@ func _physics_process(delta: float) -> void:
 	
 	if is_working:
 		velocity.x = 0.0
-		
-		if not Input.is_action_pressed("interact"):
-			cancel_task()
-			return
-		
-		if InconvenienceManager.is_stuck_99 and work_progress >= 0.99 and not _is_stuck_timer_started:
-			work_progress = 0.99
-			_update_progress_bar()
-			_is_stuck_timer_started = true
-			var t = get_tree().create_timer(5.0)
-			t.timeout.connect(func():
-				if is_working:
-					_is_stuck_timer_started = false
-					work_progress = 1.0
-					_update_progress_bar()
-					_complete_task()
-			)
-			
-		if not _is_stuck_timer_started:
-			work_progress += delta / work_duration
-			work_progress = min(work_progress, 1.0)
-			_update_progress_bar()
-			if work_progress >= 1.0:
-				_complete_task()
-		
 		_update_animation(0.0)
 	else:
 		# Horizontal movement
@@ -100,10 +73,12 @@ func _update_animation(input_dir: float) -> void:
 	
 	match current_anim_state:
 		"interact":
-			# We finished working
 			current_anim_state = "idle"
-			_play_anim("idle")
-		"idle":
+			if GameManager.morale < 33:
+				_play_anim("idleaware")
+			else:
+				_play_anim("idle")
+		"idle", "idleaware":
 			if is_moving:
 				current_anim_state = "trans-idle-walk"
 				_play_anim("trans-idle-walk")
@@ -139,8 +114,12 @@ func _on_animation_finished() -> void:
 			current_anim_state = "trans-idle-walk"
 			_play_anim("trans-idle-walk")
 		else:
-			current_anim_state = "idle"
-			_play_anim("idle")
+			if GameManager.morale < 33:
+				current_anim_state = "idleaware"
+				_play_anim("idleaware")
+			else:
+				current_anim_state = "idle"
+				_play_anim("idle")
 
 ## Note: Interaction input is handled by InteractableObject._input,
 ## which checks task availability before calling start_task().
@@ -153,15 +132,26 @@ func clear_nearby_workstation(obj: Node) -> void:
 	if nearby_workstation == obj:
 		nearby_workstation = null
 
-## Start a timed task — locks movement, shows progress bar
-func start_task(duration: float = 3.0) -> void:
+## Start a QTE skill check task — locks movement
+func start_task(_duration: float = 3.0) -> void:
 	is_working = true
-	work_progress = 0.0
-	_is_stuck_timer_started = false
-	work_duration = duration
-	progress_container.visible = true
-	progress_container.modulate.a = 1.0
-	_update_progress_bar()
+	
+	# Determine arrow speed based on difficulty modifier
+	var base_speed = 400.0 * GameManager.difficulty_modifier
+	
+	SkillCheck.start_skill_check(base_speed)
+	
+	if not SkillCheck.is_connected("skill_check_completed", _on_qte_completed):
+		SkillCheck.skill_check_completed.connect(_on_qte_completed)
+
+func _on_qte_completed(success: bool) -> void:
+	if success:
+		_complete_task()
+	else:
+		# Failed! Deduct productivity and try again.
+		GameManager.set_productivity(GameManager.productivity - 2.0)
+		var new_speed = 400.0 * GameManager.difficulty_modifier * randf_range(1.1, 1.3)
+		SkillCheck.start_skill_check(new_speed)
 
 func _update_progress_bar() -> void:
 	# Fill grows from left to right (total 100px width)
@@ -171,26 +161,18 @@ func _complete_task() -> void:
 	is_working = false
 	if nearby_workstation and nearby_workstation.has_method("on_interact_complete"):
 		nearby_workstation.on_interact_complete()
-	_blink_and_fade()
+	if SkillCheck.is_connected("skill_check_completed", _on_qte_completed):
+		SkillCheck.skill_check_completed.disconnect(_on_qte_completed)
 
 func cancel_task() -> void:
+	if not is_working: return
 	is_working = false
-	work_progress = 0.0
-	_is_stuck_timer_started = false
-	_hide_progress()
+	if SkillCheck.is_connected("skill_check_completed", _on_qte_completed):
+		SkillCheck.skill_check_completed.disconnect(_on_qte_completed)
+	SkillCheck.visible = false
+	SkillCheck.is_active = false
 	if nearby_workstation and nearby_workstation.has_method("_update_prompt"):
 		nearby_workstation._update_prompt()
 
-func _blink_and_fade() -> void:
-	var tween = create_tween()
-	# Blink 5 times
-	for i in 5:
-		tween.tween_property(progress_container, "modulate:a", 0.2, 0.1)
-		tween.tween_property(progress_container, "modulate:a", 1.0, 0.1)
-	# Fade out
-	tween.tween_property(progress_container, "modulate:a", 0.0, 0.5)
-	tween.tween_callback(_hide_progress)
-
-func _hide_progress() -> void:
 	progress_container.visible = false
 	progress_container.modulate.a = 1.0

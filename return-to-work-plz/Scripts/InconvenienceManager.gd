@@ -183,10 +183,19 @@ func _trigger_random_inconvenience() -> void:
 	
 	print("[InconvenienceManager] Triggered inconvenience of difficulty: ", chosen_diff)
 	
+	var diff_str = ""
 	match chosen_diff:
-		Difficulty.MINOR: _execute_minor()
-		Difficulty.MEDIUM: _execute_medium()
-		Difficulty.MAJOR: _execute_major()
+		Difficulty.MINOR: diff_str = "minor_annoyance"
+		Difficulty.MEDIUM: diff_str = "medium_disruption"
+		Difficulty.MAJOR: diff_str = "major_failure"
+		
+	AttackSequenceManager.trigger_attack(diff_str)
+	AttackSequenceManager.sequence_finished.connect(func():
+		match chosen_diff:
+			Difficulty.MINOR: _execute_minor()
+			Difficulty.MEDIUM: _execute_medium()
+			Difficulty.MAJOR: _execute_major()
+	, CONNECT_ONE_SHOT)
 
 # ── MINOR ──
 func _execute_minor() -> void:

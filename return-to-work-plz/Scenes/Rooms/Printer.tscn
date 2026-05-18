@@ -1,17 +1,15 @@
 [gd_scene format=3 uid="uid://dsdmnrkmh88my"]
 
 [ext_resource type="Script" uid="uid://cge2twkky6a4n" path="res://Scripts/RoomExit.gd" id="1_exit"]
-[ext_resource type="PackedScene" uid="uid://npcstat001" path="res://Scenes/NPCs/StationaryNPC.tscn" id="2_npc_stat"]
-[ext_resource type="PackedScene" uid="uid://npcmov001" path="res://Scenes/NPCs/MovingNPC.tscn" id="3_npc_mov"]
-[ext_resource type="Texture2D" uid="uid://cp7wqdgrxhkw3" path="res://Assets/Sprites/Technician Mark.png" id="4_mark"]
-[ext_resource type="Texture2D" uid="uid://cp0ngqasjl53u" path="res://Assets/Sprites/Intern Olivia.png" id="5_olivia"]
+[ext_resource type="PackedScene" uid="uid://c78m5pq10ipis" path="res://Scenes/NPCs/Mark.tscn" id="2_npc_stat"]
+[ext_resource type="PackedScene" uid="uid://bijostbxq3kuy" path="res://Scenes/NPCs/Olivia.tscn" id="3_npc_mov"]
 [ext_resource type="Script" uid="uid://dr0o7y0vodg2x" path="res://Scripts/InteractableObject.gd" id="6_interact"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
 size = Vector2(1920, 40)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_workarea"]
-size = Vector2(80, 80)
+size = Vector2(201, 129)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_exit"]
 size = Vector2(42, 972.5)
@@ -44,7 +42,7 @@ position = Vector2(960, 540)
 [node name="SpawnDefault" type="Marker2D" parent="." unique_id=2023376993]
 position = Vector2(300, 930)
 
-[node name="SpawnFromMeeting" type="Marker2D" parent="." unique_id=679783424]
+[node name="SpawnLeft" type="Marker2D" parent="." unique_id=679783424]
 position = Vector2(100, 930)
 
 [node name="RoomLabel" type="Label" parent="." unique_id=289324994]
@@ -72,7 +70,7 @@ task_id = "print_paper"
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PrintTask/DetectionArea" unique_id=1291473026]
-position = Vector2(0, -40)
+position = Vector2(-0.5, -45.5)
 shape = SubResource("RectangleShape2D_workarea")
 
 [node name="PromptLabel" type="Label" parent="PrintTask" unique_id=1262610746]
@@ -92,26 +90,21 @@ offset_bottom = 930.0
 color = Color(0.55, 0.45, 0.3, 1)
 
 [node name="TechnicianMark" parent="." unique_id=1090966801 instance=ExtResource("2_npc_stat")]
-position = Vector2(1000, 930)
-npc_name = "Technician Mark"
+position = Vector2(1221, 930)
 dialogue_text = "The ink is running low already."
-sprite_texture = ExtResource("4_mark")
 
 [node name="InternOlivia" parent="." unique_id=1084403409 instance=ExtResource("3_npc_mov")]
 position = Vector2(500, 930)
-npc_name = "Intern Olivia"
 dialogue_text = "I've been here since Tuesday. I think."
 patrol_right_x = 1400.0
-sprite_texture = ExtResource("5_olivia")
 
-[node name="ExitToMeeting" type="Area2D" parent="." unique_id=962044947]
+[node name="ExitLeft" type="Area2D" parent="." unique_id=962044947]
 position = Vector2(10, 780)
 collision_layer = 0
 script = ExtResource("1_exit")
-target_room = "Meeting"
-target_spawn = "SpawnFromPrinter"
+exit_direction = -1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitToMeeting" unique_id=238966474]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitLeft" unique_id=238966474]
 position = Vector2(0, -289.75)
 shape = SubResource("RectangleShape2D_exit")
 

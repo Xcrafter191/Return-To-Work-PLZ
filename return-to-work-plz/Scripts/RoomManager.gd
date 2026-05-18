@@ -14,17 +14,35 @@ var is_transitioning: bool = false
 const FADE_DURATION: float = 0.4
 
 # Room registry — maps room names to scene paths.
-# Add new rooms here as they are created.
 var room_registry: Dictionary = {
 	"Lobby": "res://Scenes/Rooms/Lobby.tscn",
-	"Cubicle": "res://Scenes/Rooms/Cubicle.tscn",
 	"Lounge": "res://Scenes/Rooms/Lounge.tscn",
 	"Elevator_F1": "res://Scenes/Rooms/Elevator_F1.tscn",
 	"Elevator_F2": "res://Scenes/Rooms/Elevator_F2.tscn",
 	"Meeting": "res://Scenes/Rooms/Meeting.tscn",
 	"Printer": "res://Scenes/Rooms/Printer.tscn",
 	"Bathroom": "res://Scenes/Rooms/Bathroom.tscn",
+	"Cubicle_Left": "res://Scenes/Rooms/Cubicle_Left.tscn",
+	"Cubicle_Middle": "res://Scenes/Rooms/Cubicle_Middle.tscn",
+	"Cubicle_Right": "res://Scenes/Rooms/Cubicle_Right.tscn",
 }
+
+var active_slots_f1: Array = ["Slot_F1_Left", "Slot_Elevator_F1", "Slot_F1_Right"]
+var active_slots_f2: Array = ["Slot_F2_Left", "Slot_F2_Middle", "Slot_Elevator_F2", "Slot_F2_Right", "Slot_F2_FarRight"]
+
+var current_layout: Dictionary = {
+	"Slot_F1_Left": "Lobby",
+	"Slot_Elevator_F1": "Elevator_F1",
+	"Slot_F1_Right": "Bathroom",
+	"Slot_F2_Left": "Lounge",
+	"Slot_F2_Middle": "Cubicle_Middle",
+	"Slot_Elevator_F2": "Elevator_F2",
+	"Slot_F2_Right": "Meeting",
+	"Slot_F2_FarRight": "Printer"
+}
+
+var current_slot: String = "Slot_F1_Left"
+var current_floor: int = 1
 
 func _ready() -> void:
 	pass
@@ -38,17 +56,17 @@ func initialize(p_player: CharacterBody2D, p_overlay: ColorRect, room_container:
 	# Store room container reference
 	set_meta("room_container", room_container)
 
-## Change to a new room with fade transition.
-## room_name: key in room_registry
-## spawn_point_name: name of the Marker2D to place the player at
-func change_room(room_name: String, spawn_point_name: String = "SpawnDefault", force_reload: bool = false) -> void:
+## Change to a new room with fade transition using SLOT NAME.
+func change_room(slot_name: String, spawn_point_name: String = "SpawnDefault", force_reload: bool = false) -> void:
 	if is_transitioning:
 		return
-	if room_name == current_room_name and not force_reload:
+	if slot_name == current_slot and not force_reload and current_room != null:
 		return
-	if room_name not in room_registry:
-		push_error("RoomManager: Room '%s' not found in registry!" % room_name)
+	if slot_name not in current_layout:
+		push_error("RoomManager: Slot '%s' not found in layout!" % slot_name)
 		return
+	
+	var target_room_name = current_layout[slot_name]
 	
 	is_transitioning = true
 	
@@ -72,13 +90,22 @@ func change_room(room_name: String, spawn_point_name: String = "SpawnDefault", f
 		current_room = null
 	
 	# Load new room
-	var room_scene: PackedScene = load(room_registry[room_name])
+	var room_scene: PackedScene = load(room_registry[target_room_name])
 	current_room = room_scene.instantiate()
 	room_container.add_child(current_room)
-	current_room_name = room_name
+	current_room_name = target_room_name
+	current_slot = slot_name
+	
+	if current_slot in active_slots_f1:
+		current_floor = 1
+	elif current_slot in active_slots_f2:
+		current_floor = 2
+	
+	# Configure Walls vs Exits dynamically
+	_configure_room_boundaries()
 	
 	# Restore NPC positions
-	GameManager.restore_npc_positions(room_name, current_room)
+	GameManager.restore_npc_positions(target_room_name, current_room)
 	
 	# Place player at spawn point
 	if player:
@@ -87,7 +114,6 @@ func change_room(room_name: String, spawn_point_name: String = "SpawnDefault", f
 		if spawn and spawn is Marker2D:
 			player.global_position = spawn.global_position
 		else:
-			# Fallback: try "SpawnDefault"
 			var fallback = current_room.get_node_or_null("SpawnDefault")
 			if fallback and fallback is Marker2D:
 				player.global_position = fallback.global_position
@@ -107,6 +133,49 @@ func change_room(room_name: String, spawn_point_name: String = "SpawnDefault", f
 	
 	is_transitioning = false
 	room_changed.emit(current_room_name)
+
+func _configure_room_boundaries() -> void:
+	if not current_room: return
+	
+	var active_slots = active_slots_f1 if current_floor == 1 else active_slots_f2
+	var idx = active_slots.find(current_slot)
+	
+	var is_far_left = (idx == 0)
+	var is_far_right = (idx == active_slots.size() - 1)
+	
+	var wall_left = current_room.get_node_or_null("WallLeft")
+	var exit_left = current_room.get_node_or_null("ExitLeft")
+	var visual_left = current_room.get_node_or_null("ExitVisual_Left")
+	var label_left = current_room.get_node_or_null("ExitLabel_Left")
+	
+	if wall_left: wall_left.process_mode = Node.PROCESS_MODE_INHERIT if is_far_left else Node.PROCESS_MODE_DISABLED
+	if wall_left: wall_left.visible = is_far_left
+	if exit_left: exit_left.process_mode = Node.PROCESS_MODE_DISABLED if is_far_left else Node.PROCESS_MODE_INHERIT
+	if visual_left: visual_left.visible = not is_far_left
+	if label_left: label_left.visible = not is_far_left
+	
+	var wall_right = current_room.get_node_or_null("WallRight")
+	var exit_right = current_room.get_node_or_null("ExitRight")
+	var visual_right = current_room.get_node_or_null("ExitVisual_Right")
+	var label_right = current_room.get_node_or_null("ExitLabel_Right")
+	
+	if wall_right: wall_right.process_mode = Node.PROCESS_MODE_INHERIT if is_far_right else Node.PROCESS_MODE_DISABLED
+	if wall_right: wall_right.visible = is_far_right
+	if exit_right: exit_right.process_mode = Node.PROCESS_MODE_DISABLED if is_far_right else Node.PROCESS_MODE_INHERIT
+	if visual_right: visual_right.visible = not is_far_right
+	if label_right: label_right.visible = not is_far_right
+
+func go_left() -> void:
+	var active_slots = active_slots_f1 if current_floor == 1 else active_slots_f2
+	var idx = active_slots.find(current_slot)
+	if idx > 0:
+		change_room(active_slots[idx - 1], "SpawnRight")
+
+func go_right() -> void:
+	var active_slots = active_slots_f1 if current_floor == 1 else active_slots_f2
+	var idx = active_slots.find(current_slot)
+	if idx >= 0 and idx < active_slots.size() - 1:
+		change_room(active_slots[idx + 1], "SpawnLeft")
 
 func _fade_out() -> void:
 	if not transition_overlay:

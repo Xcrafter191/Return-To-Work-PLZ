@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://xd33hxe3ygja"]
 
 [ext_resource type="Script" uid="uid://cge2twkky6a4n" path="res://Scripts/RoomExit.gd" id="1_exit"]
-[ext_resource type="PackedScene" uid="uid://npcstat001" path="res://Scenes/NPCs/StationaryNPC.tscn" id="2_npc_stat"]
+[ext_resource type="PackedScene" uid="uid://dfqlq6if2etm" path="res://Scenes/NPCs/Luke.tscn" id="2_npc_stat"]
 [ext_resource type="Texture2D" uid="uid://cqpqnrj5pmvwh" path="res://Assets/Sprites/Manager Luke.png" id="3_luke"]
 [ext_resource type="Script" uid="uid://dr0o7y0vodg2x" path="res://Scripts/InteractableObject.gd" id="4_interact"]
 
@@ -59,18 +59,18 @@ position = Vector2(960, 540)
 [node name="SpawnDefault" type="Marker2D" parent="." unique_id=196036621]
 position = Vector2(300, 925)
 
-[node name="SpawnFromElevator" type="Marker2D" parent="." unique_id=989275961]
+[node name="SpawnLeft" type="Marker2D" parent="." unique_id=989275961]
 position = Vector2(100, 926)
 
-[node name="SpawnFromPrinter" type="Marker2D" parent="." unique_id=1998937114]
+[node name="SpawnRight" type="Marker2D" parent="." unique_id=1998937114]
 position = Vector2(1750, 926)
 
-[node name="WallLeft" type="StaticBody2D" parent="SpawnFromPrinter" unique_id=392321566]
+[node name="WallLeft" type="StaticBody2D" parent="SpawnRight" unique_id=392321566]
 position = Vector2(-1754, -402)
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SpawnFromPrinter/WallLeft" unique_id=1262776008]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SpawnRight/WallLeft" unique_id=1262776008]
 position = Vector2(-2, -56.5)
 shape = SubResource("RectangleShape2D_efn1h")
 
@@ -127,14 +127,13 @@ offset_bottom = -80.0
 text = "Press [E] - Give paper"
 horizontal_alignment = 1
 
-[node name="ExitToElevator" type="Area2D" parent="." unique_id=2015252996]
+[node name="ExitLeft" type="Area2D" parent="." unique_id=2015252996]
 position = Vector2(10, 780)
 collision_layer = 0
 script = ExtResource("1_exit")
-target_room = "Elevator_F2"
-target_spawn = "SpawnFromMeeting"
+exit_direction = -1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitToElevator" unique_id=1160622739]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitLeft" unique_id=1160622739]
 shape = SubResource("RectangleShape2D_exit")
 
 [node name="ExitVisual_Left" type="ColorRect" parent="." unique_id=844921565]
@@ -151,14 +150,13 @@ offset_bottom = 790.0
 text = "← Elevator"
 horizontal_alignment = 1
 
-[node name="ExitToPrinter" type="Area2D" parent="." unique_id=1372931752]
+[node name="ExitRight" type="Area2D" parent="." unique_id=1372931752]
 position = Vector2(1910, 780)
 collision_layer = 0
 script = ExtResource("1_exit")
-target_room = "Printer"
-target_spawn = "SpawnFromMeeting"
+exit_direction = 1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitToPrinter" unique_id=24359103]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitRight" unique_id=24359103]
 shape = SubResource("RectangleShape2D_exit")
 
 [node name="ExitVisual_Right" type="ColorRect" parent="." unique_id=156787089]
@@ -198,3 +196,5 @@ offset_right = 80.0
 offset_bottom = -80.0
 text = "Press [E] - Present"
 horizontal_alignment = 1
+
+

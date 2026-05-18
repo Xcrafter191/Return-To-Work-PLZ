@@ -174,7 +174,6 @@ theme = SubResource("Theme_settings")
 theme_override_constants/separation = 5
 
 [node name="Header" type="HBoxContainer" parent="SettingsPanel/MainBox"]
-visible = false
 layout_mode = 2
 alignment = 2
 
@@ -391,7 +390,6 @@ popup/item_1/text = "BAHASA INDONESIA"
 popup/item_1/id = 1
 
 [node name="Footer" type="HBoxContainer" parent="SettingsPanel/MainBox"]
-visible = false
 layout_mode = 2
 theme_override_constants/separation = 20
 alignment = 1

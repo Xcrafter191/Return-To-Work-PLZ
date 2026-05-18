@@ -36,10 +36,10 @@ position = Vector2(960, 540)
 [node name="SpawnDefault" type="Marker2D" parent="." unique_id=831021334]
 position = Vector2(297, 870)
 
-[node name="SpawnFromCubicle" type="Marker2D" parent="." unique_id=2099478537]
+[node name="SpawnRight" type="Marker2D" parent="." unique_id=2099478537]
 position = Vector2(1750, 877)
 
-[node name="SpawnFromElevator" type="Marker2D" parent="." unique_id=1434384043]
+[node name="SpawnRight" type="Marker2D" parent="." unique_id=1434384043]
 position = Vector2(1750, 881)
 
 [node name="RoomLabel" type="Label" parent="." unique_id=10512193]
@@ -78,14 +78,13 @@ position = Vector2(1518, 873)
 npc_name = "Sleeping Employee"
 dialogue_text = "Zzz..."
 
-[node name="ExitToCubicle" type="Area2D" parent="." unique_id=993732017]
+[node name="ExitRight" type="Area2D" parent="." unique_id=993732017]
 position = Vector2(1910, 780)
 collision_layer = 0
 script = ExtResource("1_exit")
-target_room = "Cubicle"
-target_spawn = "SpawnFromLounge"
+exit_direction = 1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitToCubicle" unique_id=1223751488]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitRight" unique_id=1223751488]
 position = Vector2(-2, -198)
 shape = SubResource("RectangleShape2D_exit")
 
@@ -121,3 +120,4 @@ collision_mask = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WallLeft" unique_id=2119915556]
 position = Vector2(-2, 55)
 shape = SubResource("RectangleShape2D_exit")
+

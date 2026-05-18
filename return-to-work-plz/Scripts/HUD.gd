@@ -10,8 +10,6 @@ extends CanvasLayer
 @onready var task_bg: TextureRect = $TaskBackground
 @onready var task_label: Label = $TaskBackground/TaskLabel
 @onready var clockout_label: Label = $ClockOutLabel
-@onready var value_productivity: Label = $ProdBarBackground/LabelValueProduct
-@onready var value_moral: Label = $MoraleBarBackgroumd/LabelValueMoral
 
 var deadline_label: Label = null
 

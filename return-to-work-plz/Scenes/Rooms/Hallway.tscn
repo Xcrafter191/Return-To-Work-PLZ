@@ -35,10 +35,10 @@ position = Vector2(960, 540)
 [node name="SpawnDefault" type="Marker2D" parent="." unique_id=2116739023]
 position = Vector2(960, 910)
 
-[node name="SpawnFromOffice" type="Marker2D" parent="." unique_id=1925107509]
+[node name="SpawnLeft" type="Marker2D" parent="." unique_id=1925107509]
 position = Vector2(150, 910)
 
-[node name="SpawnFromBreakRoom" type="Marker2D" parent="." unique_id=425645359]
+[node name="SpawnRight" type="Marker2D" parent="." unique_id=425645359]
 position = Vector2(1750, 910)
 
 [node name="RoomLabel" type="Label" parent="." unique_id=1796414529]
@@ -70,14 +70,13 @@ offset_right = 950.0
 offset_bottom = 930.0
 color = Color(0.6, 0.8, 0.95, 1)
 
-[node name="ExitToOffice" type="Area2D" parent="." unique_id=426354315]
+[node name="ExitLeft" type="Area2D" parent="." unique_id=426354315]
 position = Vector2(10, 780)
 collision_layer = 0
 script = ExtResource("1_exit")
-target_room = "Office"
-target_spawn = "SpawnFromHallway"
+exit_direction = -1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitToOffice" unique_id=472015771]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitLeft" unique_id=472015771]
 shape = SubResource("RectangleShape2D_exit")
 
 [node name="ExitVisual_Left" type="ColorRect" parent="." unique_id=1290549779]
@@ -94,14 +93,13 @@ offset_bottom = 790.0
 text = "← Office"
 horizontal_alignment = 1
 
-[node name="ExitToBreakRoom" type="Area2D" parent="." unique_id=1425845689]
+[node name="ExitRight" type="Area2D" parent="." unique_id=1425845689]
 position = Vector2(1910, 780)
 collision_layer = 0
 script = ExtResource("1_exit")
-target_room = "BreakRoom"
-target_spawn = "SpawnFromHallway"
+exit_direction = 1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitToBreakRoom" unique_id=2143455877]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitRight" unique_id=2143455877]
 shape = SubResource("RectangleShape2D_exit")
 
 [node name="ExitVisual_Right" type="ColorRect" parent="." unique_id=1198563576]

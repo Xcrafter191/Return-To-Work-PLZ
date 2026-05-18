@@ -25,6 +25,8 @@ RoomManager="*res://Scripts/RoomManager.gd"
 GameManager="*res://Scripts/GameManager.gd"
 InconvenienceManager="*res://Scripts/InconvenienceManager.gd"
 AdminPanel="*res://Scripts/AdminPanel.gd"
+SkillCheck="*res://Scenes/UI/SkillCheckUI.tscn"
+AttackSequenceManager="*res://Scripts/AttackSequenceManager.gd"
 
 [display]
 

@@ -51,10 +51,10 @@ position = Vector2(960, 540)
 [node name="SpawnDefault" type="Marker2D" parent="." unique_id=969160024]
 position = Vector2(300, 878)
 
-[node name="SpawnFromLounge" type="Marker2D" parent="." unique_id=1089272096]
+[node name="SpawnLeft" type="Marker2D" parent="." unique_id=1089272096]
 position = Vector2(100, 878)
 
-[node name="SpawnFromElevator" type="Marker2D" parent="." unique_id=1156634404]
+[node name="SpawnRight" type="Marker2D" parent="." unique_id=1156634404]
 position = Vector2(1750, 878)
 
 [node name="RoomLabel" type="Label" parent="." unique_id=154117051]
@@ -95,14 +95,13 @@ offset_bottom = -80.0
 text = "Press [E] to work"
 horizontal_alignment = 1
 
-[node name="ExitToLounge" type="Area2D" parent="." unique_id=137705397]
+[node name="ExitLeft" type="Area2D" parent="." unique_id=137705397]
 position = Vector2(10, 733)
 collision_layer = 0
 script = ExtResource("1_exit")
-target_room = "Lounge"
-target_spawn = "SpawnFromCubicle"
+exit_direction = -1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitToLounge" unique_id=1563980433]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitLeft" unique_id=1563980433]
 shape = SubResource("RectangleShape2D_exit")
 
 [node name="ExitVisual_Left" type="ColorRect" parent="." unique_id=809667735]
@@ -119,14 +118,17 @@ offset_bottom = 790.0
 text = "← Lounge"
 horizontal_alignment = 1
 
-[node name="ExitToElevator" type="Area2D" parent="." unique_id=877304786]
+[node name="ExitRight" type="Area2D" parent="." unique_id=877304786]
 position = Vector2(1910, 733)
 collision_layer = 0
 script = ExtResource("1_exit")
-target_room = "Elevator_F2"
-target_spawn = "SpawnFromCubicle"
+exit_direction = 1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitToElevator" unique_id=2110662715]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitRight"]
+shape = SubResource("RectangleShape2D_exit")
+exit_direction = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitRight" unique_id=2110662715]
 shape = SubResource("RectangleShape2D_exit")
 
 [node name="ExitVisual_Right" type="ColorRect" parent="." unique_id=1899665175]
@@ -209,3 +211,5 @@ offset_bottom = -80.0
 horizontal_alignment = 1
 text = "Press [E] - Fix spreadsheet"
 visible = false
+
+

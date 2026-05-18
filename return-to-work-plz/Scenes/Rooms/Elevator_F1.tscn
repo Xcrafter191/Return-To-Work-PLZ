@@ -54,13 +54,13 @@ position = Vector2(960, 540)
 [node name="SpawnDefault" type="Marker2D" parent="." unique_id=58855037]
 position = Vector2(960, 910)
 
-[node name="SpawnFromLobby" type="Marker2D" parent="." unique_id=1535282910]
+[node name="SpawnLeft" type="Marker2D" parent="." unique_id=1535282910]
 position = Vector2(150, 876)
 
-[node name="SpawnFromBathroom" type="Marker2D" parent="." unique_id=399734286]
+[node name="SpawnRight" type="Marker2D" parent="." unique_id=399734286]
 position = Vector2(1750, 877)
 
-[node name="SpawnFromF2" type="Marker2D" parent="." unique_id=100096357]
+[node name="SpawnLeft" type="Marker2D" parent="." unique_id=100096357]
 position = Vector2(858, 879)
 
 [node name="RoomLabel" type="Label" parent="." unique_id=1493235667]
@@ -71,14 +71,13 @@ offset_bottom = 60.0
 text = "ELEVATOR HALL"
 horizontal_alignment = 1
 
-[node name="ExitToLobby" type="Area2D" parent="." unique_id=1386842568]
+[node name="ExitLeft" type="Area2D" parent="." unique_id=1386842568]
 position = Vector2(10, 780)
 collision_layer = 0
 script = ExtResource("1_exit")
-target_room = "Lobby"
-target_spawn = "SpawnFromElevator"
+exit_direction = -1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitToLobby" unique_id=1227900388]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitLeft" unique_id=1227900388]
 position = Vector2(0, -59)
 shape = SubResource("RectangleShape2D_exit")
 
@@ -88,14 +87,13 @@ offset_right = 30.0
 offset_bottom = 871.0
 color = Color(0.3, 0.3, 0.5, 0.4)
 
-[node name="ExitToBathroom" type="Area2D" parent="." unique_id=146275455]
+[node name="ExitRight" type="Area2D" parent="." unique_id=146275455]
 position = Vector2(1910, 780)
 collision_layer = 0
 script = ExtResource("1_exit")
-target_room = "Bathroom"
-target_spawn = "SpawnFromElevator"
+exit_direction = 1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitToBathroom" unique_id=1791206633]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitRight" unique_id=1791206633]
 position = Vector2(0, -57)
 shape = SubResource("RectangleShape2D_exit")
 

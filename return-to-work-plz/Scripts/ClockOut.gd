@@ -79,5 +79,10 @@ func _do_clock_out() -> void:
 	
 	await get_tree().create_timer(1.0).timeout
 	GameManager.clock_out()
-	RoomManager.change_room("Lobby", "SpawnDefault", true)
+	RoomManager.change_room("Slot_F1_Left", "SpawnDefault", true)
 	prompt_label.visible = false
+	
+	if players.size() > 0:
+		var p = players[0]
+		p.set_physics_process(true)
+		p.set_process_input(true)

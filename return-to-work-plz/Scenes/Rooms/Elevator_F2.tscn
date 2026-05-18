@@ -48,13 +48,13 @@ position = Vector2(960, 540)
 [node name="SpawnDefault" type="Marker2D" parent="." unique_id=907421397]
 position = Vector2(960, 869)
 
-[node name="SpawnFromCubicle" type="Marker2D" parent="." unique_id=1139643109]
+[node name="SpawnLeft" type="Marker2D" parent="." unique_id=1139643109]
 position = Vector2(150, 869)
 
-[node name="SpawnFromMeeting" type="Marker2D" parent="." unique_id=286089548]
+[node name="SpawnRight" type="Marker2D" parent="." unique_id=286089548]
 position = Vector2(1750, 869)
 
-[node name="SpawnFromF1" type="Marker2D" parent="." unique_id=1938392119]
+[node name="SpawnRight" type="Marker2D" parent="." unique_id=1938392119]
 position = Vector2(960, 869)
 
 [node name="RoomLabel" type="Label" parent="." unique_id=1913767294]
@@ -65,14 +65,13 @@ offset_bottom = 60.0
 text = "ELEVATOR HALL"
 horizontal_alignment = 1
 
-[node name="ExitToCubicle" type="Area2D" parent="." unique_id=658866780]
+[node name="ExitLeft" type="Area2D" parent="." unique_id=658866780]
 position = Vector2(10, 780)
 collision_layer = 0
 script = ExtResource("1_exit")
-target_room = "Cubicle"
-target_spawn = "SpawnFromElevator"
+exit_direction = -1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitToCubicle" unique_id=1826135740]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitLeft" unique_id=1826135740]
 position = Vector2(10, -61)
 shape = SubResource("RectangleShape2D_exit")
 
@@ -90,14 +89,13 @@ offset_bottom = 790.0
 text = "← Cubicle"
 horizontal_alignment = 1
 
-[node name="ExitToMeeting" type="Area2D" parent="." unique_id=1614508014]
+[node name="ExitRight" type="Area2D" parent="." unique_id=1614508014]
 position = Vector2(1910, 780)
 collision_layer = 0
 script = ExtResource("1_exit")
-target_room = "Meeting"
-target_spawn = "SpawnFromElevator"
+exit_direction = 1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitToMeeting" unique_id=192023672]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitRight" unique_id=192023672]
 position = Vector2(0, -52)
 shape = SubResource("RectangleShape2D_exit")
 
@@ -119,7 +117,7 @@ horizontal_alignment = 1
 [node name="ElevatorDoor" type="Node2D" parent="." unique_id=1516816332]
 position = Vector2(960, 910)
 script = ExtResource("5_door")
-target_room = "Elevator_F1"
+target_slot = "Slot_Elevator_F1"
 target_spawn = "SpawnFromF2"
 
 [node name="DetectionArea" type="Area2D" parent="ElevatorDoor" unique_id=1322922666]

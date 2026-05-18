@@ -30,19 +30,19 @@ position = Vector2(960, 540)
 [node name="SpawnDefault" type="Marker2D" parent="." unique_id=994904572]
 position = Vector2(960, 910)
 
-[node name="SpawnFromLobby" type="Marker2D" parent="." unique_id=1743216978]
+[node name="SpawnLeft" type="Marker2D" parent="." unique_id=1743216978]
 position = Vector2(150, 910)
 
-[node name="SpawnFromCubicle" type="Marker2D" parent="." unique_id=373171173]
+[node name="SpawnRight" type="Marker2D" parent="." unique_id=373171173]
 position = Vector2(1750, 910)
 
-[node name="SpawnFromLounge" type="Marker2D" parent="." unique_id=467106759]
+[node name="SpawnLeft" type="Marker2D" parent="." unique_id=467106759]
 position = Vector2(150, 910)
 
-[node name="SpawnFromMeeting" type="Marker2D" parent="." unique_id=1584753828]
+[node name="SpawnRight" type="Marker2D" parent="." unique_id=1584753828]
 position = Vector2(1750, 910)
 
-[node name="SpawnFromBathroom" type="Marker2D" parent="." unique_id=18393623]
+[node name="SpawnLeft" type="Marker2D" parent="." unique_id=18393623]
 position = Vector2(600, 910)
 
 [node name="RoomLabel" type="Label" parent="." unique_id=1856929295]
@@ -53,14 +53,13 @@ offset_bottom = 60.0
 text = "ELEVATOR HALL"
 horizontal_alignment = 1
 
-[node name="ExitToLounge" type="Area2D" parent="." unique_id=606809555]
+[node name="ExitLeft" type="Area2D" parent="." unique_id=606809555]
 position = Vector2(10, 780)
 collision_layer = 0
 script = ExtResource("1_exit")
-target_room = "Lounge"
-target_spawn = "SpawnFromElevator"
+exit_direction = -1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitToLounge" unique_id=1881485727]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitLeft" unique_id=1881485727]
 shape = SubResource("RectangleShape2D_exit")
 
 [node name="ExitVisual_Left" type="ColorRect" parent="." unique_id=1103198655]
@@ -77,14 +76,13 @@ offset_bottom = 790.0
 text = "← Lounge"
 horizontal_alignment = 1
 
-[node name="ExitToMeeting" type="Area2D" parent="." unique_id=1839929197]
+[node name="ExitRight" type="Area2D" parent="." unique_id=1839929197]
 position = Vector2(1910, 780)
 collision_layer = 0
 script = ExtResource("1_exit")
-target_room = "Meeting"
-target_spawn = "SpawnFromElevator"
+exit_direction = 1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitToMeeting" unique_id=1974266739]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitRight" unique_id=1974266739]
 shape = SubResource("RectangleShape2D_exit")
 
 [node name="ExitVisual_Right" type="ColorRect" parent="." unique_id=742679698]
@@ -102,14 +100,13 @@ offset_bottom = 790.0
 text = "→ Meeting"
 horizontal_alignment = 1
 
-[node name="ExitToLobby" type="Area2D" parent="." unique_id=1843784566]
+[node name="ExitLeft" type="Area2D" parent="." unique_id=1843784566]
 position = Vector2(500, 780)
 collision_layer = 0
 script = ExtResource("1_exit")
-target_room = "Lobby"
-target_spawn = "SpawnFromElevator"
+exit_direction = -1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitToLobby" unique_id=1882776442]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitLeft" unique_id=1882776442]
 shape = SubResource("RectangleShape2D_exit")
 
 [node name="ExitLabel_Down1" type="Label" parent="." unique_id=1832615887]
@@ -120,14 +117,13 @@ offset_bottom = 910.0
 text = "↓ Lobby"
 horizontal_alignment = 1
 
-[node name="ExitToBathroom" type="Area2D" parent="." unique_id=384669527]
+[node name="ExitLeft" type="Area2D" parent="." unique_id=384669527]
 position = Vector2(700, 780)
 collision_layer = 0
 script = ExtResource("1_exit")
-target_room = "Bathroom"
-target_spawn = "SpawnFromElevator"
+exit_direction = -1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitToBathroom" unique_id=1276886905]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitLeft" unique_id=1276886905]
 shape = SubResource("RectangleShape2D_exit")
 
 [node name="ExitLabel_Down2" type="Label" parent="." unique_id=792742420]

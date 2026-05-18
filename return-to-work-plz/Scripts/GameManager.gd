@@ -155,6 +155,7 @@ func punish_wrong_task() -> void:
 	set_morale(100.0)
 	_build_objectives()
 	npc_positions.clear()
+	shuffle_rooms(true)
 	loop_restarted.emit(current_loop)
 
 ## Check if the current task can be auto-completed (e.g., talk_npcs already met)
@@ -200,6 +201,7 @@ func clock_out() -> void:
 	
 	_build_objectives()
 	npc_positions.clear()
+	shuffle_rooms(true)
 	loop_restarted.emit(current_loop)
 	print("[GameManager] === LOOP %d START === (difficulty: %.2f)" % [current_loop, difficulty_modifier])
 
@@ -218,9 +220,48 @@ func save_npc_positions(room_name: String, room_node: Node2D) -> void:
 		npc_positions[room_name] = positions
 
 func restore_npc_positions(room_name: String, room_node: Node2D) -> void:
-	if room_name not in npc_positions:
+	if room_name in npc_positions:
+		var positions = npc_positions[room_name]
+		for child in room_node.get_children():
+			if child.name in positions:
+				child.global_position = positions[child.name]
+
+# ── Dynamic Room Swapping ──
+func shuffle_rooms(is_start_of_loop: bool = false) -> void:
+	# Expand floor 2 at Loop 5
+	if current_loop >= 5:
+		if "Slot_Cubicle_Left" not in RoomManager.active_slots_f2:
+			print("[GameManager] Expanding Floor 2 layout (Loop 5+)")
+			RoomManager.active_slots_f2.insert(1, "Slot_Cubicle_Left")
+			RoomManager.active_slots_f2.insert(3, "Slot_Cubicle_Right")
+			RoomManager.current_layout["Slot_Cubicle_Left"] = "Cubicle_Left"
+			RoomManager.current_layout["Slot_Cubicle_Right"] = "Cubicle_Right"
+	
+	var chance = 0.0
+	if is_start_of_loop:
+		if current_loop == 1: chance = 0.0
+		elif current_loop == 2: chance = 0.05
+		elif current_loop == 3: chance = 0.15
+		elif current_loop == 4: chance = 0.30
+		else: chance = 0.50 + min((current_loop - 5) * 0.10, 0.49)
+	else:
+		chance = 1.0 # Mid-loop attack
+		
+	if randf() > chance:
 		return
-	var positions: Dictionary = npc_positions[room_name]
-	for child in room_node.get_children():
-		if child.name in positions:
-			child.global_position = positions[child.name]
+		
+	print("[GameManager] SHUFFLING ROOMS!")
+	var swappable_rooms = []
+	var slots_to_swap = []
+	
+	for slot in RoomManager.current_layout.keys():
+		if "Elevator" in slot: continue
+		if slot == "Slot_F1_Left": continue # Lobby never swaps
+		
+		swappable_rooms.append(RoomManager.current_layout[slot])
+		slots_to_swap.append(slot)
+			
+	swappable_rooms.shuffle()
+	
+	for i in range(slots_to_swap.size()):
+		RoomManager.current_layout[slots_to_swap[i]] = swappable_rooms[i]

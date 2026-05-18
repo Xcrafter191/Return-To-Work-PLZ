@@ -1,11 +1,9 @@
 [gd_scene format=3 uid="uid://d4g23c65v6xio"]
 
 [ext_resource type="Script" uid="uid://cge2twkky6a4n" path="res://Scripts/RoomExit.gd" id="1_exit"]
-[ext_resource type="PackedScene" path="res://Scenes/NPCs/Linda.tscn" id="2_linda"]
-[ext_resource type="PackedScene" path="res://Scenes/NPCs/Mike.tscn" id="3_mike"]
+[ext_resource type="PackedScene" uid="uid://cs816ugb3wtle" path="res://Scenes/NPCs/Linda.tscn" id="2_linda"]
+[ext_resource type="PackedScene" uid="uid://1dcylxfmysnm" path="res://Scenes/NPCs/Mike.tscn" id="3_mike"]
 [ext_resource type="Texture2D" uid="uid://bo843u8lcua6o" path="res://Assets/Rooms/Receptionist_P.png" id="4_bg"]
-[ext_resource type="Texture2D" uid="uid://o4tyd1kljagg" path="res://Assets/Sprites/Receptionist Linda.png" id="5_linda"]
-[ext_resource type="Texture2D" uid="uid://dcoufhb0171vs" path="res://Assets/Sprites/Janitor Mike.png" id="6_mike"]
 [ext_resource type="Script" uid="uid://8n7t80alfs5g" path="res://Scripts/ClockOut.gd" id="7_clockout"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
@@ -42,7 +40,7 @@ position = Vector2(960, 540)
 [node name="SpawnDefault" type="Marker2D" parent="." unique_id=1416373072]
 position = Vector2(170, 869)
 
-[node name="SpawnFromElevator" type="Marker2D" parent="." unique_id=268082454]
+[node name="SpawnRight" type="Marker2D" parent="." unique_id=268082454]
 position = Vector2(1750, 868)
 
 [node name="RoomLabel" type="Label" parent="." unique_id=1047496605]
@@ -59,17 +57,15 @@ position = Vector2(1528, 871)
 
 [node name="JanitorMike" parent="." unique_id=211043716 instance=ExtResource("3_mike")]
 position = Vector2(400, 870)
-patrol_left_x = 200.0
 patrol_right_x = 900.0
 
-[node name="ExitToElevator" type="Area2D" parent="." unique_id=1613160935]
+[node name="ExitRight" type="Area2D" parent="." unique_id=1613160935]
 position = Vector2(1910, 722)
 collision_layer = 0
 script = ExtResource("1_exit")
-target_room = "Elevator_F1"
-target_spawn = "SpawnFromLobby"
+exit_direction = 1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitToElevator" unique_id=552330929]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitRight" unique_id=552330929]
 position = Vector2(1.5, -221.5)
 shape = SubResource("RectangleShape2D_exit")
 
@@ -114,3 +110,4 @@ collision_mask = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WallLeft" unique_id=1375926425]
 position = Vector2(-2, 55)
 shape = SubResource("RectangleShape2D_ced4q")
+

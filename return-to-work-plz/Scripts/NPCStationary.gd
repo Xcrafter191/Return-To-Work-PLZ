@@ -30,9 +30,12 @@ func _ready() -> void:
 	if sprite and sprite_texture:
 		sprite.texture = sprite_texture
 		
-	if anim_sprite:
+	if anim_sprite and anim_sprite.sprite_frames and anim_sprite.sprite_frames.has_animation("idle") and anim_sprite.sprite_frames.get_frame_count("idle") > 0:
 		if sprite: sprite.visible = false
 		anim_sprite.play("idle")
+	else:
+		if anim_sprite: anim_sprite.visible = false
+		if sprite: sprite.visible = true
 	
 	# Set a max width so it wraps if text is too long
 	dialogue_label.custom_minimum_size.x = 100 # Min width
@@ -54,12 +57,12 @@ func _physics_process(delta: float) -> void:
 		var players = get_tree().get_nodes_in_group("player")
 		if players.size() > 0:
 			var player = players[0]
-			var target_node = sprite if sprite else anim_sprite
-			if target_node:
-				if player.global_position.x > global_position.x:
-					target_node.scale.x = -abs(target_node.scale.x)
-				else:
-					target_node.scale.x = abs(target_node.scale.x)
+			if player.global_position.x > global_position.x:
+				if sprite: sprite.scale.x = -abs(sprite.scale.x)
+				if anim_sprite: anim_sprite.scale.x = -abs(anim_sprite.scale.x)
+			else:
+				if sprite: sprite.scale.x = abs(sprite.scale.x)
+				if anim_sprite: anim_sprite.scale.x = abs(anim_sprite.scale.x)
 
 func _on_player_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
