@@ -35,6 +35,10 @@ var is_stuck_99: bool = false
 var red_ambience_rect: ColorRect = null
 var blur_rect: ColorRect = null
 
+# Auto-fix timer constants
+const AUTOFIX_NO_SOLUTION: float = 5.0
+const AUTOFIX_HAS_SOLUTION: float = 30.0
+
 func _process(_delta: float) -> void:
 	if is_unpause_hack and get_tree().paused:
 		get_tree().paused = false
@@ -152,6 +156,10 @@ func _reset_permanent_inconveniences() -> void:
 func _on_objective_completed(_task_id: String) -> void:
 	if base_chance <= 0.0: return
 	
+	# Don't trigger inconveniences when player is about to clock out
+	if GameManager.get_current_task_id() == "clock_out":
+		return
+	
 	var all_met = true
 	for diff in quotas:
 		if triggered[diff] < quotas[diff]:
@@ -196,6 +204,82 @@ func _trigger_random_inconvenience() -> void:
 			Difficulty.MEDIUM: _execute_medium()
 			Difficulty.MAJOR: _execute_major()
 	, CONNECT_ONE_SHOT)
+
+# ── AUTO-FIX SYSTEM ──
+# All inconveniences auto-resolve after a timeout so the player isn't stuck.
+# No-solution: 5 seconds. Has-solution: 30 seconds.
+
+func _auto_fix(choice: String, timeout: float) -> void:
+	var timer = get_tree().create_timer(timeout)
+	timer.timeout.connect(func(): _revert_inconvenience(choice))
+
+func _revert_inconvenience(choice: String) -> void:
+	print("[InconvenienceManager] Auto-fixing: ", choice)
+	match choice:
+		"lights_out":
+			var main = get_tree().current_scene
+			var pm = main.get_node_or_null("PauseMenu") if main else null
+			if pm:
+				pm.brightness_slider.value = 1.0
+				pm._apply_settings()
+				pm.save_settings()
+		"random_ui":
+			var hud = get_tree().current_scene.get_node_or_null("HUD")
+			if hud:
+				hud.scale = Vector2.ONE
+		"shaky":
+			is_shaky = false
+		"clock_stop":
+			is_clock_stopped = false
+		"sprite_flip":
+			is_sprite_flipped = false
+			var players = get_tree().get_nodes_in_group("player")
+			for p in players:
+				if p.has_node("AnimSprite"):
+					p.get_node("AnimSprite").scale.y = abs(p.get_node("AnimSprite").scale.y)
+		"blur":
+			if is_instance_valid(blur_rect):
+				blur_rect.get_parent().queue_free()
+				blur_rect = null
+		"fps":
+			var main = get_tree().current_scene
+			var pm = main.get_node_or_null("PauseMenu") if main else null
+			if pm:
+				pm.fps_input.value = 60.0
+				pm._apply_settings()
+				pm.save_settings()
+		"unpause_hack":
+			is_unpause_hack = false
+		"upside_down":
+			is_upside_down = false
+			var main_cam = get_tree().current_scene.get_node_or_null("Camera2D")
+			if main_cam:
+				main_cam.rotation = 0.0
+		"window_resizer":
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+		"keybind":
+			var main = get_tree().current_scene
+			var pm = main.get_node_or_null("PauseMenu") if main else null
+			if pm:
+				InputMap.load_from_project_settings()
+				for action in pm.keybind_actions:
+					if action in pm.keybind_buttons:
+						pm.keybind_buttons[action].text = pm._get_action_key_name(action)
+				pm.save_settings()
+		"gibberish":
+			if is_gibberish:
+				is_gibberish = false
+				var scene = get_tree().current_scene
+				if scene:
+					_unscramble_all_labels(scene)
+		"fake_ad":
+			if is_instance_valid(fake_ads_container):
+				fake_ads_container.queue_free()
+				fake_ads_container = null
+		"task_deception":
+			is_task_deception = false
+		"stuck_99":
+			is_stuck_99 = false
 
 # ── MINOR ──
 func _execute_minor() -> void:
@@ -251,6 +335,9 @@ void fragment() {
 			canvas.add_child(blur_rect)
 			get_tree().current_scene.add_child(canvas)
 
+	# Auto-fix: all minor inconveniences have no solution → 5 seconds
+	_auto_fix(choice, AUTOFIX_NO_SOLUTION)
+
 # ── MEDIUM ──
 func _execute_medium() -> void:
 	var options = ["fps", "unplug", "keybind", "unpause_hack", "upside_down", "window_resizer"]
@@ -267,6 +354,8 @@ func _execute_medium() -> void:
 	
 	elif choice == "unplug":
 		_spawn_unplug_fake()
+		# unplug already has its own 5s timer, no extra auto-fix needed
+		return
 	
 	elif choice == "keybind":
 		var main = get_tree().current_scene
@@ -284,6 +373,9 @@ func _execute_medium() -> void:
 			pm.keybind_buttons["move_left"].text = pm._get_action_key_name("move_left")
 			pm.keybind_buttons["move_right"].text = pm._get_action_key_name("move_right")
 			pm.save_settings()
+		# keybind has a solution (player can fix in settings) → 30s
+		_auto_fix(choice, AUTOFIX_HAS_SOLUTION)
+		return
 			
 	elif choice == "unpause_hack":
 		is_unpause_hack = true
@@ -297,6 +389,9 @@ func _execute_medium() -> void:
 	elif choice == "window_resizer":
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 		DisplayServer.window_set_size(Vector2i(640, 360))
+
+	# Auto-fix: most medium inconveniences have no solution → 5 seconds
+	_auto_fix(choice, AUTOFIX_NO_SOLUTION)
 
 func _spawn_unplug_fake() -> void:
 	var canvas = CanvasLayer.new()
@@ -327,6 +422,9 @@ func _execute_major() -> void:
 		is_task_deception = true
 	elif choice == "stuck_99":
 		is_stuck_99 = true
+
+	# Auto-fix: all major inconveniences have solutions → 30 seconds
+	_auto_fix(choice, AUTOFIX_HAS_SOLUTION)
 
 func _spawn_fake_ad() -> void:
 	if fake_ads_container == null:

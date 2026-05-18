@@ -19,15 +19,16 @@ func _ready() -> void:
 func start_skill_check(base_speed: float = 400.0) -> void:
 	is_active = true
 	visible = true
-	result_label.text = ""
+	result_label.text = "Press [SPACE]"
 	
-	# Randomize Yellow Zone (Width between 40 and 100)
-	var zone_width = randf_range(40, 100)
+	# Yellow zone width shrinks each loop, capped at minimum 25px
+	var base_width = 100.0 - (GameManager.current_loop * 5.0)
+	var zone_width = clampf(base_width, 25.0, 100.0)
 	var max_x = bar_width - zone_width
 	var zone_x = randf_range(0, max_x)
 	
-	# Hacker attack hook - shrink zone!
-	if InconvenienceManager.is_stuck_99: # Reuse this state or a new one
+	# Hacker attack hook - shrink zone even further!
+	if InconvenienceManager.is_stuck_99:
 		zone_width = 15.0
 		arrow_speed = base_speed * randf_range(1.5, 2.5)
 	else:
@@ -54,8 +55,8 @@ func _process(delta: float) -> void:
 		arrow.position.x = 0
 		arrow_direction = 1
 		
-	# Input Check
-	if Input.is_action_just_pressed("interact"):
+	# Input Check — uses Space (qte_confirm), NOT E (interact)
+	if Input.is_action_just_pressed("qte_confirm"):
 		_check_result()
 
 func _check_result() -> void:
