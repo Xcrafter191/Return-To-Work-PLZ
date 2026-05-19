@@ -10,6 +10,7 @@ extends Node2D
 @export var task_id: String = ""  ## Must match a GameManager objective id
 @export var on_complete_npc_path: NodePath = ""  ## Optional: NPC to change dialogue on completion
 @export var on_complete_npc_dialogue: String = ""  ## New dialogue for that NPC
+@onready var task_sfx: AudioStreamPlayer2D = $TaskSFX
 
 var player_in_range: bool = false
 var current_player: CharacterBody2D = null
@@ -41,6 +42,7 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("interact"):
 		if not current_player.is_working and _is_available():
 			prompt_label.visible = false
+			on_interact_start()
 			var scaled_dur = GameManager.get_scaled_duration(task_duration)
 			current_player.start_task(scaled_dur)
 	
@@ -84,9 +86,13 @@ func _update_prompt() -> void:
 
 func on_interact_start() -> void:
 	prompt_label.visible = false
+	if task_sfx:
+		task_sfx.play()
 
 func on_interact_complete() -> void:
 	task_completed = true
+	if task_sfx:
+		task_sfx.stop()
 	prompt_label.text = "Done!"
 	prompt_label.visible = true
 	if task_id != "":
@@ -107,6 +113,8 @@ func on_interact_complete() -> void:
 
 func _skip_task() -> void:
 	task_completed = true
+	if task_sfx:
+		task_sfx.stop()
 	prompt_label.text = "Skipped"
 	prompt_label.visible = true
 	if task_id != "":

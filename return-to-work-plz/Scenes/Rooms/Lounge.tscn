@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://byxylnilpjvd3"]
+[gd_scene load_steps=11 format=3 uid="uid://byxylnilpjvd3"]
 
 [ext_resource type="Script" uid="uid://cge2twkky6a4n" path="res://Scripts/RoomExit.gd" id="1_exit"]
 [ext_resource type="PackedScene" uid="uid://npcstat001" path="res://Scenes/NPCs/StationaryNPC.tscn" id="2_npc_stat"]
+[ext_resource type="AudioStream" uid="uid://db0bgevh3iwji" path="res://Assets/Audio/SFX/Coffe_Sound.MP3" id="3_fqsfy"]
 [ext_resource type="Script" uid="uid://dr0o7y0vodg2x" path="res://Scripts/InteractableObject.gd" id="3_interact"]
 [ext_resource type="Texture2D" uid="uid://bmb4rt8vljrax" path="res://Assets/UI V4/TEXTBOX/INTERACT.png" id="3_u0cjq"]
 [ext_resource type="FontFile" uid="uid://c41kv0pko2t4q" path="res://Assets/Font/Pixeled.ttf" id="4_fqsfy"]
@@ -58,6 +59,10 @@ script = ExtResource("3_interact")
 task_name = "Making coffee..."
 task_duration = 2.5
 task_id = "coffee"
+
+[node name="TaskSFX" type="AudioStreamPlayer2D" parent="CoffeeTask"]
+stream = ExtResource("3_fqsfy")
+bus = &"SFX"
 
 [node name="DetectionArea" type="Area2D" parent="CoffeeTask"]
 collision_layer = 0

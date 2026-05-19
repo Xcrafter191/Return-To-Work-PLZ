@@ -126,6 +126,7 @@ theme_override_fonts/font = ExtResource("5_0pc62")
 text = "GO_UPSTAIRS.int"
 
 [node name="PromptBox" type="TextureRect" parent="ElevatorDoor/PromptLabel"]
+layout_mode = 0
 offset_left = -18.0
 offset_top = -12.0
 offset_right = 300.0

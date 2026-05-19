@@ -1,10 +1,11 @@
-[gd_scene load_steps=15 format=3 uid="uid://knu1gltsvpy3"]
+[gd_scene load_steps=16 format=3 uid="uid://knu1gltsvpy3"]
 
 [ext_resource type="Script" uid="uid://cge2twkky6a4n" path="res://Scripts/RoomExit.gd" id="1_exit"]
 [ext_resource type="PackedScene" uid="uid://r5ay6vcnopve" path="res://Scenes/NPCs/Amelia.tscn" id="2_amelia"]
 [ext_resource type="PackedScene" uid="uid://dh3xq8jacg7w1" path="res://Scenes/NPCs/Greg.tscn" id="3_greg"]
 [ext_resource type="Texture2D" uid="uid://cvpq4n138qar5" path="res://Assets/Rooms/Cubicle_A_P.png" id="4_bg"]
 [ext_resource type="Script" uid="uid://dr0o7y0vodg2x" path="res://Scripts/InteractableObject.gd" id="5_interact"]
+[ext_resource type="AudioStream" uid="uid://ca1vwacheu58t" path="res://Assets/Audio/SFX/Typing_Sound.MP3" id="5_pvtwc"]
 [ext_resource type="FontFile" uid="uid://c41kv0pko2t4q" path="res://Assets/Font/Pixeled.ttf" id="6_6b22v"]
 [ext_resource type="Texture2D" uid="uid://bmb4rt8vljrax" path="res://Assets/UI V4/TEXTBOX/INTERACT.png" id="6_m0obc"]
 
@@ -77,6 +78,10 @@ position = Vector2(1100, 910)
 script = ExtResource("5_interact")
 task_name = "Typing report..."
 task_id = "type_report"
+
+[node name="TaskSFX" type="AudioStreamPlayer2D" parent="Workstation"]
+stream = ExtResource("5_pvtwc")
+bus = &"SFX"
 
 [node name="DetectionArea" type="Area2D" parent="Workstation"]
 collision_layer = 0
@@ -185,6 +190,10 @@ script = ExtResource("5_interact")
 task_name = "Replying email..."
 task_id = "reply_email"
 
+[node name="TaskSFX" type="AudioStreamPlayer2D" parent="EmailStation"]
+stream = ExtResource("5_pvtwc")
+bus = &"SFX"
+
 [node name="DetectionArea" type="Area2D" parent="EmailStation"]
 collision_layer = 0
 
@@ -235,6 +244,10 @@ script = ExtResource("5_interact")
 task_name = "Fixing spreadsheet..."
 task_duration = 3.5
 task_id = "fix_spreadsheet"
+
+[node name="TaskSFX" type="AudioStreamPlayer2D" parent="SpreadsheetStation"]
+stream = ExtResource("5_pvtwc")
+bus = &"SFX"
 
 [node name="DetectionArea" type="Area2D" parent="SpreadsheetStation"]
 collision_layer = 0

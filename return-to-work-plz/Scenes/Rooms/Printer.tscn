@@ -1,6 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://dsdmnrkmh88my"]
+[gd_scene load_steps=11 format=3 uid="uid://dsdmnrkmh88my"]
 
 [ext_resource type="Script" uid="uid://cge2twkky6a4n" path="res://Scripts/RoomExit.gd" id="1_exit"]
+[ext_resource type="AudioStream" uid="uid://bui7c7r0ydo32" path="res://Assets/Audio/SFX/Printer_Sound.MP3" id="2_148kx"]
 [ext_resource type="Texture2D" uid="uid://bmb4rt8vljrax" path="res://Assets/UI V4/TEXTBOX/INTERACT.png" id="2_b4vsv"]
 [ext_resource type="PackedScene" uid="uid://c78m5pq10ipis" path="res://Scenes/NPCs/Mark.tscn" id="2_npc_stat"]
 [ext_resource type="FontFile" uid="uid://c41kv0pko2t4q" path="res://Assets/Font/Pixeled.ttf" id="3_148kx"]
@@ -67,6 +68,10 @@ position = Vector2(1000, 910)
 script = ExtResource("6_interact")
 task_name = "Printing documents..."
 task_id = "print_paper"
+
+[node name="TaskSFX" type="AudioStreamPlayer2D" parent="PrintTask"]
+stream = ExtResource("2_148kx")
+bus = &"SFX"
 
 [node name="DetectionArea" type="Area2D" parent="PrintTask"]
 collision_layer = 0

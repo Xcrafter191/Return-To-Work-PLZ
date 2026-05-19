@@ -1,12 +1,15 @@
-[gd_scene load_steps=24 format=3 uid="uid://dkqqgjacxokio"]
+[gd_scene load_steps=27 format=3 uid="uid://dkqqgjacxokio"]
 
 [ext_resource type="Script" uid="uid://dtjkfc6g2efv4" path="res://Scripts/PauseMenu.gd" id="1_pause"]
 [ext_resource type="FontFile" uid="uid://c41kv0pko2t4q" path="res://Assets/Font/Pixeled.ttf" id="2_8hc20"]
-[ext_resource type="Texture2D" uid="uid://bxrookln3gif3" path="res://Assets/UI V4/PAUSE/BUTTONS/RESUME.png" id="3_gdh0q"]
-[ext_resource type="Texture2D" uid="uid://ckk3vuxnvic17" path="res://Assets/UI V4/PAUSE/BUTTONS/OPTION.png" id="4_djuuc"]
-[ext_resource type="Texture2D" uid="uid://oj48ohpi8xw" path="res://Assets/UI V4/PAUSE/BUTTONS/EXIT.png" id="5_85qas"]
+[ext_resource type="Texture2D" uid="uid://ik5fegnx28t2" path="res://Assets/UI V4/PAUSE/BUTTONS/Group 109.png" id="3_heeld"]
+[ext_resource type="Texture2D" uid="uid://dos0of1i47cnk" path="res://Assets/UI V4/PAUSE/BUTTONS/Group 110.png" id="4_t5wsj"]
+[ext_resource type="Texture2D" uid="uid://dv2sfbk45lro7" path="res://Assets/UI V4/PAUSE/BUTTONS/Group 112.png" id="5_5j7uh"]
+[ext_resource type="Texture2D" uid="uid://bcs73r7y6py20" path="res://Assets/UI V4/PAUSE/BUTTONS/Group 111.png" id="6_ilrxe"]
 [ext_resource type="Texture2D" uid="uid://cs7udj2lvluqs" path="res://Assets/UI V4/PAUSE/MAIN/MAIN_BOX.png" id="6_mainbox"]
+[ext_resource type="Texture2D" uid="uid://dxghmx2wisx6l" path="res://Assets/UI V4/PAUSE/BUTTONS/Group 113.png" id="7_hf0po"]
 [ext_resource type="Texture2D" uid="uid://cx5hqpfi3mgya" path="res://Assets/UI V4/PAUSE/MAIN/SELECTED_BOX.png" id="7_selbox"]
+[ext_resource type="Texture2D" uid="uid://c57riptktorsi" path="res://Assets/UI V4/PAUSE/BUTTONS/Group 114.png" id="8_4wb8h"]
 [ext_resource type="Texture2D" uid="uid://c2mv0x0b1v52d" path="res://Assets/UI V4/PAUSE/MAIN/NOT_SELECTED_BOX.png" id="8_unselbox"]
 [ext_resource type="Texture2D" uid="uid://blfn48y6fljk0" path="res://Assets/UI V4/PAUSE/MAIN/SCROLL/SCROLL_EMPTY.png" id="9_scroll_empty"]
 [ext_resource type="Texture2D" uid="uid://b3t7hwxvu3brp" path="res://Assets/UI V4/PAUSE/MAIN/SCROLL/SCROLL_FULL.png" id="10_scroll_full"]
@@ -131,14 +134,16 @@ layout_mode = 2
 [node name="BtnResume" type="TextureButton" parent="PausePanel"]
 custom_minimum_size = Vector2(200, 80)
 layout_mode = 2
-texture_normal = ExtResource("3_gdh0q")
+texture_normal = ExtResource("3_heeld")
+texture_hover = ExtResource("4_t5wsj")
 ignore_texture_size = true
 stretch_mode = 0
 
 [node name="BtnOptions" type="TextureButton" parent="PausePanel"]
 custom_minimum_size = Vector2(200, 80)
 layout_mode = 2
-texture_normal = ExtResource("4_djuuc")
+texture_normal = ExtResource("6_ilrxe")
+texture_hover = ExtResource("5_5j7uh")
 ignore_texture_size = true
 stretch_mode = 0
 
@@ -146,7 +151,8 @@ stretch_mode = 0
 clip_contents = true
 custom_minimum_size = Vector2(200, 90)
 layout_mode = 2
-texture_normal = ExtResource("5_85qas")
+texture_normal = ExtResource("7_hf0po")
+texture_hover = ExtResource("8_4wb8h")
 ignore_texture_size = true
 stretch_mode = 0
 
@@ -186,10 +192,9 @@ text = "X"
 [node name="Tabs" type="TabContainer" parent="SettingsPanel/MainBox"]
 layout_mode = 2
 size_flags_vertical = 3
-current_tab = 3
+current_tab = 0
 
 [node name="AUDIO" type="MarginContainer" parent="SettingsPanel/MainBox/Tabs"]
-visible = false
 custom_minimum_size = Vector2(768, 0)
 layout_mode = 2
 theme_override_constants/margin_left = 16
@@ -405,6 +410,7 @@ size_flags_horizontal = 3
 theme_override_constants/separation = 8
 
 [node name="ACCESSIBILITY" type="MarginContainer" parent="SettingsPanel/MainBox/Tabs"]
+visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 16

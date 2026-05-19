@@ -1,10 +1,12 @@
-[gd_scene load_steps=12 format=3 uid="uid://xd33hxe3ygja"]
+[gd_scene load_steps=14 format=3 uid="uid://xd33hxe3ygja"]
 
 [ext_resource type="Script" uid="uid://cge2twkky6a4n" path="res://Scripts/RoomExit.gd" id="1_exit"]
 [ext_resource type="PackedScene" uid="uid://dfqlq6if2etm" path="res://Scenes/NPCs/Luke.tscn" id="2_npc_stat"]
 [ext_resource type="Texture2D" uid="uid://bmb4rt8vljrax" path="res://Assets/UI V4/TEXTBOX/INTERACT.png" id="3_am3xq"]
+[ext_resource type="AudioStream" uid="uid://nvoa305b6qg4" path="res://Assets/Audio/SFX/Paper_Sound.MP3" id="3_ubtj4"]
 [ext_resource type="Script" uid="uid://dr0o7y0vodg2x" path="res://Scripts/InteractableObject.gd" id="4_interact"]
 [ext_resource type="FontFile" uid="uid://c41kv0pko2t4q" path="res://Assets/Font/Pixeled.ttf" id="4_ubtj4"]
+[ext_resource type="AudioStream" uid="uid://c03lcyff5qoxu" path="res://Assets/Audio/SFX/Chatter_Sound.MP3" id="7_yywby"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_am3xq"]
 size = Vector2(42, 972.5)
@@ -110,6 +112,10 @@ task_id = "give_paper"
 on_complete_npc_path = NodePath("../ManagerLuke")
 on_complete_npc_dialogue = "Fine work. Keep it up next time."
 
+[node name="TaskSFX" type="AudioStreamPlayer2D" parent="GivePaperTask"]
+stream = ExtResource("3_ubtj4")
+bus = &"SFX"
+
 [node name="DetectionArea" type="Area2D" parent="GivePaperTask"]
 collision_layer = 0
 
@@ -151,8 +157,6 @@ offset_bottom = 84.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("4_ubtj4")
 text = "PRESS E TO INTERACT"
-
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="GivePaperTask"]
 
 [node name="ExitLeft" type="Area2D" parent="."]
 visible = false
@@ -207,6 +211,10 @@ script = ExtResource("4_interact")
 task_name = "Presenting to Manager..."
 task_duration = 4.0
 task_id = "present_manager"
+
+[node name="TaskSFX" type="AudioStreamPlayer2D" parent="PresentTask"]
+stream = ExtResource("7_yywby")
+bus = &"SFX"
 
 [node name="DetectionArea" type="Area2D" parent="PresentTask"]
 collision_layer = 0
