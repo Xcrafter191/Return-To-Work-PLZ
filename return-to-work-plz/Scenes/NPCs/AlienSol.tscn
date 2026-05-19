@@ -1,9 +1,9 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=7 format=3 uid="uid://dai1wbe2jixim"]
 
-[ext_resource type="Script" path="res://Scripts/NPCStationary.gd" id="1_npc"]
+[ext_resource type="Script" uid="uid://cvts2ivg3us3y" path="res://Scripts/NPCStationary.gd" id="1_npc"]
 [ext_resource type="Texture2D" uid="uid://b1551mr8wt1cd" path="res://Assets/UI V4/TEXTBOX/CHAT.png" id="2_q4axa"]
 [ext_resource type="FontFile" uid="uid://c41kv0pko2t4q" path="res://Assets/Font/Pixeled.ttf" id="3_wvd2y"]
-[ext_resource type="Texture2D" path="res://Assets/Sprites/Alien Sol.png" id="4_sprite"]
+[ext_resource type="Texture2D" uid="uid://hkw247hq68pm" path="res://Assets/Sprites/Alien Sol.png" id="4_sprite"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
 size = Vector2(205, 365)

@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://player001"]
+[gd_scene load_steps=342 format=3 uid="uid://player001"]
 
 [ext_resource type="Script" uid="uid://bgbpk7prnvfv5" path="res://Scripts/Player.gd" id="1_player"]
 [ext_resource type="Texture2D" uid="uid://bdlapupgfo1ki" path="res://Assets/Sprites/Sprites_Animation/player/attack/attack_000.png" id="2_mwr2h"]
@@ -1394,11 +1394,11 @@ size = Vector2(205, 365)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_interact"]
 size = Vector2(232, 375)
 
-[node name="Player" type="CharacterBody2D" unique_id=428068566 groups=["player"]]
+[node name="Player" type="CharacterBody2D" groups=["player"]]
 collision_mask = 2
 script = ExtResource("1_player")
 
-[node name="AnimSprite" type="AnimatedSprite2D" parent="." unique_id=1226028606]
+[node name="AnimSprite" type="AnimatedSprite2D" parent="."]
 position = Vector2(-2, -184)
 scale = Vector2(0.6, 0.6)
 sprite_frames = SubResource("SpriteFrames_5q4jo")
@@ -1406,23 +1406,23 @@ animation = &"attack"
 frame = 60
 frame_progress = 1.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=59916147]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-1.5, -184.5)
 shape = SubResource("RectangleShape2D_body")
 
-[node name="InteractionArea" type="Area2D" parent="." unique_id=451085760]
+[node name="InteractionArea" type="Area2D" parent="."]
 collision_layer = 2
 collision_mask = 4
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea" unique_id=1531950906]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea"]
 position = Vector2(0, -187.5)
 shape = SubResource("RectangleShape2D_interact")
 
-[node name="ProgressContainer" type="Node2D" parent="." unique_id=1070276076]
+[node name="ProgressContainer" type="Node2D" parent="."]
 visible = false
 position = Vector2(0, -382)
 
-[node name="ProgressBG" type="ColorRect" parent="ProgressContainer" unique_id=397251113]
+[node name="ProgressBG" type="ColorRect" parent="ProgressContainer"]
 offset_left = -105.0
 offset_top = -6.0
 offset_right = -1.0
@@ -1430,7 +1430,7 @@ offset_bottom = 6.0
 scale = Vector2(1.97724, 0.957504)
 color = Color(0.15, 0.15, 0.15, 0.85)
 
-[node name="ProgressFill" type="ColorRect" parent="ProgressContainer" unique_id=1525018393]
+[node name="ProgressFill" type="ColorRect" parent="ProgressContainer"]
 offset_left = -103.0
 offset_top = -4.0
 offset_right = -103.0

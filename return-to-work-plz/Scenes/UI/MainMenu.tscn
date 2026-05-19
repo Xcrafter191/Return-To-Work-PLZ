@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://fhbeppwieudi"]
+[gd_scene load_steps=8 format=3 uid="uid://fhbeppwieudi"]
 
 [ext_resource type="Script" uid="uid://bboervcog1iof" path="res://Scripts/MainMenu.gd" id="1_mm"]
+[ext_resource type="AudioStream" uid="uid://cl6a8ja4q5t3a" path="res://Assets/Music/mainmenu.mp3" id="2_744d7"]
 [ext_resource type="Texture2D" uid="uid://m828mdyeuh5q" path="res://Assets/Logo/logo.png" id="2_mjmdf"]
 [ext_resource type="Texture2D" uid="uid://bggq4c8gevr2s" path="res://Assets/UI V4/PAUSE/BUTTONS/Group 115.png" id="3_jex3y"]
 [ext_resource type="Texture2D" uid="uid://b4x8c1278chx2" path="res://Assets/UI V4/PAUSE/BUTTONS/Group 116.png" id="4_744d7"]
@@ -16,14 +17,15 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_mm")
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="BackgroundRect" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.12, 0.12, 0.12, 1)
+expand_mode = 1
+stretch_mode = 6
 
 [node name="LogoRect" type="TextureRect" parent="."]
 layout_mode = 1
@@ -72,3 +74,8 @@ texture_normal = ExtResource("5_kl3t2")
 texture_hover = ExtResource("6_ynupv")
 ignore_texture_size = true
 stretch_mode = 0
+
+[node name="MainMenuBGM" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_744d7")
+autoplay = true
+bus = &"Music"
