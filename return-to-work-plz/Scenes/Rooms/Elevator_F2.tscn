@@ -1,7 +1,9 @@
-[gd_scene format=3 uid="uid://b2yijxd3sba01"]
+[gd_scene load_steps=11 format=3 uid="uid://b2yijxd3sba01"]
 
 [ext_resource type="Script" uid="uid://cge2twkky6a4n" path="res://Scripts/RoomExit.gd" id="1_exit"]
 [ext_resource type="Texture2D" uid="uid://c8q63rmahv30x" path="res://Assets/Rooms/Elevator_P.png" id="4_bg"]
+[ext_resource type="Texture2D" uid="uid://bmb4rt8vljrax" path="res://Assets/UI V4/TEXTBOX/INTERACT.png" id="4_dubvc"]
+[ext_resource type="FontFile" uid="uid://c41kv0pko2t4q" path="res://Assets/Font/Pixeled.ttf" id="5_6gmjt"]
 [ext_resource type="Script" uid="uid://bkd8s0as4fa0w" path="res://Scripts/ElevatorDoor.gd" id="5_door"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
@@ -19,14 +21,14 @@ size = Vector2(42, 972.5)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rydhx"]
 size = Vector2(44, 917)
 
-[node name="Elevator_F2" type="Node2D" unique_id=2000601447]
+[node name="Elevator_F2" type="Node2D"]
 
-[node name="Background" type="Sprite2D" parent="." unique_id=1550539619]
+[node name="Background" type="Sprite2D" parent="."]
 position = Vector2(960, 540)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("4_bg")
 
-[node name="FloorLabel" type="Label" parent="." unique_id=1123281662]
+[node name="FloorLabel" type="Label" parent="."]
 offset_left = 860.0
 offset_top = 870.0
 offset_right = 1060.0
@@ -34,30 +36,30 @@ offset_bottom = 900.0
 text = "2F - Office Floor"
 horizontal_alignment = 1
 
-[node name="Floor" type="StaticBody2D" parent="." unique_id=998294157]
+[node name="Floor" type="StaticBody2D" parent="."]
 position = Vector2(960, 899)
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=827444282]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
 shape = SubResource("RectangleShape2D_floor")
 
-[node name="RoomCenter" type="Marker2D" parent="." unique_id=1872806397]
+[node name="RoomCenter" type="Marker2D" parent="."]
 position = Vector2(960, 540)
 
-[node name="SpawnDefault" type="Marker2D" parent="." unique_id=907421397]
+[node name="SpawnDefault" type="Marker2D" parent="."]
 position = Vector2(960, 869)
 
-[node name="SpawnLeft" type="Marker2D" parent="." unique_id=1139643109]
+[node name="SpawnLeft" type="Marker2D" parent="."]
 position = Vector2(150, 869)
 
-[node name="SpawnRight" type="Marker2D" parent="." unique_id=286089548]
+[node name="SpawnRight" type="Marker2D" parent="."]
 position = Vector2(1750, 869)
 
-[node name="SpawnRight" type="Marker2D" parent="." unique_id=1938392119]
+[node name="SpawnRight2" type="Marker2D" parent="."]
 position = Vector2(960, 869)
 
-[node name="RoomLabel" type="Label" parent="." unique_id=1913767294]
+[node name="RoomLabel" type="Label" parent="."]
 offset_left = 830.0
 offset_top = 30.0
 offset_right = 1090.0
@@ -65,23 +67,23 @@ offset_bottom = 60.0
 text = "ELEVATOR HALL"
 horizontal_alignment = 1
 
-[node name="ExitLeft" type="Area2D" parent="." unique_id=658866780]
+[node name="ExitLeft" type="Area2D" parent="."]
 position = Vector2(10, 780)
 collision_layer = 0
 script = ExtResource("1_exit")
 exit_direction = -1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitLeft" unique_id=1826135740]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitLeft"]
 position = Vector2(10, -61)
 shape = SubResource("RectangleShape2D_exit")
 
-[node name="ExitVisual_Left" type="ColorRect" parent="." unique_id=170942569]
+[node name="ExitVisual_Left" type="ColorRect" parent="."]
 offset_top = 576.0
 offset_right = 30.0
 offset_bottom = 876.0
 color = Color(0.3, 0.3, 0.5, 0.4)
 
-[node name="ExitLabel_Left" type="Label" parent="." unique_id=699523320]
+[node name="ExitLabel_Left" type="Label" parent="."]
 offset_left = 10.0
 offset_top = 760.0
 offset_right = 130.0
@@ -89,24 +91,23 @@ offset_bottom = 790.0
 text = "← Cubicle"
 horizontal_alignment = 1
 
-[node name="ExitRight" type="Area2D" parent="." unique_id=1614508014]
+[node name="ExitRight" type="Area2D" parent="."]
 position = Vector2(1910, 780)
 collision_layer = 0
 script = ExtResource("1_exit")
-exit_direction = 1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitRight" unique_id=192023672]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitRight"]
 position = Vector2(0, -52)
 shape = SubResource("RectangleShape2D_exit")
 
-[node name="ExitVisual_Right" type="ColorRect" parent="." unique_id=1875826106]
+[node name="ExitVisual_Right" type="ColorRect" parent="."]
 offset_left = 1890.0
 offset_top = 578.0
 offset_right = 1920.0
 offset_bottom = 878.0
 color = Color(0.3, 0.3, 0.5, 0.4)
 
-[node name="ExitLabel_Right" type="Label" parent="." unique_id=751129699]
+[node name="ExitLabel_Right" type="Label" parent="."]
 offset_left = 1800.0
 offset_top = 760.0
 offset_right = 1910.0
@@ -114,42 +115,69 @@ offset_bottom = 790.0
 text = "→ Meeting"
 horizontal_alignment = 1
 
-[node name="ElevatorDoor" type="Node2D" parent="." unique_id=1516816332]
+[node name="ElevatorDoor" type="Node2D" parent="."]
 position = Vector2(960, 910)
 script = ExtResource("5_door")
 target_slot = "Slot_Elevator_F1"
 target_spawn = "SpawnFromF2"
 
-[node name="DetectionArea" type="Area2D" parent="ElevatorDoor" unique_id=1322922666]
+[node name="DetectionArea" type="Area2D" parent="ElevatorDoor"]
 collision_layer = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ElevatorDoor/DetectionArea" unique_id=1722168315]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ElevatorDoor/DetectionArea"]
 position = Vector2(-103, -134)
 shape = SubResource("RectangleShape2D_doorarea")
 
-[node name="PromptLabel" type="Label" parent="ElevatorDoor" unique_id=957982211]
-visible = false
-offset_left = -80.0
-offset_top = -160.0
-offset_right = 80.0
-offset_bottom = -140.0
+[node name="PromptLabel" type="Label" parent="ElevatorDoor"]
+offset_left = -173.0
+offset_top = -545.0
+offset_right = -13.0
+offset_bottom = -522.0
 text = "Press [E] — Go to 1F"
 horizontal_alignment = 1
 
-[node name="WallRight" type="StaticBody2D" parent="." unique_id=390477245]
+[node name="PromptBox" type="TextureRect" parent="ElevatorDoor/PromptLabel"]
+layout_mode = 0
+offset_left = -71.0
+offset_top = -36.0
+offset_right = 247.0
+offset_bottom = 63.0
+texture = ExtResource("4_dubvc")
+expand_mode = 1
+
+[node name="LabelInteract" type="Label" parent="ElevatorDoor/PromptLabel/PromptBox"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = -5.0
+offset_right = 255.0
+offset_bottom = 41.0
+theme_override_fonts/font = ExtResource("5_6gmjt")
+text = "GO_DOWNSTAIRS.py"
+
+[node name="LabelPress" type="Label" parent="ElevatorDoor/PromptLabel/PromptBox"]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 40.0
+offset_right = 304.0
+offset_bottom = 86.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("5_6gmjt")
+text = "PRESS E TO INTERACT"
+
+[node name="WallRight" type="StaticBody2D" parent="."]
 position = Vector2(1930, 540)
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WallRight" unique_id=1440201720]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallRight"]
 position = Vector2(-13, -109)
 shape = SubResource("RectangleShape2D_d47w8")
 
-[node name="WallLeft" type="StaticBody2D" parent="." unique_id=1895214739]
+[node name="WallLeft" type="StaticBody2D" parent="."]
 position = Vector2(-10, 511)
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WallLeft" unique_id=39485163]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallLeft"]
 position = Vector2(-4, -49.5)
 shape = SubResource("RectangleShape2D_rydhx")

@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://20wd7rla12ih"]
+[gd_scene load_steps=5 format=3 uid="uid://20wd7rla12ih"]
 
 [ext_resource type="Script" uid="uid://cge2twkky6a4n" path="res://Scripts/RoomExit.gd" id="1_exit"]
 [ext_resource type="Texture2D" uid="uid://bggb5e2s3xqcb" path="res://Assets/Rooms/Bathroom_P.png" id="4_bg"]
@@ -9,32 +9,32 @@ size = Vector2(1920, 40)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_exit"]
 size = Vector2(40, 902)
 
-[node name="Bathroom" type="Node2D" unique_id=926455875]
+[node name="Bathroom" type="Node2D"]
 
-[node name="Background" type="Sprite2D" parent="." unique_id=1644264761]
+[node name="Background" type="Sprite2D" parent="."]
 position = Vector2(960, 540)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("4_bg")
 
-[node name="Floor" type="StaticBody2D" parent="." unique_id=596774735]
+[node name="Floor" type="StaticBody2D" parent="."]
 position = Vector2(960, 930)
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=1044314927]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
 position = Vector2(0, -31)
 shape = SubResource("RectangleShape2D_floor")
 
-[node name="RoomCenter" type="Marker2D" parent="." unique_id=346482396]
+[node name="RoomCenter" type="Marker2D" parent="."]
 position = Vector2(960, 540)
 
-[node name="SpawnDefault" type="Marker2D" parent="." unique_id=410503834]
+[node name="SpawnDefault" type="Marker2D" parent="."]
 position = Vector2(960, 871)
 
-[node name="SpawnLeft" type="Marker2D" parent="." unique_id=819907653]
+[node name="SpawnLeft" type="Marker2D" parent="."]
 position = Vector2(150, 868)
 
-[node name="RoomLabel" type="Label" parent="." unique_id=172636904]
+[node name="RoomLabel" type="Label" parent="."]
 offset_left = 860.0
 offset_top = 30.0
 offset_right = 1060.0
@@ -42,7 +42,7 @@ offset_bottom = 60.0
 text = "BATHROOM"
 horizontal_alignment = 1
 
-[node name="GuyInStallLabel" type="Label" parent="." unique_id=1445893455]
+[node name="GuyInStallLabel" type="Label" parent="."]
 offset_left = 600.0
 offset_top = 500.0
 offset_right = 900.0
@@ -50,22 +50,22 @@ offset_bottom = 540.0
 text = "\"ALMOST THERE...!\""
 horizontal_alignment = 1
 
-[node name="ExitLeft" type="Area2D" parent="." unique_id=1159829108]
+[node name="ExitLeft" type="Area2D" parent="."]
 position = Vector2(10, 450)
 collision_layer = 0
 script = ExtResource("1_exit")
 exit_direction = -1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitLeft" unique_id=1344049076]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitLeft"]
 shape = SubResource("RectangleShape2D_exit")
 
-[node name="ExitVisual_Left" type="ColorRect" parent="." unique_id=956779950]
+[node name="ExitVisual_Left" type="ColorRect" parent="."]
 offset_top = 577.0
 offset_right = 30.0
 offset_bottom = 877.0
 color = Color(0.3, 0.3, 0.5, 0.4)
 
-[node name="ExitLabel_Left" type="Label" parent="." unique_id=1722115855]
+[node name="ExitLabel_Left" type="Label" parent="."]
 offset_left = 10.0
 offset_top = 760.0
 offset_right = 130.0
@@ -73,13 +73,11 @@ offset_bottom = 790.0
 text = "← Elevator"
 horizontal_alignment = 1
 
-[node name="WallRight" type="StaticBody2D" parent="." unique_id=468701635]
+[node name="WallRight" type="StaticBody2D" parent="."]
 position = Vector2(1930, 540)
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WallRight" unique_id=54573584]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallRight"]
 position = Vector2(-28, -80)
 shape = SubResource("RectangleShape2D_exit")
-
-

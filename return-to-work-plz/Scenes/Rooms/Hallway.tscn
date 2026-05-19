@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://o5l2f6d62pff"]
+[gd_scene load_steps=4 format=3 uid="uid://o5l2f6d62pff"]
 
 [ext_resource type="Script" uid="uid://cge2twkky6a4n" path="res://Scripts/RoomExit.gd" id="1_exit"]
 
@@ -8,40 +8,40 @@ size = Vector2(1920, 40)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_exit"]
 size = Vector2(40, 300)
 
-[node name="Hallway" type="Node2D" unique_id=1767290553]
+[node name="Hallway" type="Node2D"]
 
-[node name="Background" type="ColorRect" parent="." unique_id=419684005]
+[node name="Background" type="ColorRect" parent="."]
 offset_right = 1920.0
 offset_bottom = 1080.0
 color = Color(0.82, 0.82, 0.85, 1)
 
-[node name="FloorVisual" type="ColorRect" parent="." unique_id=1571289189]
+[node name="FloorVisual" type="ColorRect" parent="."]
 offset_top = 930.0
 offset_right = 1920.0
 offset_bottom = 1080.0
 color = Color(0.55, 0.5, 0.45, 1)
 
-[node name="Floor" type="StaticBody2D" parent="." unique_id=722057571]
+[node name="Floor" type="StaticBody2D" parent="."]
 position = Vector2(960, 930)
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=1516487920]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
 shape = SubResource("RectangleShape2D_floor")
 
-[node name="RoomCenter" type="Marker2D" parent="." unique_id=1082029226]
+[node name="RoomCenter" type="Marker2D" parent="."]
 position = Vector2(960, 540)
 
-[node name="SpawnDefault" type="Marker2D" parent="." unique_id=2116739023]
+[node name="SpawnDefault" type="Marker2D" parent="."]
 position = Vector2(960, 910)
 
-[node name="SpawnLeft" type="Marker2D" parent="." unique_id=1925107509]
+[node name="SpawnLeft" type="Marker2D" parent="."]
 position = Vector2(150, 910)
 
-[node name="SpawnRight" type="Marker2D" parent="." unique_id=425645359]
+[node name="SpawnRight" type="Marker2D" parent="."]
 position = Vector2(1750, 910)
 
-[node name="RoomLabel" type="Label" parent="." unique_id=1796414529]
+[node name="RoomLabel" type="Label" parent="."]
 offset_left = 860.0
 offset_top = 30.0
 offset_right = 1060.0
@@ -49,43 +49,43 @@ offset_bottom = 60.0
 text = "HALLWAY"
 horizontal_alignment = 1
 
-[node name="Plant1" type="ColorRect" parent="." unique_id=1647459443]
+[node name="Plant1" type="ColorRect" parent="."]
 offset_left = 300.0
 offset_top = 870.0
 offset_right = 340.0
 offset_bottom = 930.0
 color = Color(0.2, 0.6, 0.2, 1)
 
-[node name="Plant2" type="ColorRect" parent="." unique_id=1791825001]
+[node name="Plant2" type="ColorRect" parent="."]
 offset_left = 1400.0
 offset_top = 870.0
 offset_right = 1440.0
 offset_bottom = 930.0
 color = Color(0.2, 0.6, 0.2, 1)
 
-[node name="WaterCooler" type="ColorRect" parent="." unique_id=1644593866]
+[node name="WaterCooler" type="ColorRect" parent="."]
 offset_left = 900.0
 offset_top = 860.0
 offset_right = 950.0
 offset_bottom = 930.0
 color = Color(0.6, 0.8, 0.95, 1)
 
-[node name="ExitLeft" type="Area2D" parent="." unique_id=426354315]
+[node name="ExitLeft" type="Area2D" parent="."]
 position = Vector2(10, 780)
 collision_layer = 0
 script = ExtResource("1_exit")
 exit_direction = -1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitLeft" unique_id=472015771]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitLeft"]
 shape = SubResource("RectangleShape2D_exit")
 
-[node name="ExitVisual_Left" type="ColorRect" parent="." unique_id=1290549779]
+[node name="ExitVisual_Left" type="ColorRect" parent="."]
 offset_top = 630.0
 offset_right = 30.0
 offset_bottom = 930.0
 color = Color(0.3, 0.3, 0.5, 0.5)
 
-[node name="ExitLabel_Left" type="Label" parent="." unique_id=550625978]
+[node name="ExitLabel_Left" type="Label" parent="."]
 offset_left = 10.0
 offset_top = 760.0
 offset_right = 100.0
@@ -93,23 +93,22 @@ offset_bottom = 790.0
 text = "← Office"
 horizontal_alignment = 1
 
-[node name="ExitRight" type="Area2D" parent="." unique_id=1425845689]
+[node name="ExitRight" type="Area2D" parent="."]
 position = Vector2(1910, 780)
 collision_layer = 0
 script = ExtResource("1_exit")
-exit_direction = 1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitRight" unique_id=2143455877]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitRight"]
 shape = SubResource("RectangleShape2D_exit")
 
-[node name="ExitVisual_Right" type="ColorRect" parent="." unique_id=1198563576]
+[node name="ExitVisual_Right" type="ColorRect" parent="."]
 offset_left = 1890.0
 offset_top = 630.0
 offset_right = 1920.0
 offset_bottom = 930.0
 color = Color(0.3, 0.3, 0.5, 0.5)
 
-[node name="ExitLabel_Right" type="Label" parent="." unique_id=698945519]
+[node name="ExitLabel_Right" type="Label" parent="."]
 offset_left = 1800.0
 offset_top = 760.0
 offset_right = 1910.0

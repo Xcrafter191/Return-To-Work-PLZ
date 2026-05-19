@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://273rrw3lwfe2"]
+[gd_scene load_steps=13 format=3 uid="uid://273rrw3lwfe2"]
 
 [ext_resource type="Script" uid="uid://cge2twkky6a4n" path="res://Scripts/RoomExit.gd" id="1_exit"]
 [ext_resource type="PackedScene" uid="uid://r5ay6vcnopve" path="res://Scenes/NPCs/Amelia.tscn" id="2_amelia"]
@@ -27,35 +27,35 @@ size = Vector2(80, 80)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sheetarea"]
 size = Vector2(80, 80)
 
-[node name="Cubicle_Left" type="Node2D" unique_id=1808665292]
+[node name="Cubicle_Left" type="Node2D"]
 
-[node name="Background" type="Sprite2D" parent="." unique_id=1693289680]
+[node name="Background" type="Sprite2D" parent="."]
 position = Vector2(960, 540)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("4_bg")
 
-[node name="Floor" type="StaticBody2D" parent="." unique_id=1426575539]
+[node name="Floor" type="StaticBody2D" parent="."]
 position = Vector2(960, 930)
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=275382176]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
 position = Vector2(-4, -28)
 shape = SubResource("RectangleShape2D_floor")
 
-[node name="RoomCenter" type="Marker2D" parent="." unique_id=1355450755]
+[node name="RoomCenter" type="Marker2D" parent="."]
 position = Vector2(960, 540)
 
-[node name="SpawnDefault" type="Marker2D" parent="." unique_id=969160024]
+[node name="SpawnDefault" type="Marker2D" parent="."]
 position = Vector2(300, 878)
 
-[node name="SpawnLeft" type="Marker2D" parent="." unique_id=1089272096]
+[node name="SpawnLeft" type="Marker2D" parent="."]
 position = Vector2(242, 878)
 
-[node name="SpawnRight" type="Marker2D" parent="." unique_id=1156634404]
+[node name="SpawnRight" type="Marker2D" parent="."]
 position = Vector2(1750, 878)
 
-[node name="RoomLabel" type="Label" parent="." unique_id=154117051]
+[node name="RoomLabel" type="Label" parent="."]
 offset_left = 830.0
 offset_top = 30.0
 offset_right = 1090.0
@@ -63,27 +63,27 @@ offset_bottom = 60.0
 text = "CUBICLE FLOOR"
 horizontal_alignment = 1
 
-[node name="CoworkerAmelia" parent="." unique_id=1833570719 instance=ExtResource("2_amelia")]
+[node name="CoworkerAmelia" parent="." instance=ExtResource("2_amelia")]
 position = Vector2(700, 876)
 
-[node name="CoworkerGreg" parent="." unique_id=1935286389 instance=ExtResource("3_greg")]
+[node name="CoworkerGreg" parent="." instance=ExtResource("3_greg")]
 position = Vector2(400, 876)
 patrol_right_x = 1600.0
 
-[node name="Workstation" type="Node2D" parent="." unique_id=1531955412]
+[node name="Workstation" type="Node2D" parent="."]
 position = Vector2(1100, 910)
 script = ExtResource("5_interact")
 task_name = "Typing report..."
 task_id = "type_report"
 
-[node name="DetectionArea" type="Area2D" parent="Workstation" unique_id=1882926841]
+[node name="DetectionArea" type="Area2D" parent="Workstation"]
 collision_layer = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Workstation/DetectionArea" unique_id=1301527997]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Workstation/DetectionArea"]
 position = Vector2(-98, -276)
 shape = SubResource("RectangleShape2D_workarea")
 
-[node name="PromptLabel" type="Label" parent="Workstation" unique_id=529803246]
+[node name="PromptLabel" type="Label" parent="Workstation"]
 visible = false
 modulate = Color(0, 0, 0, 1)
 offset_left = -60.0
@@ -93,22 +93,25 @@ offset_bottom = -80.0
 text = "Press [E] to work"
 horizontal_alignment = 1
 
-[node name="ExitLeft" type="Area2D" parent="." unique_id=137705397]
+[node name="ExitLeft" type="Area2D" parent="."]
 position = Vector2(10, 733)
 collision_layer = 0
 script = ExtResource("1_exit")
 exit_direction = -1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitLeft" unique_id=1563980433]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitLeft"]
 shape = SubResource("RectangleShape2D_exit")
 
-[node name="ExitVisual_Left" type="ColorRect" parent="." unique_id=809667735]
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="ExitLeft"]
+shape = SubResource("RectangleShape2D_exit")
+
+[node name="ExitVisual_Left" type="ColorRect" parent="."]
 offset_top = 583.0
 offset_right = 30.0
 offset_bottom = 883.0
 color = Color(0.3, 0.3, 0.5, 0.4)
 
-[node name="ExitLabel_Left" type="Label" parent="." unique_id=590896143]
+[node name="ExitLabel_Left" type="Label" parent="."]
 offset_left = 10.0
 offset_top = 760.0
 offset_right = 120.0
@@ -116,27 +119,22 @@ offset_bottom = 790.0
 text = "← Lounge"
 horizontal_alignment = 1
 
-[node name="ExitRight" type="Area2D" parent="." unique_id=877304786]
+[node name="ExitRight" type="Area2D" parent="."]
 position = Vector2(1910, 733)
 collision_layer = 0
 script = ExtResource("1_exit")
-exit_direction = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExitRight"]
 shape = SubResource("RectangleShape2D_exit")
-exit_direction = 1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitLeft" unique_id=2110662715]
-shape = SubResource("RectangleShape2D_exit")
-
-[node name="ExitVisual_Right" type="ColorRect" parent="." unique_id=1899665175]
+[node name="ExitVisual_Right" type="ColorRect" parent="."]
 offset_left = 1890.0
 offset_top = 583.0
 offset_right = 1920.0
 offset_bottom = 883.0
 color = Color(0.3, 0.3, 0.5, 0.4)
 
-[node name="ExitLabel_Right" type="Label" parent="." unique_id=1445335799]
+[node name="ExitLabel_Right" type="Label" parent="."]
 offset_left = 1800.0
 offset_top = 760.0
 offset_right = 1910.0
@@ -144,38 +142,38 @@ offset_bottom = 790.0
 text = "→ Elevator"
 horizontal_alignment = 1
 
-[node name="WallRight" type="StaticBody2D" parent="." unique_id=416509725]
+[node name="WallRight" type="StaticBody2D" parent="."]
 position = Vector2(1946, 540)
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WallRight" unique_id=1959553629]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallRight"]
 position = Vector2(-22, -73.5)
 shape = SubResource("RectangleShape2D_ph21w")
 
-[node name="WallLeft" type="StaticBody2D" parent="." unique_id=348335919]
+[node name="WallLeft" type="StaticBody2D" parent="."]
 position = Vector2(-10, 513)
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WallLeft" unique_id=1907982325]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallLeft"]
 position = Vector2(-2, -49.5)
 shape = SubResource("RectangleShape2D_udknq")
 
-[node name="EmailStation" type="Node2D" parent="." unique_id=842536612]
+[node name="EmailStation" type="Node2D" parent="."]
 position = Vector2(600, 910)
 script = ExtResource("5_interact")
 task_name = "Replying email..."
 task_id = "reply_email"
 
-[node name="DetectionArea" type="Area2D" parent="EmailStation" unique_id=1261459768]
+[node name="DetectionArea" type="Area2D" parent="EmailStation"]
 collision_layer = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="EmailStation/DetectionArea" unique_id=1373198032]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EmailStation/DetectionArea"]
 position = Vector2(0, -40)
 shape = SubResource("RectangleShape2D_emailarea")
 
-[node name="PromptLabel" type="Label" parent="EmailStation" unique_id=177915077]
+[node name="PromptLabel" type="Label" parent="EmailStation"]
 visible = false
 offset_left = -80.0
 offset_top = -100.0
@@ -184,21 +182,21 @@ offset_bottom = -80.0
 text = "Press [E] - Reply email"
 horizontal_alignment = 1
 
-[node name="SpreadsheetStation" type="Node2D" parent="." unique_id=257731257]
+[node name="SpreadsheetStation" type="Node2D" parent="."]
 position = Vector2(1400, 910)
 script = ExtResource("5_interact")
 task_name = "Fixing spreadsheet..."
 task_duration = 3.5
 task_id = "fix_spreadsheet"
 
-[node name="DetectionArea" type="Area2D" parent="SpreadsheetStation" unique_id=713015352]
+[node name="DetectionArea" type="Area2D" parent="SpreadsheetStation"]
 collision_layer = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SpreadsheetStation/DetectionArea" unique_id=140692468]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SpreadsheetStation/DetectionArea"]
 position = Vector2(0, -40)
 shape = SubResource("RectangleShape2D_sheetarea")
 
-[node name="PromptLabel" type="Label" parent="SpreadsheetStation" unique_id=1769855165]
+[node name="PromptLabel" type="Label" parent="SpreadsheetStation"]
 visible = false
 offset_left = -80.0
 offset_top = -100.0
@@ -206,5 +204,3 @@ offset_right = 80.0
 offset_bottom = -80.0
 text = "Press [E] - Fix spreadsheet"
 horizontal_alignment = 1
-
-

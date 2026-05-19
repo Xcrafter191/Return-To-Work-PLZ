@@ -1,9 +1,10 @@
-[gd_scene format=3 uid="uid://xd33hxe3ygja"]
+[gd_scene load_steps=12 format=3 uid="uid://xd33hxe3ygja"]
 
 [ext_resource type="Script" uid="uid://cge2twkky6a4n" path="res://Scripts/RoomExit.gd" id="1_exit"]
 [ext_resource type="PackedScene" uid="uid://dfqlq6if2etm" path="res://Scenes/NPCs/Luke.tscn" id="2_npc_stat"]
-[ext_resource type="Texture2D" uid="uid://cqpqnrj5pmvwh" path="res://Assets/Sprites/Manager Luke.png" id="3_luke"]
+[ext_resource type="Texture2D" uid="uid://bmb4rt8vljrax" path="res://Assets/UI V4/TEXTBOX/INTERACT.png" id="3_am3xq"]
 [ext_resource type="Script" uid="uid://dr0o7y0vodg2x" path="res://Scripts/InteractableObject.gd" id="4_interact"]
+[ext_resource type="FontFile" uid="uid://c41kv0pko2t4q" path="res://Assets/Font/Pixeled.ttf" id="4_ubtj4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_am3xq"]
 size = Vector2(42, 972.5)
@@ -23,58 +24,58 @@ size = Vector2(40, 300)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_presentarea"]
 size = Vector2(80, 80)
 
-[node name="Meeting" type="Node2D" unique_id=1827779666]
+[node name="Meeting" type="Node2D"]
 
-[node name="Background" type="ColorRect" parent="." unique_id=1013269679]
+[node name="Background" type="ColorRect" parent="."]
 offset_right = 1920.0
 offset_bottom = 1080.0
 color = Color(0.78, 0.78, 0.82, 1)
 
-[node name="WallRight" type="StaticBody2D" parent="Background" unique_id=1111566876]
+[node name="WallRight" type="StaticBody2D" parent="Background"]
 position = Vector2(1930, 540)
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Background/WallRight" unique_id=1157437231]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Background/WallRight"]
 position = Vector2(-8, -73.5)
 shape = SubResource("RectangleShape2D_am3xq")
 
-[node name="FloorVisual" type="ColorRect" parent="." unique_id=1467659198]
+[node name="FloorVisual" type="ColorRect" parent="."]
 offset_top = 930.0
 offset_right = 1920.0
 offset_bottom = 1080.0
 color = Color(0.45, 0.42, 0.4, 1)
 
-[node name="Floor" type="StaticBody2D" parent="." unique_id=1634582024]
+[node name="Floor" type="StaticBody2D" parent="."]
 position = Vector2(960, 953)
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=766735193]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
 shape = SubResource("RectangleShape2D_floor")
 
-[node name="RoomCenter" type="Marker2D" parent="." unique_id=590526130]
+[node name="RoomCenter" type="Marker2D" parent="."]
 position = Vector2(960, 540)
 
-[node name="SpawnDefault" type="Marker2D" parent="." unique_id=196036621]
+[node name="SpawnDefault" type="Marker2D" parent="."]
 position = Vector2(300, 925)
 
-[node name="SpawnLeft" type="Marker2D" parent="." unique_id=989275961]
+[node name="SpawnLeft" type="Marker2D" parent="."]
 position = Vector2(100, 926)
 
-[node name="SpawnRight" type="Marker2D" parent="." unique_id=1998937114]
+[node name="SpawnRight" type="Marker2D" parent="."]
 position = Vector2(1750, 926)
 
-[node name="WallLeft" type="StaticBody2D" parent="SpawnRight" unique_id=392321566]
+[node name="WallLeft" type="StaticBody2D" parent="SpawnRight"]
 position = Vector2(-1754, -402)
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SpawnRight/WallLeft" unique_id=1262776008]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SpawnRight/WallLeft"]
 position = Vector2(-2, -56.5)
 shape = SubResource("RectangleShape2D_efn1h")
 
-[node name="RoomLabel" type="Label" parent="." unique_id=803910164]
+[node name="RoomLabel" type="Label" parent="."]
 offset_left = 830.0
 offset_top = 30.0
 offset_right = 1090.0
@@ -82,27 +83,25 @@ offset_bottom = 60.0
 text = "MEETING ROOM"
 horizontal_alignment = 1
 
-[node name="Table" type="ColorRect" parent="." unique_id=1612329318]
+[node name="Table" type="ColorRect" parent="."]
 offset_left = 600.0
 offset_top = 850.0
 offset_right = 1100.0
 offset_bottom = 930.0
 color = Color(0.55, 0.4, 0.25, 1)
 
-[node name="Whiteboard" type="ColorRect" parent="." unique_id=587796029]
+[node name="Whiteboard" type="ColorRect" parent="."]
 offset_left = 750.0
 offset_top = 350.0
 offset_right = 1150.0
 offset_bottom = 600.0
 color = Color(0.95, 0.95, 0.95, 1)
 
-[node name="ManagerLuke" parent="." unique_id=107581247 instance=ExtResource("2_npc_stat")]
+[node name="ManagerLuke" parent="." instance=ExtResource("2_npc_stat")]
 position = Vector2(850, 930)
-npc_name = "Manager Luke"
 dialogue_text = "Let's circle back on that."
-sprite_texture = ExtResource("3_luke")
 
-[node name="GivePaperTask" type="Node2D" parent="." unique_id=1057731082]
+[node name="GivePaperTask" type="Node2D" parent="."]
 position = Vector2(950, 910)
 script = ExtResource("4_interact")
 task_name = "Giving paper to Manager..."
@@ -111,38 +110,67 @@ task_id = "give_paper"
 on_complete_npc_path = NodePath("../ManagerLuke")
 on_complete_npc_dialogue = "Fine work. Keep it up next time."
 
-[node name="DetectionArea" type="Area2D" parent="GivePaperTask" unique_id=1269960843]
+[node name="DetectionArea" type="Area2D" parent="GivePaperTask"]
 collision_layer = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="GivePaperTask/DetectionArea" unique_id=1395118860]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GivePaperTask/DetectionArea"]
 position = Vector2(-104, -184.5)
 shape = SubResource("RectangleShape2D_workarea")
 
-[node name="PromptLabel" type="Label" parent="GivePaperTask" unique_id=1676134919]
+[node name="PromptLabel" type="Label" parent="GivePaperTask"]
 visible = false
-offset_left = -80.0
-offset_top = -100.0
-offset_right = 80.0
-offset_bottom = -80.0
+offset_left = 15.0
+offset_top = -409.0
+offset_right = 178.0
+offset_bottom = -386.0
 text = "Press [E] - Give paper"
 horizontal_alignment = 1
 
-[node name="ExitLeft" type="Area2D" parent="." unique_id=2015252996]
+[node name="PromptBox" type="TextureRect" parent="GivePaperTask/PromptLabel"]
+layout_mode = 0
+offset_right = 318.0
+offset_bottom = 99.0
+texture = ExtResource("3_am3xq")
+expand_mode = 1
+
+[node name="LabelInteract" type="Label" parent="GivePaperTask/PromptLabel/PromptBox"]
+layout_mode = 0
+offset_left = 9.0
+offset_top = -3.0
+offset_right = 217.0
+offset_bottom = 43.0
+theme_override_fonts/font = ExtResource("4_ubtj4")
+text = "GIVE_PAPER.pdf"
+
+[node name="LabelPress" type="Label" parent="GivePaperTask/PromptLabel/PromptBox"]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 38.0
+offset_right = 284.0
+offset_bottom = 84.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_ubtj4")
+text = "PRESS E TO INTERACT"
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="GivePaperTask"]
+
+[node name="ExitLeft" type="Area2D" parent="."]
+visible = false
 position = Vector2(10, 780)
 collision_layer = 0
 script = ExtResource("1_exit")
 exit_direction = -1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitLeft" unique_id=1160622739]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitLeft"]
 shape = SubResource("RectangleShape2D_exit")
 
-[node name="ExitVisual_Left" type="ColorRect" parent="." unique_id=844921565]
+[node name="ExitVisual_Left" type="ColorRect" parent="."]
 offset_top = 630.0
 offset_right = 30.0
 offset_bottom = 930.0
 color = Color(0.3, 0.3, 0.5, 0.4)
 
-[node name="ExitLabel_Left" type="Label" parent="." unique_id=516931616]
+[node name="ExitLabel_Left" type="Label" parent="."]
 offset_left = 10.0
 offset_top = 760.0
 offset_right = 120.0
@@ -150,23 +178,22 @@ offset_bottom = 790.0
 text = "← Elevator"
 horizontal_alignment = 1
 
-[node name="ExitRight" type="Area2D" parent="." unique_id=1372931752]
+[node name="ExitRight" type="Area2D" parent="."]
 position = Vector2(1910, 780)
 collision_layer = 0
 script = ExtResource("1_exit")
-exit_direction = 1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitRight" unique_id=24359103]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitRight"]
 shape = SubResource("RectangleShape2D_exit")
 
-[node name="ExitVisual_Right" type="ColorRect" parent="." unique_id=156787089]
+[node name="ExitVisual_Right" type="ColorRect" parent="."]
 offset_left = 1890.0
 offset_top = 630.0
 offset_right = 1920.0
 offset_bottom = 930.0
 color = Color(0.3, 0.3, 0.5, 0.4)
 
-[node name="ExitLabel_Right" type="Label" parent="." unique_id=677580939]
+[node name="ExitLabel_Right" type="Label" parent="."]
 offset_left = 1800.0
 offset_top = 760.0
 offset_right = 1910.0
@@ -174,27 +201,50 @@ offset_bottom = 790.0
 text = "→ Printer"
 horizontal_alignment = 1
 
-[node name="PresentTask" type="Node2D" parent="." unique_id=289251370]
+[node name="PresentTask" type="Node2D" parent="."]
 position = Vector2(950, 910)
 script = ExtResource("4_interact")
 task_name = "Presenting to Manager..."
 task_duration = 4.0
 task_id = "present_manager"
 
-[node name="DetectionArea" type="Area2D" parent="PresentTask" unique_id=1755646548]
+[node name="DetectionArea" type="Area2D" parent="PresentTask"]
 collision_layer = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PresentTask/DetectionArea" unique_id=615380312]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PresentTask/DetectionArea"]
 position = Vector2(0, -40)
 shape = SubResource("RectangleShape2D_presentarea")
 
-[node name="PromptLabel" type="Label" parent="PresentTask" unique_id=1015776932]
-visible = false
-offset_left = -80.0
-offset_top = -100.0
-offset_right = 80.0
-offset_bottom = -80.0
+[node name="PromptLabel" type="Label" parent="PresentTask"]
+offset_left = 84.0
+offset_top = -397.0
+offset_right = 244.0
+offset_bottom = -374.0
 text = "Press [E] - Present"
 horizontal_alignment = 1
 
+[node name="TextureRect" type="TextureRect" parent="PresentTask/PromptLabel"]
+layout_mode = 0
+offset_right = 318.0
+offset_bottom = 99.0
+texture = ExtResource("3_am3xq")
+expand_mode = 1
 
+[node name="Label" type="Label" parent="PresentTask/PromptLabel/TextureRect"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = -3.0
+offset_right = 199.0
+offset_bottom = 43.0
+theme_override_fonts/font = ExtResource("4_ubtj4")
+text = "PRESENT.pptx"
+
+[node name="Label2" type="Label" parent="PresentTask/PromptLabel/TextureRect"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 40.0
+offset_right = 285.0
+offset_bottom = 86.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_ubtj4")
+text = "PRESS E TO INTERACT"
