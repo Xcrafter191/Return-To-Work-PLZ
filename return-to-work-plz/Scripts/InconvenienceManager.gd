@@ -31,6 +31,9 @@ var is_unpause_hack: bool = false
 var is_upside_down: bool = false
 var is_task_deception: bool = false
 var is_stuck_99: bool = false
+var is_time_stopped: bool = false
+var is_time_accelerated: bool = false
+var is_time_erased: bool = false
 
 var red_ambience_rect: ColorRect = null
 var blur_rect: ColorRect = null
@@ -56,7 +59,6 @@ func _on_room_changed(_room_name: String) -> void:
 	if is_gibberish:
 		var scene = get_tree().current_scene
 		if scene:
-			# Re-scramble new room
 			_scramble_all_labels(scene)
 
 func _setup_red_ambience() -> void:
@@ -120,6 +122,9 @@ func _reset_permanent_inconveniences() -> void:
 	is_upside_down = false
 	is_task_deception = false
 	is_stuck_99 = false
+	is_time_stopped = false
+	is_time_accelerated = false
+	is_time_erased = false
 	
 	if is_gibberish:
 		is_gibberish = false
@@ -174,9 +179,20 @@ func _on_objective_completed(_task_id: String) -> void:
 		
 	if randf() <= accumulated_chance:
 		_trigger_random_inconvenience()
-		accumulated_chance = base_chance # Reset after trigger
+		accumulated_chance = base_chance
 	else:
-		accumulated_chance += base_chance # Accumulate chance over time
+		accumulated_chance += base_chance
+
+## Called by PauseMenu when the player tries to pause — chance scales with loop
+func try_pause_inconvenience() -> void:
+	if GameManager.current_loop <= 1: return
+	if is_unpause_hack: return  # Already active
+	
+	var pause_chance = clampf((GameManager.current_loop - 1) * 0.05, 0.0, 0.50)
+	if randf() <= pause_chance:
+		is_unpause_hack = true
+		print("[InconvenienceManager] Unpause hack triggered on pause!")
+		_auto_fix("unpause_hack", AUTOFIX_NO_SOLUTION)
 
 func _trigger_random_inconvenience() -> void:
 	var pool = []
@@ -191,15 +207,14 @@ func _trigger_random_inconvenience() -> void:
 	
 	print("[InconvenienceManager] Triggered inconvenience of difficulty: ", chosen_diff)
 	
-	var diff_str = ""
 	var specific_choice = ""
 	match chosen_diff:
 		Difficulty.MINOR: 
-			specific_choice = ["lights_out", "random_ui", "shaky", "clock_stop", "sprite_flip", "blur"].pick_random()
+			specific_choice = ["lights_out", "random_ui", "shaky", "sprite_flip", "blur"].pick_random()
 		Difficulty.MEDIUM: 
-			specific_choice = ["fps", "unplug", "keybind", "unpause_hack", "upside_down", "window_resizer"].pick_random()
+			specific_choice = ["fps", "unplug", "keybind", "time_stop", "time_accelerate", "force_room_swap"].pick_random()
 		Difficulty.MAJOR: 
-			specific_choice = ["fake_ad", "gibberish", "task_deception", "stuck_99"].pick_random()
+			specific_choice = ["fake_ad", "gibberish", "task_deception", "stuck_99", "time_reverse", "time_erase"].pick_random()
 		
 	AttackSequenceManager.trigger_attack(specific_choice)
 	AttackSequenceManager.sequence_finished.connect(func():
@@ -284,6 +299,12 @@ func _revert_inconvenience(choice: String) -> void:
 			is_task_deception = false
 		"stuck_99":
 			is_stuck_99 = false
+		"time_stop":
+			is_time_stopped = false
+		"time_accelerate":
+			is_time_accelerated = false
+		"time_erase":
+			is_time_erased = false
 
 # ── MINOR ──
 func _execute_minor(choice: String) -> void:
@@ -379,16 +400,28 @@ func _execute_medium(choice: String) -> void:
 			
 	elif choice == "unpause_hack":
 		is_unpause_hack = true
-		
-	elif choice == "upside_down":
-		is_upside_down = true
-		var main_cam = get_tree().current_scene.get_node_or_null("Camera2D")
-		if main_cam:
-			main_cam.rotation = PI
-			
-	elif choice == "window_resizer":
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
-		DisplayServer.window_set_size(Vector2i(640, 360))
+	
+	elif choice == "time_stop":
+		is_time_stopped = true
+		print("[InconvenienceManager] Time stopped! Player can move but can't interact for 5s.")
+		_auto_fix("time_stop", 5.0)
+		return
+	
+	elif choice == "time_accelerate":
+		is_time_accelerated = true
+		Engine.time_scale = 4.0
+		print("[InconvenienceManager] Time accelerated 4x for 2 seconds!")
+		var accel_timer = get_tree().create_timer(2.0, true, false, true)  # process_always
+		accel_timer.timeout.connect(func():
+			is_time_accelerated = false
+			Engine.time_scale = 1.0
+			print("[InconvenienceManager] Time acceleration ended.")
+		)
+		return
+	
+	elif choice == "force_room_swap":
+		GameManager.force_inject_special_room()
+		return
 
 	# Auto-fix: most medium inconveniences have no solution → 5 seconds
 	_auto_fix(choice, AUTOFIX_NO_SOLUTION)
@@ -401,6 +434,15 @@ func _spawn_unplug_fake() -> void:
 	rect.set_anchors_preset(Control.PRESET_FULL_RECT)
 	canvas.add_child(rect)
 	get_tree().current_scene.add_child(canvas)
+	
+	# Play the unplug sound effect
+	var sfx = AudioStreamPlayer.new()
+	var audio = load("res://Assets/Audio/SFX/Unplug_Sound.MP3")
+	if audio:
+		sfx.stream = audio
+		get_tree().current_scene.add_child(sfx)
+		sfx.play()
+		sfx.finished.connect(func(): sfx.queue_free())
 	
 	var timer = get_tree().create_timer(5.0)
 	timer.timeout.connect(func(): if is_instance_valid(canvas): canvas.queue_free())
@@ -420,6 +462,15 @@ func _execute_major(choice: String) -> void:
 		is_task_deception = true
 	elif choice == "stuck_99":
 		is_stuck_99 = true
+	elif choice == "time_reverse":
+		GameManager.reverse_last_task()
+		# No auto-fix needed — it's a one-shot effect
+		return
+	elif choice == "time_erase":
+		is_time_erased = true
+		print("[InconvenienceManager] Time erased! Tasks completed in next 7s won't count.")
+		_auto_fix("time_erase", 7.0)
+		return
 
 	# Auto-fix: all major inconveniences have solutions → 30 seconds
 	_auto_fix(choice, AUTOFIX_HAS_SOLUTION)

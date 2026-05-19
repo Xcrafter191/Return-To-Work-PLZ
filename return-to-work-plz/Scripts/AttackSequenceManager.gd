@@ -35,7 +35,12 @@ var inconvenience_dialogues = {
 	"stuck_99": ["Almost done!", "Any second now.", "...aaaaany second now."],
 	"unpause_hack": ["Who said you could pause?"],
 	"upside_down": ["Let's flip the perspective."],
-	"window_resizer": ["Window management is my passion."]
+	"window_resizer": ["Window management is my passion."],
+	"time_stop": ["Nobody leaves.", "Not even the clock."],
+	"time_reverse": ["Nope.", "Do it again."],
+	"time_accelerate": ["FASTER.", "THE DEADLINE IS APPROACHING."],
+	"time_erase": ["Lunch break has been permanently removed for productivity reasons."],
+	"force_room_swap": ["If you're lost, that's called exploration."]
 }
 
 # Console commands from the design doc, keyed by inconvenience id
@@ -55,7 +60,12 @@ var console_commands = {
 	"stuck_99": "[st_allowtask set 0]",
 	"unpause_hack": "[st_pause set disabled]",
 	"upside_down": "[sprites_transform_yzoom set -1]",
-	"window_resizer": "[st_windowsize set 640x360]"
+	"window_resizer": "[st_windowsize set 640x360]",
+	"time_stop": "[st_time set 0]",
+	"time_reverse": "[st_time set -1]",
+	"time_accelerate": "[st_time speed 4.0]",
+	"time_erase": "[st_time remove]",
+	"force_room_swap": "[st_rooms set float(0.1, 0.9)]"
 }
 
 func _ready() -> void:
@@ -91,7 +101,7 @@ func _setup_ui() -> void:
 	var chat_tex = load("res://Assets/UI V4/TEXTBOX/CHAT.png")
 	if chat_tex:
 		dialogue_bubble.texture = chat_tex
-	dialogue_bubble.expand_mode = 1
+	dialogue_bubble.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	dialogue_bubble.modulate = Color(1.0, 0.4, 0.4, 1.0)  # Red tint
 	dialogue_anchor.add_child(dialogue_bubble)
 	
@@ -156,6 +166,7 @@ func trigger_attack(inconvenience_name: String) -> void:
 	var player = get_tree().get_first_node_in_group("player")
 	if player:
 		player.process_mode = Node.PROCESS_MODE_ALWAYS
+		player.is_locked = true
 		if player.has_method("_play_anim"):
 			player.current_anim_state = "idleaware"
 			player._play_anim("idleaware")
@@ -223,5 +234,11 @@ func _finish_attack() -> void:
 	var player = get_tree().get_first_node_in_group("player")
 	if player:
 		player.process_mode = Node.PROCESS_MODE_INHERIT
+		player.is_locked = false
+		# Reset to idle after attack
+		if player.has_method("_play_anim"):
+			var idle_anim = player._get_idle_anim()
+			player.current_anim_state = idle_anim
+			player._play_anim(idle_anim)
 	
 	sequence_finished.emit()

@@ -162,6 +162,7 @@ func _pause() -> void:
 	visible = true
 	pause_panel.visible = true
 	settings_panel.visible = false
+	InconvenienceManager.try_pause_inconvenience()
 
 func _resume() -> void:
 	is_paused = false

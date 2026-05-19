@@ -16,6 +16,7 @@ var nearby_workstation: Node = null
 @onready var anim_sprite: AnimatedSprite2D = $AnimSprite if has_node("AnimSprite") else null
 
 var current_anim_state: String = "idle"
+var is_locked: bool = false  ## True during attack sequence — blocks movement and animation overrides
 
 # ── QTE / Progress-bar state ──
 const BASE_FILL_SPEED: float = 0.12   ## Progress per second at normal speed (~8s full bar)
@@ -48,6 +49,9 @@ func _physics_process(delta: float) -> void:
 		velocity.x = 0.0
 		_update_animation(0.0)
 		_tick_progress_bar(delta)
+	elif is_locked:
+		velocity.x = 0.0
+		# Don't call _update_animation — let the attack anim play uninterrupted
 	else:
 		var input_dir: float = Input.get_axis("move_left", "move_right")
 		velocity.x = input_dir * move_speed
@@ -223,13 +227,23 @@ func _on_qte_completed(success: bool) -> void:
 		
 		fill_speed = SLOW_FILL_SPEED
 
-		# Retry threshold is 0.15–0.35 ahead of current position (noticeable slow crawl)
 		var retry_distance = randf_range(0.15, 0.35)
-		var retry_pos = work_progress + retry_distance
+		var new_pos = minf(work_progress + retry_distance, 0.99)
+		
+		var found = false
 		if next_checkpoint_idx < qte_checkpoints.size():
-			retry_pos = minf(retry_pos, qte_checkpoints[next_checkpoint_idx])
-		retry_pos = minf(retry_pos, 0.95)
-		current_threshold = retry_pos
+			qte_checkpoints[next_checkpoint_idx] = new_pos
+			qte_checkpoints.sort()
+			
+			for i in range(qte_checkpoints.size()):
+				if qte_checkpoints[i] > work_progress + 0.01:
+					next_checkpoint_idx = i
+					current_threshold = qte_checkpoints[i]
+					found = true
+					break
+		
+		if not found:
+			current_threshold = new_pos
 
 		is_filling = true
 

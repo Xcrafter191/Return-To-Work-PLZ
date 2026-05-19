@@ -81,9 +81,9 @@ func _ready() -> void:
 		var inc_mgr = get_node_or_null("/root/InconvenienceManager")
 		if inc_mgr:
 			match inc_opt.selected:
-				0: inc_mgr._execute_minor()
-				1: inc_mgr._execute_medium()
-				2: inc_mgr._execute_major()
+				0: inc_mgr._execute_minor(["lights_out", "random_ui", "shaky", "sprite_flip", "blur"].pick_random())
+				1: inc_mgr._execute_medium(["fps", "unplug", "keybind", "time_stop", "time_accelerate", "force_room_swap"].pick_random())
+				2: inc_mgr._execute_major(["fake_ad", "gibberish", "task_deception", "stuck_99", "time_reverse", "time_erase"].pick_random())
 	)
 	inc_box.add_child(inc_opt)
 	inc_box.add_child(inc_btn)

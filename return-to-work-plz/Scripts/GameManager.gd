@@ -117,7 +117,7 @@ func _start_task_deadline() -> void:
 	if current_task_index >= objectives.size():
 		is_deadline_active = false
 		return
-	var time_to_complete = 40.0 * difficulty_modifier
+	var time_to_complete = 25.0 * difficulty_modifier
 	task_deadline_time = time_to_complete
 	is_deadline_active = true
 	print("[GameManager] Deadline started: %.1fs" % time_to_complete)
@@ -195,6 +195,46 @@ func punish_wrong_task() -> void:
 func _check_auto_complete() -> void:
 	if get_current_task_id() == "talk_npcs" and talked_npcs.size() >= REQUIRED_NPC_TALKS:
 		complete_objective("talk_npcs")
+
+## Time Reverse — undo the last completed task so the player must redo it
+func reverse_last_task() -> void:
+	if current_task_index <= 0:
+		print("[GameManager] Time Reverse: No task to reverse!")
+		return
+	# Don't reverse clock_in — that would be confusing
+	if current_task_index == 1:
+		print("[GameManager] Time Reverse: Can't reverse clock_in.")
+		return
+	
+	current_task_index -= 1
+	var obj = objectives[current_task_index]
+	obj["completed"] = false
+	
+	# Also need to un-complete the workstation in the scene
+	# We do this by re-emitting the task changed signal so HUD updates
+	current_task_changed.emit(current_task_index)
+	_start_task_deadline()
+	print("[GameManager] Time Reverse! Must redo: %s" % obj["id"])
+
+## Force Room Swap — inject a random special room into Floor 2 layout
+func force_inject_special_room() -> void:
+	var special_rooms = ["Special_Castle", "Special_Beach", "Special_Ikea", "Special_Market", "Special_Spaceship"]
+	var chosen_room = special_rooms.pick_random()
+	
+	var valid_indices = []
+	for i in range(1, RoomManager.active_slots_f2.size()):
+		if not "Elevator" in RoomManager.active_slots_f2[i] and not "Elevator" in RoomManager.active_slots_f2[i-1]:
+			if not RoomManager.active_slots_f2[i].begins_with("Slot_Special"):
+				valid_indices.append(i)
+	
+	if valid_indices.size() > 0:
+		var insert_idx = valid_indices.pick_random()
+		var slot_id = "Slot_Special_" + str(randi() % 1000)
+		RoomManager.active_slots_f2.insert(insert_idx, slot_id)
+		RoomManager.current_layout[slot_id] = chosen_room
+		print("[GameManager] Force injected special room %s at F2 index %d" % [chosen_room, insert_idx])
+	else:
+		print("[GameManager] No valid slot to inject special room!")
 
 # ── NPC Talk Tracking ──
 

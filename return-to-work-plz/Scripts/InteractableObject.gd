@@ -41,6 +41,9 @@ func _input(event: InputEvent) -> void:
 	# E key: do the task
 	if event.is_action_pressed("interact"):
 		if not current_player.is_working and _is_available():
+			if InconvenienceManager.is_time_stopped:
+				prompt_label.text = "[TIME FROZEN]"
+				return
 			prompt_label.visible = false
 			on_interact_start()
 			var scaled_dur = GameManager.get_scaled_duration(task_duration)
@@ -66,6 +69,10 @@ func _on_body_exited(body: Node2D) -> void:
 		prompt_label.visible = false
 
 func _on_task_changed(_idx: int) -> void:
+	# If our task just became active again (e.g. from Time Reverse), reset completion
+	if task_completed and task_id != "" and GameManager.is_task_active(task_id):
+		task_completed = false
+		prompt_label.modulate.a = 1.0
 	if player_in_range:
 		_update_prompt()
 
@@ -93,6 +100,18 @@ func on_interact_complete() -> void:
 	task_completed = true
 	if task_sfx:
 		task_sfx.stop()
+	
+	# Time Erase: task finishes but doesn't count!
+	if InconvenienceManager.is_time_erased:
+		prompt_label.text = "[ERASED]"
+		prompt_label.visible = true
+		task_completed = false  # Let them redo it
+		var tween = create_tween()
+		tween.tween_interval(1.5)
+		tween.tween_property(prompt_label, "modulate:a", 0.0, 1.0)
+		tween.tween_callback(func(): prompt_label.visible = false; prompt_label.modulate.a = 1.0)
+		return
+	
 	prompt_label.text = "Done!"
 	prompt_label.visible = true
 	if task_id != "":
