@@ -432,31 +432,31 @@ func _spawn_fake_ad() -> void:
 	
 	var num_ads = randi_range(5, 15)
 	for i in num_ads:
-		var panel = Panel.new()
-		var w = randf_range(200, 600)
-		var h = randf_range(150, 400)
-		panel.custom_minimum_size = Vector2(w, h)
-		panel.position = Vector2(randf_range(0, 1920 - w), randf_range(0, 1080 - h))
+		var tex_rect = TextureRect.new()
+		var tex = load("res://Assets/UI V4/IKLAN SCAM/IKLAN_%d.png" % randi_range(1, 7))
+		tex_rect.texture = tex
 		
-		var label = Label.new()
-		label.text = "BUY MORE COFFEE!\nUnskippable Ad"
-		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		label.set_anchors_preset(Control.PRESET_FULL_RECT)
+		# Ukuran random, biar ngasal
+		var scale_factor = randf_range(0.4, 1.2)
+		var w = tex.get_width() * scale_factor
+		var h = tex.get_height() * scale_factor
 		
-		panel.add_child(label)
+		tex_rect.expand_mode = 1 # EXPAND_IGNORE_SIZE
+		tex_rect.custom_minimum_size = Vector2(w, h)
+		tex_rect.size = Vector2(w, h)
+		tex_rect.position = Vector2(randf_range(0, 1920 - w), randf_range(0, 1080 - h))
 		
-		panel.mouse_filter = Control.MOUSE_FILTER_STOP
-		panel.gui_input.connect(_on_fake_ad_gui_input.bind(panel))
+		tex_rect.mouse_filter = Control.MOUSE_FILTER_STOP
+		tex_rect.gui_input.connect(_on_fake_ad_gui_input.bind(tex_rect))
 		
-		fake_ads_container.add_child(panel)
+		fake_ads_container.add_child(tex_rect)
 
-func _on_fake_ad_gui_input(event: InputEvent, panel: Panel) -> void:
+func _on_fake_ad_gui_input(event: InputEvent, ad_node: Control) -> void:
 	if event is InputEventMouseMotion and (event.button_mask & MOUSE_BUTTON_MASK_LEFT) != 0:
-		panel.position += event.relative
-		var bounds = panel.get_rect()
+		ad_node.position += event.relative
+		var bounds = ad_node.get_rect()
 		if bounds.position.x > 1600 or bounds.position.y > 900 or bounds.end.x < 300 or bounds.end.y < 200:
-			panel.queue_free()
+			ad_node.queue_free()
 
 func _scramble_all_labels(node: Node) -> void:
 	if node is Label or node is RichTextLabel or node is Button:
