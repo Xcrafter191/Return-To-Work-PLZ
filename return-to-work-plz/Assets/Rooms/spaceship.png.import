@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bcmapr3xx8im2"
-path="res://.godot/imported/printer.png-aa316615d59f461396943c3c2894337d.ctex"
+uid="uid://du8l65m0c0wku"
+path="res://.godot/imported/spaceship.png-560556a420affe39364a54098ad2068e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Rooms/rest of the bg sketches/printer.png"
-dest_files=["res://.godot/imported/printer.png-aa316615d59f461396943c3c2894337d.ctex"]
+source_file="res://Assets/Rooms/spaceship.png"
+dest_files=["res://.godot/imported/spaceship.png-560556a420affe39364a54098ad2068e.ctex"]
 
 [params]
 

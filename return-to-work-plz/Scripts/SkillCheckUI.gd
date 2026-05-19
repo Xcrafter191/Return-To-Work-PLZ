@@ -26,16 +26,11 @@ func start_skill_check(base_speed: float = 400.0) -> void:
 	
 	# Yellow zone width shrinks each loop, capped at minimum 25px
 	var base_width = 100.0 - (GameManager.current_loop * 5.0)
-	var zone_width = clampf(base_width, 25.0, 100.0)
+	var zone_width = clampf(base_width, 15.0, 100.0)
 	var max_x = bar_width - zone_width
 	var zone_x = randf_range(0, max_x)
 	
-	# Hacker attack hook - shrink zone even further!
-	if InconvenienceManager.is_stuck_99:
-		zone_width = 15.0
-		arrow_speed = base_speed * randf_range(1.5, 2.5)
-	else:
-		arrow_speed = base_speed
+	arrow_speed = base_speed
 	
 	yellow_zone.position.x = zone_x
 	yellow_zone.size.x = zone_width

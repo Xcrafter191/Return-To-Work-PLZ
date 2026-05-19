@@ -61,6 +61,20 @@ func set_morale(val: float) -> void:
 func set_productivity(val: float) -> void:
 	productivity = clamp(val, 0.0, 100.0)
 	productivity_changed.emit(productivity)
+	if productivity <= 0.0:
+		_trigger_game_over()
+
+func _trigger_game_over() -> void:
+	# Clean up any active state
+	var player = get_tree().get_first_node_in_group("player")
+	if player and player.has_method("cancel_task"):
+		player.cancel_task()
+	
+	current_loop = 1
+	productivity = 100.0
+	morale = 100.0
+	InconvenienceManager._reset_permanent_inconveniences()
+	get_tree().change_scene_to_file("res://Scenes/UI/GameOver.tscn")
 
 ## Build the full 10-task list. ORDER MATTERS — tasks are sequential.
 func _build_objectives() -> void:
@@ -237,6 +251,16 @@ func shuffle_rooms(is_start_of_loop: bool = false) -> void:
 			RoomManager.current_layout["Slot_Cubicle_Left"] = "Cubicle_Left"
 			RoomManager.current_layout["Slot_Cubicle_Right"] = "Cubicle_Right"
 	
+	# Clean up any existing special rooms from previous shuffle
+	var keys_to_remove = []
+	for key in RoomManager.current_layout.keys():
+		if key.begins_with("Slot_Special"):
+			keys_to_remove.append(key)
+			if key in RoomManager.active_slots_f2:
+				RoomManager.active_slots_f2.erase(key)
+	for key in keys_to_remove:
+		RoomManager.current_layout.erase(key)
+	
 	var chance = 0.0
 	if is_start_of_loop:
 		if current_loop == 1: chance = 0.0
@@ -247,21 +271,38 @@ func shuffle_rooms(is_start_of_loop: bool = false) -> void:
 	else:
 		chance = 1.0 # Mid-loop attack
 		
-	if randf() > chance:
-		return
+	if randf() <= chance:
+		print("[GameManager] SHUFFLING ROOMS!")
+		var swappable_rooms = []
+		var slots_to_swap = []
 		
-	print("[GameManager] SHUFFLING ROOMS!")
-	var swappable_rooms = []
-	var slots_to_swap = []
-	
-	for slot in RoomManager.current_layout.keys():
-		if "Elevator" in slot: continue
-		if slot == "Slot_F1_Left": continue # Lobby never swaps
-		
-		swappable_rooms.append(RoomManager.current_layout[slot])
-		slots_to_swap.append(slot)
+		for slot in RoomManager.current_layout.keys():
+			if "Elevator" in slot: continue
+			if slot == "Slot_F1_Left": continue # Lobby never swaps
 			
-	swappable_rooms.shuffle()
-	
-	for i in range(slots_to_swap.size()):
-		RoomManager.current_layout[slots_to_swap[i]] = swappable_rooms[i]
+			swappable_rooms.append(RoomManager.current_layout[slot])
+			slots_to_swap.append(slot)
+				
+		swappable_rooms.shuffle()
+		
+		for i in range(slots_to_swap.size()):
+			RoomManager.current_layout[slots_to_swap[i]] = swappable_rooms[i]
+			
+	# Inject a Special Room at the start of the loop
+	if is_start_of_loop:
+		var special_chance = min((current_loop - 1) * 0.05, 0.40)
+		if randf() <= special_chance:
+			var special_rooms = ["Special_Castle", "Special_Beach", "Special_Ikea", "Special_Market", "Special_Spaceship"]
+			var chosen_room = special_rooms.pick_random()
+			
+			var valid_indices = []
+			for i in range(1, RoomManager.active_slots_f2.size()):
+				if not "Elevator" in RoomManager.active_slots_f2[i] and not "Elevator" in RoomManager.active_slots_f2[i-1]:
+					valid_indices.append(i)
+			
+			if valid_indices.size() > 0:
+				var insert_idx = valid_indices.pick_random()
+				var slot_id = "Slot_Special_" + str(randi() % 1000)
+				RoomManager.active_slots_f2.insert(insert_idx, slot_id)
+				RoomManager.current_layout[slot_id] = chosen_room
+				print("[GameManager] Spawned special room %s at F2 index %d" % [chosen_room, insert_idx])

@@ -25,6 +25,11 @@ var room_registry: Dictionary = {
 	"Cubicle_Left": "res://Scenes/Rooms/Cubicle_Left.tscn",
 	"Cubicle_Middle": "res://Scenes/Rooms/Cubicle_Middle.tscn",
 	"Cubicle_Right": "res://Scenes/Rooms/Cubicle_Right.tscn",
+	"Special_Castle": "res://Scenes/Rooms/Special_Castle.tscn",
+	"Special_Beach": "res://Scenes/Rooms/Special_Beach.tscn",
+	"Special_Ikea": "res://Scenes/Rooms/Special_Ikea.tscn",
+	"Special_Market": "res://Scenes/Rooms/Special_Market.tscn",
+	"Special_Spaceship": "res://Scenes/Rooms/Special_Spaceship.tscn"
 }
 
 var active_slots_f1: Array = ["Slot_F1_Left", "Slot_Elevator_F1", "Slot_F1_Right"]

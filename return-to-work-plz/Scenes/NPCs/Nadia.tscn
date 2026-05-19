@@ -1,0 +1,74 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://Scripts/NPCStationary.gd" id="1_npc"]
+[ext_resource type="Texture2D" uid="uid://b1551mr8wt1cd" path="res://Assets/UI V4/TEXTBOX/CHAT.png" id="2_q4axa"]
+[ext_resource type="FontFile" uid="uid://c41kv0pko2t4q" path="res://Assets/Font/Pixeled.ttf" id="3_wvd2y"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Customer Nadia.png" id="4_sprite"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(205, 365)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_detect"]
+size = Vector2(232, 375)
+
+[node name="Nadia" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_npc")
+npc_name = "Customer Nadia"
+dialogue_text = "These chairs look great."
+sprite_texture = ExtResource("4_sprite")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(0, -183)
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("4_sprite")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -183)
+shape = SubResource("RectangleShape2D_body")
+
+[node name="InteractionArea" type="Area2D" parent="."]
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea"]
+position = Vector2(0, -189)
+shape = SubResource("RectangleShape2D_detect")
+
+[node name="DialogueBox" type="Node2D" parent="."]
+position = Vector2(0, -390)
+
+[node name="Bubble" type="TextureRect" parent="DialogueBox"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -177.0
+offset_top = -125.0
+offset_right = 178.0
+offset_bottom = -7.0
+grow_horizontal = 2
+grow_vertical = 0
+texture = ExtResource("2_q4axa")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="DialogueBox"]
+offset_left = -165.0
+offset_top = -86.0
+offset_right = 166.0
+offset_bottom = -21.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_wvd2y")
+theme_override_font_sizes/font_size = 10
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Label2" type="Label" parent="DialogueBox"]
+offset_left = -171.0
+offset_top = -133.0
+offset_right = -46.0
+offset_bottom = -87.0
+theme_override_fonts/font = ExtResource("3_wvd2y")
+text = "CHAT.txt"

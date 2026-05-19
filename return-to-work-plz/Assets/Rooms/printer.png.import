@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bcjqsg7ci8wkd"
-path="res://.godot/imported/elevator_sec.png-89d7c9431b8d8acf67d031bf42d75a4c.ctex"
+uid="uid://bcmapr3xx8im2"
+path="res://.godot/imported/printer.png-d15ea9194f6a092e2f137852b8ea504d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Rooms/rest of the bg sketches/elevator_sec.png"
-dest_files=["res://.godot/imported/elevator_sec.png-89d7c9431b8d8acf67d031bf42d75a4c.ctex"]
+source_file="res://Assets/Rooms/printer.png"
+dest_files=["res://.godot/imported/printer.png-d15ea9194f6a092e2f137852b8ea504d.ctex"]
 
 [params]
 

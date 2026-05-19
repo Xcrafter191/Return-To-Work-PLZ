@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b14mecb3uek2s"
-path="res://.godot/imported/desk_object.png-2433171782b2addbf9a6fa45ec8b6a45.ctex"
+uid="uid://bsq3kpqtigu3c"
+path="res://.godot/imported/ikea.png-008b28b1a793c67725de2fe19ad1d485.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Rooms/rest of the bg sketches/desk_object.png"
-dest_files=["res://.godot/imported/desk_object.png-2433171782b2addbf9a6fa45ec8b6a45.ctex"]
+source_file="res://Assets/Rooms/ikea.png"
+dest_files=["res://.godot/imported/ikea.png-008b28b1a793c67725de2fe19ad1d485.ctex"]
 
 [params]
 

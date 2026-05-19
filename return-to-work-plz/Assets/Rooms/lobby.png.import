@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://r4ps2oohf2ly"
-path="res://.godot/imported/restroom.png-75b6a1b0bd3835493aefbeaa600ba3bf.ctex"
+uid="uid://jiw54ogq1hxt"
+path="res://.godot/imported/lobby.png-278b2b7a597b3e7f3a0008c92dc0adac.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Rooms/rest of the bg sketches/restroom.png"
-dest_files=["res://.godot/imported/restroom.png-75b6a1b0bd3835493aefbeaa600ba3bf.ctex"]
+source_file="res://Assets/Rooms/lobby.png"
+dest_files=["res://.godot/imported/lobby.png-278b2b7a597b3e7f3a0008c92dc0adac.ctex"]
 
 [params]
 

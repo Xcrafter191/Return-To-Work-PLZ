@@ -192,17 +192,21 @@ func _trigger_random_inconvenience() -> void:
 	print("[InconvenienceManager] Triggered inconvenience of difficulty: ", chosen_diff)
 	
 	var diff_str = ""
+	var specific_choice = ""
 	match chosen_diff:
-		Difficulty.MINOR: diff_str = "minor_annoyance"
-		Difficulty.MEDIUM: diff_str = "medium_disruption"
-		Difficulty.MAJOR: diff_str = "major_failure"
+		Difficulty.MINOR: 
+			specific_choice = ["lights_out", "random_ui", "shaky", "clock_stop", "sprite_flip", "blur"].pick_random()
+		Difficulty.MEDIUM: 
+			specific_choice = ["fps", "unplug", "keybind", "unpause_hack", "upside_down", "window_resizer"].pick_random()
+		Difficulty.MAJOR: 
+			specific_choice = ["fake_ad", "gibberish", "task_deception", "stuck_99"].pick_random()
 		
-	AttackSequenceManager.trigger_attack(diff_str)
+	AttackSequenceManager.trigger_attack(specific_choice)
 	AttackSequenceManager.sequence_finished.connect(func():
 		match chosen_diff:
-			Difficulty.MINOR: _execute_minor()
-			Difficulty.MEDIUM: _execute_medium()
-			Difficulty.MAJOR: _execute_major()
+			Difficulty.MINOR: _execute_minor(specific_choice)
+			Difficulty.MEDIUM: _execute_medium(specific_choice)
+			Difficulty.MAJOR: _execute_major(specific_choice)
 	, CONNECT_ONE_SHOT)
 
 # ── AUTO-FIX SYSTEM ──
@@ -282,9 +286,7 @@ func _revert_inconvenience(choice: String) -> void:
 			is_stuck_99 = false
 
 # ── MINOR ──
-func _execute_minor() -> void:
-	var options = ["lights_out", "random_ui", "shaky", "clock_stop", "sprite_flip", "blur"]
-	var choice = options.pick_random()
+func _execute_minor(choice: String) -> void:
 	print("[InconvenienceManager] Minor Executing: ", choice)
 	
 	if choice == "lights_out":
@@ -339,9 +341,7 @@ void fragment() {
 	_auto_fix(choice, AUTOFIX_NO_SOLUTION)
 
 # ── MEDIUM ──
-func _execute_medium() -> void:
-	var options = ["fps", "unplug", "keybind", "unpause_hack", "upside_down", "window_resizer"]
-	var choice = options.pick_random()
+func _execute_medium(choice: String) -> void:
 	print("[InconvenienceManager] Medium Executing: ", choice)
 	
 	if choice == "fps":
@@ -406,9 +406,7 @@ func _spawn_unplug_fake() -> void:
 	timer.timeout.connect(func(): if is_instance_valid(canvas): canvas.queue_free())
 
 # ── MAJOR ──
-func _execute_major() -> void:
-	var options = ["fake_ad", "gibberish", "task_deception", "stuck_99"]
-	var choice = options.pick_random()
+func _execute_major(choice: String) -> void:
 	print("[InconvenienceManager] Major Executing: ", choice)
 	
 	if choice == "fake_ad":

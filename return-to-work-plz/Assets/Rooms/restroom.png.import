@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://du8l65m0c0wku"
-path="res://.godot/imported/spaceship.png-25c96ea5111768d9c72665ebdb4b6d82.ctex"
+uid="uid://r4ps2oohf2ly"
+path="res://.godot/imported/restroom.png-f2f603cfd5571b76b23f74ce6efd1754.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Rooms/rest of the bg sketches/spaceship.png"
-dest_files=["res://.godot/imported/spaceship.png-25c96ea5111768d9c72665ebdb4b6d82.ctex"]
+source_file="res://Assets/Rooms/restroom.png"
+dest_files=["res://.godot/imported/restroom.png-f2f603cfd5571b76b23f74ce6efd1754.ctex"]
 
 [params]
 

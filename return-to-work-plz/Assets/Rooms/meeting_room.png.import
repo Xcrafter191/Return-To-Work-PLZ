@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d0442rt6kj1f7"
-path="res://.godot/imported/castle(wizard_room).png-d09a24beb14467905fd31d2c531bee90.ctex"
+uid="uid://5itjp1ja71wm"
+path="res://.godot/imported/meeting_room.png-539a8cfed6d4a26b62a5ee27f07fb240.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Rooms/rest of the bg sketches/castle(wizard_room).png"
-dest_files=["res://.godot/imported/castle(wizard_room).png-d09a24beb14467905fd31d2c531bee90.ctex"]
+source_file="res://Assets/Rooms/meeting_room.png"
+dest_files=["res://.godot/imported/meeting_room.png-539a8cfed6d4a26b62a5ee27f07fb240.ctex"]
 
 [params]
 

@@ -1,9 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://d4g23c65v6xio"]
+[gd_scene format=3 uid="uid://d4g23c65v6xio"]
 
 [ext_resource type="Script" uid="uid://cge2twkky6a4n" path="res://Scripts/RoomExit.gd" id="1_exit"]
+[ext_resource type="Texture2D" uid="uid://jiw54ogq1hxt" path="res://Assets/Rooms/lobby.png" id="1_gvs2b"]
 [ext_resource type="PackedScene" uid="uid://cs816ugb3wtle" path="res://Scenes/NPCs/Linda.tscn" id="2_linda"]
 [ext_resource type="PackedScene" uid="uid://1dcylxfmysnm" path="res://Scenes/NPCs/Mike.tscn" id="3_mike"]
-[ext_resource type="Texture2D" uid="uid://bo843u8lcua6o" path="res://Assets/Rooms/Receptionist_P.png" id="4_bg"]
+[ext_resource type="Texture2D" uid="uid://b14mecb3uek2s" path="res://Assets/Rooms/desk_object.png" id="3_q7psc"]
 [ext_resource type="Texture2D" uid="uid://bmb4rt8vljrax" path="res://Assets/UI V4/TEXTBOX/INTERACT.png" id="6_uwxd2"]
 [ext_resource type="FontFile" uid="uid://c41kv0pko2t4q" path="res://Assets/Font/Pixeled.ttf" id="7_ced4q"]
 [ext_resource type="Script" uid="uid://8n7t80alfs5g" path="res://Scripts/ClockOut.gd" id="7_clockout"]
@@ -20,32 +21,40 @@ size = Vector2(60, 1078)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ced4q"]
 size = Vector2(40, 708)
 
-[node name="Lobby" type="Node2D"]
+[node name="Lobby" type="Node2D" unique_id=1376240732]
 
-[node name="Background" type="Sprite2D" parent="."]
+[node name="Background2" type="Sprite2D" parent="." unique_id=838021162]
 position = Vector2(960, 540)
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("4_bg")
+texture = ExtResource("1_gvs2b")
 
-[node name="Floor" type="StaticBody2D" parent="."]
+[node name="ReceptionistLinda" parent="." unique_id=1321697223 instance=ExtResource("2_linda")]
+position = Vector2(1528, 816)
+
+[node name="Background" type="Sprite2D" parent="." unique_id=1247816815]
+position = Vector2(912, 555)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_q7psc")
+
+[node name="Floor" type="StaticBody2D" parent="." unique_id=245772040]
 position = Vector2(960, 911)
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=1274077959]
 position = Vector2(0, -18)
 shape = SubResource("RectangleShape2D_floor")
 
-[node name="RoomCenter" type="Marker2D" parent="."]
+[node name="RoomCenter" type="Marker2D" parent="." unique_id=1293612882]
 position = Vector2(960, 540)
 
-[node name="SpawnDefault" type="Marker2D" parent="."]
+[node name="SpawnDefault" type="Marker2D" parent="." unique_id=1962543362]
 position = Vector2(170, 869)
 
-[node name="SpawnRight" type="Marker2D" parent="."]
+[node name="SpawnRight" type="Marker2D" parent="." unique_id=1017585042]
 position = Vector2(1750, 868)
 
-[node name="RoomLabel" type="Label" parent="."]
+[node name="RoomLabel" type="Label" parent="." unique_id=506444190]
 modulate = Color(0, 0, 0, 1)
 offset_left = 860.0
 offset_top = 30.0
@@ -54,30 +63,27 @@ offset_bottom = 60.0
 text = "LOBBY"
 horizontal_alignment = 1
 
-[node name="ReceptionistLinda" parent="." instance=ExtResource("2_linda")]
-position = Vector2(1528, 871)
-
-[node name="JanitorMike" parent="." instance=ExtResource("3_mike")]
+[node name="JanitorMike" parent="." unique_id=2138673388 instance=ExtResource("3_mike")]
 position = Vector2(400, 870)
 patrol_right_x = 900.0
 
-[node name="ExitRight" type="Area2D" parent="."]
+[node name="ExitRight" type="Area2D" parent="." unique_id=1752802224]
 position = Vector2(1910, 722)
 collision_layer = 0
 script = ExtResource("1_exit")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitRight"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitRight" unique_id=1736005538]
 position = Vector2(1.5, -221.5)
 shape = SubResource("RectangleShape2D_exit")
 
-[node name="ExitVisual_Right" type="ColorRect" parent="."]
+[node name="ExitVisual_Right" type="ColorRect" parent="." unique_id=1879250634]
 offset_left = 1892.0
 offset_top = 575.0
 offset_right = 1922.0
 offset_bottom = 875.0
 color = Color(0.3, 0.3, 0.5, 0.4)
 
-[node name="ExitLabel_Right" type="Label" parent="."]
+[node name="ExitLabel_Right" type="Label" parent="." unique_id=176609959]
 offset_left = 1800.0
 offset_top = 760.0
 offset_right = 1910.0
@@ -85,16 +91,16 @@ offset_bottom = 790.0
 text = "→ Elevator"
 horizontal_alignment = 1
 
-[node name="ClockOut" type="Area2D" parent="."]
+[node name="ClockOut" type="Area2D" parent="." unique_id=1331536139]
 position = Vector2(30, 743)
 collision_layer = 0
 script = ExtResource("7_clockout")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ClockOut"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ClockOut" unique_id=868322594]
 position = Vector2(0, -203)
 shape = SubResource("RectangleShape2D_clockout")
 
-[node name="PromptLabel" type="Label" parent="ClockOut"]
+[node name="PromptLabel" type="Label" parent="ClockOut" unique_id=2032289104]
 offset_left = 36.0
 offset_top = -197.0
 offset_right = 236.0
@@ -102,7 +108,7 @@ offset_bottom = -167.0
 text = "Clock Out"
 horizontal_alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="ClockOut/PromptLabel"]
+[node name="TextureRect" type="TextureRect" parent="ClockOut/PromptLabel" unique_id=423548037]
 layout_mode = 0
 offset_left = -33.0
 offset_top = -167.0
@@ -111,7 +117,7 @@ offset_bottom = -68.0
 texture = ExtResource("6_uwxd2")
 expand_mode = 1
 
-[node name="LabelInteract" type="Label" parent="ClockOut/PromptLabel/TextureRect"]
+[node name="LabelInteract" type="Label" parent="ClockOut/PromptLabel/TextureRect" unique_id=1288865601]
 layout_mode = 0
 offset_left = 10.0
 offset_top = -2.0
@@ -120,7 +126,7 @@ offset_bottom = 44.0
 theme_override_fonts/font = ExtResource("7_ced4q")
 text = "CLOCK_IN/OUT.py"
 
-[node name="LabelPress" type="Label" parent="ClockOut/PromptLabel/TextureRect"]
+[node name="LabelPress" type="Label" parent="ClockOut/PromptLabel/TextureRect" unique_id=465481829]
 layout_mode = 0
 offset_left = 10.0
 offset_top = 38.0
@@ -130,11 +136,11 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("7_ced4q")
 text = "PRESS E TO INTERACT"
 
-[node name="WallLeft" type="StaticBody2D" parent="."]
+[node name="WallLeft" type="StaticBody2D" parent="." unique_id=1067533061]
 position = Vector2(4, 513)
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WallLeft"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallLeft" unique_id=59229167]
 position = Vector2(-2, 55)
 shape = SubResource("RectangleShape2D_ced4q")

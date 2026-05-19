@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://d4ccxgb07nyro"]
+[gd_scene format=3 uid="uid://d4ccxgb07nyro"]
 
 [ext_resource type="Script" uid="uid://btfgu21ug6rg7" path="res://Scripts/SkillCheckUI.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://bmb4rt8vljrax" path="res://Assets/UI V4/TEXTBOX/INTERACT.png" id="2_lp5o4"]
@@ -6,11 +6,11 @@
 [ext_resource type="AudioStream" uid="uid://bm4u83q27e256" path="res://Assets/Audio/SFX/Failed_Sound.MP3" id="3_0rvd4"]
 [ext_resource type="FontFile" uid="uid://c41kv0pko2t4q" path="res://Assets/Font/Pixeled.ttf" id="3_o5ous"]
 
-[node name="SkillCheckUI" type="CanvasLayer"]
+[node name="SkillCheckUI" type="CanvasLayer" unique_id=1133910246]
 layer = 50
 script = ExtResource("1_script")
 
-[node name="Panel" type="Panel" parent="."]
+[node name="Panel" type="Panel" parent="." unique_id=553608233]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -23,7 +23,7 @@ offset_bottom = 180.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TextureRect" type="TextureRect" parent="Panel"]
+[node name="TextureRect" type="TextureRect" parent="Panel" unique_id=2009211231]
 layout_mode = 0
 offset_left = -52.0
 offset_top = -75.0
@@ -32,7 +32,7 @@ offset_bottom = 106.0
 texture = ExtResource("2_lp5o4")
 expand_mode = 1
 
-[node name="BarBackground" type="ColorRect" parent="Panel"]
+[node name="BarBackground" type="ColorRect" parent="Panel" unique_id=26149100]
 layout_mode = 1
 anchors_preset = 14
 anchor_top = 0.5
@@ -46,7 +46,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.2, 0.2, 0.2, 1)
 
-[node name="RedZone" type="ColorRect" parent="Panel/BarBackground"]
+[node name="RedZone" type="ColorRect" parent="Panel/BarBackground" unique_id=1637753378]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -55,7 +55,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.878431, 0.117647, 0.117647, 1)
 
-[node name="YellowZone" type="ColorRect" parent="Panel/BarBackground"]
+[node name="YellowZone" type="ColorRect" parent="Panel/BarBackground" unique_id=747494861]
 layout_mode = 1
 anchors_preset = 9
 anchor_bottom = 1.0
@@ -64,7 +64,7 @@ offset_right = 200.0
 grow_vertical = 2
 color = Color(0.917647, 0.639216, 0.160784, 1)
 
-[node name="Arrow" type="ColorRect" parent="Panel/BarBackground"]
+[node name="Arrow" type="ColorRect" parent="Panel/BarBackground" unique_id=1182506033]
 layout_mode = 1
 anchors_preset = 9
 anchor_bottom = 1.0
@@ -73,7 +73,7 @@ offset_right = 6.0
 offset_bottom = 10.0
 grow_vertical = 2
 
-[node name="PromptLabel" type="Label" parent="Panel"]
+[node name="PromptLabel" type="Label" parent="Panel" unique_id=1376809864]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -86,7 +86,7 @@ theme_override_fonts/font = ExtResource("3_o5ous")
 text = "PRESS [SPACE] IN THE YELLOW ZONE"
 horizontal_alignment = 1
 
-[node name="ResultLabel" type="Label" parent="Panel"]
+[node name="ResultLabel" type="Label" parent="Panel" unique_id=1133356793]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -97,11 +97,11 @@ offset_bottom = 82.0
 grow_horizontal = 2
 horizontal_alignment = 1
 
-[node name="SuccessSFX" type="AudioStreamPlayer2D" parent="."]
+[node name="SuccessSFX" type="AudioStreamPlayer2D" parent="." unique_id=1888214532]
 stream = ExtResource("2_weejn")
 volume_db = 1.0
 bus = &"SFX"
 
-[node name="FailedSFX" type="AudioStreamPlayer2D" parent="."]
+[node name="FailedSFX" type="AudioStreamPlayer2D" parent="." unique_id=598906491]
 stream = ExtResource("3_0rvd4")
 bus = &"SFX"
