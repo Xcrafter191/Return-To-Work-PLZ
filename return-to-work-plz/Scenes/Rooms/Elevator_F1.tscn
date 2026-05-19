@@ -114,6 +114,7 @@ target_spawn = "SpawnFromF1"
 [node name="ElevatorSFX" type="AudioStreamPlayer2D" parent="ElevatorDoor"]
 position = Vector2(-960, -910)
 stream = ExtResource("4_0pc62")
+volume_db = 15.0
 bus = &"SFX"
 
 [node name="DetectionArea" type="Area2D" parent="ElevatorDoor"]

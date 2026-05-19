@@ -14,7 +14,7 @@ var is_paused: bool = false
 @onready var btn_resume: TextureButton = $PausePanel/BtnResume
 @onready var btn_options: TextureButton = $PausePanel/BtnOptions
 @onready var btn_leave: TextureButton = $PausePanel/BtnLeave
-@onready var close_btn: Button = $SettingsPanel/MainBox/Header/CloseBtn
+@onready var close_btn: TextureButton = $SettingsPanel/CloseBtn
 @onready var reset_btn: TextureButton = $SettingsPanel/MainBox/Footer/ResetBtn
 @onready var apply_btn: TextureButton = $SettingsPanel/MainBox/Footer/ApplyBtn
 

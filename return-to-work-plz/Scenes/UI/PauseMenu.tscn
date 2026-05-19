@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://dkqqgjacxokio"]
+[gd_scene load_steps=29 format=3 uid="uid://dkqqgjacxokio"]
 
 [ext_resource type="Script" uid="uid://dtjkfc6g2efv4" path="res://Scripts/PauseMenu.gd" id="1_pause"]
 [ext_resource type="FontFile" uid="uid://c41kv0pko2t4q" path="res://Assets/Font/Pixeled.ttf" id="2_8hc20"]
@@ -18,6 +18,8 @@
 [ext_resource type="Texture2D" uid="uid://dm1qsgqnppk2a" path="res://Assets/UI V4/PAUSE/MAIN/TEXT_BOX/TEXT AREA.png" id="13_text_area"]
 [ext_resource type="Texture2D" uid="uid://synr4i5n0llg" path="res://Assets/UI V4/PAUSE/MAIN/SCROLL/Scroll_Button3.png" id="14_e6kvg"]
 [ext_resource type="Texture2D" uid="uid://c5ikuwroa6hh2" path="res://Assets/UI V4/PAUSE/MAIN/DROPDOWN_BOX/ARROW_V2.png" id="15_rkfds"]
+[ext_resource type="Texture2D" uid="uid://d3dvsbpik6yhp" path="res://Assets/UI V4/PAUSE/MAIN/CLOSE.png" id="19_5j7uh"]
+[ext_resource type="Texture2D" uid="uid://dwqkdkjgp0qun" path="res://Assets/UI V4/PAUSE/MAIN/CLOSE_H.png" id="20_ilrxe"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_slider_grabber"]
 texture = ExtResource("10_scroll_full")
@@ -88,6 +90,7 @@ OptionButton/styles/pressed = SubResource("StyleBoxTexture_dropdown")
 SpinBox/styles/normal = SubResource("StyleBoxTexture_text")
 TabContainer/colors/font_selected_color = Color(1, 1, 1, 1)
 TabContainer/colors/font_unselected_color = Color(1, 1, 1, 1)
+TabContainer/constants/side_margin = 0
 TabContainer/styles/panel = SubResource("StyleBoxTexture_panel")
 TabContainer/styles/tab_selected = SubResource("StyleBoxTexture_tab_selected")
 TabContainer/styles/tab_unselected = SubResource("StyleBoxTexture_tab_unselected")
@@ -179,15 +182,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_settings")
 theme_override_constants/separation = 5
-
-[node name="Header" type="HBoxContainer" parent="SettingsPanel/MainBox"]
-layout_mode = 2
-alignment = 2
-
-[node name="CloseBtn" type="Button" parent="SettingsPanel/MainBox/Header"]
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-text = "X"
 
 [node name="Tabs" type="TabContainer" parent="SettingsPanel/MainBox"]
 layout_mode = 2
@@ -487,3 +481,22 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 text = "APPLY"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="CloseBtn" type="TextureButton" parent="SettingsPanel"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 352.0
+offset_top = -330.0
+offset_right = 400.0
+offset_bottom = -280.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("19_5j7uh")
+texture_hover = ExtResource("20_ilrxe")
+ignore_texture_size = true
+stretch_mode = 0

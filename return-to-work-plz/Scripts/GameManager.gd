@@ -73,8 +73,27 @@ func _trigger_game_over() -> void:
 	current_loop = 1
 	productivity = 100.0
 	morale = 100.0
-	InconvenienceManager._reset_permanent_inconveniences()
+	if has_node("/root/InconvenienceManager"):
+		InconvenienceManager._reset_permanent_inconveniences()
 	get_tree().change_scene_to_file("res://Scenes/UI/GameOver.tscn")
+
+func reset_game_state() -> void:
+	current_loop = 1
+	difficulty_modifier = 1.0
+	productivity = 100.0
+	morale = 100.0
+	consecutive_tasks = 0
+	talked_npcs.clear()
+	npc_positions.clear()
+	is_deadline_active = false
+	task_deadline_time = 0.0
+	_build_objectives()
+	
+	if has_node("/root/InconvenienceManager"):
+		InconvenienceManager._reset_permanent_inconveniences()
+	
+	call_deferred("emit_signal", "morale_changed", morale)
+	call_deferred("emit_signal", "productivity_changed", productivity)
 
 ## Build the full 10-task list. ORDER MATTERS — tasks are sequential.
 func _build_objectives() -> void:

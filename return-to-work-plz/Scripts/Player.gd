@@ -272,3 +272,10 @@ func cancel_task() -> void:
 		nearby_workstation._update_prompt()
 	progress_container.visible = false
 	progress_container.modulate.a = 1.0
+
+func set_movement_locked(locked: bool) -> void:
+	set_physics_process(not locked)
+	set_process_input(not locked)
+	if locked:
+		velocity = Vector2.ZERO
+		_update_animation(0.0)

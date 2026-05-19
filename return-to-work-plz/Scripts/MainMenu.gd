@@ -9,9 +9,9 @@ func _ready():
 	exit_button.pressed.connect(_on_exit_pressed)
 
 func _on_play_pressed():
-	print("Play button pressed - not connected yet")
-	var error = get_tree().change_scene_to_file("res://Scenes/Main.tscn")
-	
+	if has_node("/root/GameManager"):
+		GameManager.reset_game_state()
+	get_tree().change_scene_to_file("res://Scenes/Main.tscn")
 
 func _on_exit_pressed():
 	print("Exit button pressed")
