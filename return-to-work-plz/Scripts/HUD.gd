@@ -15,9 +15,9 @@ var deadline_label: Label = null
 
 
 var texbox_task: Texture2D = preload("res://Assets/UI V4/TEXTBOX/TASK.png")
-var productive_good: Texture2D = preload("res://Assets/UI V4/PRODUCTIVITY BAR/BAR/GOOD.png")
-var productive_mid: Texture2D = preload("res://Assets/UI V4/PRODUCTIVITY BAR/BAR/ALERT.png")
-var productive_bad: Texture2D = preload("res://Assets/UI V4/PRODUCTIVITY BAR/BAR/BAD.png")
+const productive_mid = preload("res://Assets/UI V4/PRODUCTIVITY BAR/BAR/ALERT.png")
+const productive_bad = preload("res://Assets/UI V4/PRODUCTIVITY BAR/BAR/BAD.png")
+const productive_good = preload("res://Assets/UI V4/PRODUCTIVITY BAR/BAR/GOOD.png")
 var moral_good: Texture2D = preload("res://Assets/UI V4/MORAL/MORAL/GOOD.png")
 var moral_mid: Texture2D = preload("res://Assets/UI V4/MORAL/MORAL/ALERT.png")
 var moral_bad: Texture2D = preload("res://Assets/UI V4/MORAL/MORAL/BAD.png")

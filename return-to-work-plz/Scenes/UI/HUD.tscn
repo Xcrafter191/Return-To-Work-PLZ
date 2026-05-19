@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" uid="uid://bgvawfiayxhjc" path="res://Scripts/HUD.gd" id="1_hud"]
 [ext_resource type="Texture2D" uid="uid://ckm0qw1xidsnc" path="res://Assets/UI V4/PRODUCTIVITY BAR/CONDITION/EMPTY.png" id="4_1ree7"]
-[ext_resource type="Texture2D" uid="uid://cj7e47tphqi3n" path="res://Assets/UI V4/PRODUCTIVITY BAR/BAR/GOOD.png" id="5_1ree7"]
+[ext_resource type="Texture2D" uid="uid://d170xjx7g6l5t" path="res://Assets/UI V4/PRODUCTIVITY BAR/BAR/GOOD.png" id="5_1ree7"]
 [ext_resource type="Texture2D" uid="uid://dl0ravoqjmlxm" path="res://Assets/UI V4/PRODUCTIVITY BAR/CONDITION/FULL.png" id="5_d2sja"]
-[ext_resource type="Texture2D" uid="uid://b2be7ukql7m3b" path="res://Assets/UI V4/MORAL/MORAL/GOOD.png" id="5_i4i0y"]
+[ext_resource type="Texture2D" uid="uid://syajdfq0huoc" path="res://Assets/UI V4/MORAL/MORAL/GOOD.png" id="5_i4i0y"]
 [ext_resource type="Texture2D" uid="uid://bnpbj4m7nc6de" path="res://Assets/UI V4/MORAL/CONDITION/EMPTY.png" id="6_yenib"]
 [ext_resource type="Texture2D" uid="uid://cv3gtss7ivpwr" path="res://Assets/UI V4/MORAL/CONDITION/FULL.png" id="7_pydgx"]
 [ext_resource type="Texture2D" uid="uid://bkb3lautlmt7v" path="res://Assets/UI V4/TEXTBOX/TASK.png" id="8_i4i0y"]
@@ -43,6 +43,15 @@ nine_patch_stretch = true
 texture_under = ExtResource("4_1ree7")
 texture_progress = ExtResource("5_d2sja")
 
+[node name="Label" type="Label" parent="ProductivityContainer"]
+layout_mode = 0
+offset_left = -21.0
+offset_top = -36.0
+offset_right = 222.0
+offset_bottom = 10.0
+theme_override_fonts/font = ExtResource("9_yenib")
+text = "PRODUCTIVITY.exe"
+
 [node name="MoraleContainer" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 1
@@ -75,12 +84,21 @@ nine_patch_stretch = true
 texture_under = ExtResource("6_yenib")
 texture_progress = ExtResource("7_pydgx")
 
+[node name="Label" type="Label" parent="MoraleContainer"]
+layout_mode = 0
+offset_left = -33.0
+offset_top = -45.0
+offset_right = 108.0
+offset_bottom = 1.0
+theme_override_fonts/font = ExtResource("9_yenib")
+text = "MORAL.exe"
+
 [node name="TaskBackground" type="TextureRect" parent="."]
-custom_minimum_size = Vector2(50, 60)
+custom_minimum_size = Vector2(60, 60)
 offset_left = 1500.0
 offset_top = 202.0
 offset_right = 1894.0
-offset_bottom = 325.0
+offset_bottom = 358.0
 texture = ExtResource("8_i4i0y")
 expand_mode = 1
 
@@ -89,18 +107,16 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 8.0
-offset_top = 41.0
-offset_right = -10.0
-offset_bottom = -13.0
+offset_left = 9.0
+offset_top = 29.0
+offset_right = -9.0
+offset_bottom = -6.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("9_yenib")
 theme_override_font_sizes/font_size = 15
 text = "Task 1/10"
-horizontal_alignment = 1
-vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="ClockOutLabel" type="Label" parent="."]

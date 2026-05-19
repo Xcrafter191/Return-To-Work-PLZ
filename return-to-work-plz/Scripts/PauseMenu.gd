@@ -15,8 +15,8 @@ var is_paused: bool = false
 @onready var btn_options: TextureButton = $PausePanel/BtnOptions
 @onready var btn_leave: TextureButton = $PausePanel/BtnLeave
 @onready var close_btn: Button = $SettingsPanel/MainBox/Header/CloseBtn
-@onready var reset_btn: Button = $SettingsPanel/MainBox/Footer/ResetBtn
-@onready var apply_btn: Button = $SettingsPanel/MainBox/Footer/ApplyBtn
+@onready var reset_btn: TextureButton = $SettingsPanel/MainBox/Footer/ResetBtn
+@onready var apply_btn: TextureButton = $SettingsPanel/MainBox/Footer/ApplyBtn
 
 # Settings controls
 @onready var master_slider: HSlider = $SettingsPanel/MainBox/Tabs/AUDIO/VBox/MasterVolRow/MasterSlider
@@ -35,6 +35,7 @@ var is_paused: bool = false
 
 @onready var language_dropdown: OptionButton = $SettingsPanel/MainBox/Tabs/ACCESSIBILITY/VBox/LangRow/LanguageDropdown
 @onready var keybinds_vbox: VBoxContainer = $SettingsPanel/MainBox/Tabs/KEYBINDS/VBox
+@onready var tabs: TabContainer = $SettingsPanel/MainBox/Tabs
 
 # Keybind system
 var keybind_buttons: Dictionary = {}  # { action_name: Button }
