@@ -1,0 +1,74 @@
+[gd_scene load_steps=7 format=3 uid="uid://fhbeppwieudi"]
+
+[ext_resource type="Script" uid="uid://bboervcog1iof" path="res://Scripts/MainMenu.gd" id="1_mm"]
+[ext_resource type="Texture2D" uid="uid://m828mdyeuh5q" path="res://Assets/Logo/logo.png" id="2_mjmdf"]
+[ext_resource type="Texture2D" uid="uid://bggq4c8gevr2s" path="res://Assets/UI V4/PAUSE/BUTTONS/Group 115.png" id="3_jex3y"]
+[ext_resource type="Texture2D" uid="uid://b4x8c1278chx2" path="res://Assets/UI V4/PAUSE/BUTTONS/Group 116.png" id="4_744d7"]
+[ext_resource type="Texture2D" uid="uid://dxghmx2wisx6l" path="res://Assets/UI V4/PAUSE/BUTTONS/Group 113.png" id="5_kl3t2"]
+[ext_resource type="Texture2D" uid="uid://c57riptktorsi" path="res://Assets/UI V4/PAUSE/BUTTONS/Group 114.png" id="6_ynupv"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_mm")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.12, 0.12, 0.12, 1)
+
+[node name="LogoRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -363.0
+offset_top = -388.0
+offset_right = 373.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_mjmdf")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = 50.0
+offset_right = 100.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="PlayButton" type="TextureButton" parent="VBoxContainer"]
+custom_minimum_size = Vector2(400, 90)
+layout_mode = 2
+texture_normal = ExtResource("3_jex3y")
+texture_hover = ExtResource("4_744d7")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="ExitButton" type="TextureButton" parent="VBoxContainer"]
+custom_minimum_size = Vector2(400, 90)
+layout_mode = 2
+texture_normal = ExtResource("5_kl3t2")
+texture_hover = ExtResource("6_ynupv")
+ignore_texture_size = true
+stretch_mode = 0
