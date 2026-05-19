@@ -12,7 +12,7 @@ dest_files=["res://.godot/imported/Failed_Sound.MP3-752ee38aa5f2b027f497e3dd0f5d
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0.0
 bpm=0.0
 beat_count=0

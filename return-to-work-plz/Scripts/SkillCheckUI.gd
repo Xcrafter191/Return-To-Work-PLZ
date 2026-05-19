@@ -8,6 +8,9 @@ signal skill_check_completed(success: bool)
 @onready var bar_bg = $Panel/BarBackground
 @onready var result_label = $Panel/ResultLabel
 
+@onready var success_sfx: AudioStreamPlayer2D = $SuccessSFX
+@onready var fail_sfx: AudioStreamPlayer2D = $FailedSFX
+
 var is_active: bool = false
 var arrow_speed: float = 400.0
 var arrow_direction: int = 1
@@ -71,9 +74,13 @@ func _check_result() -> void:
 	if success:
 		result_label.text = "GOOD!"
 		result_label.add_theme_color_override("font_color", Color.GREEN)
+		if success_sfx:
+			success_sfx.play() # Play sound success
 	else:
 		result_label.text = "FAILED!"
 		result_label.add_theme_color_override("font_color", Color.RED)
+		if fail_sfx:
+			fail_sfx.play() # Play sound fail
 		
 	var tween = create_tween()
 	tween.tween_interval(0.5)

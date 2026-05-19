@@ -1,5 +1,6 @@
-[gd_scene load_steps=11 format=3 uid="uid://b2yijxd3sba01"]
+[gd_scene load_steps=12 format=3 uid="uid://b2yijxd3sba01"]
 
+[ext_resource type="AudioStream" uid="uid://btsox283u0al3" path="res://Assets/Audio/SFX/Lift_Sound.MP3" id="1_6gmjt"]
 [ext_resource type="Script" uid="uid://cge2twkky6a4n" path="res://Scripts/RoomExit.gd" id="1_exit"]
 [ext_resource type="Texture2D" uid="uid://c8q63rmahv30x" path="res://Assets/Rooms/Elevator_P.png" id="4_bg"]
 [ext_resource type="Texture2D" uid="uid://bmb4rt8vljrax" path="res://Assets/UI V4/TEXTBOX/INTERACT.png" id="4_dubvc"]
@@ -120,6 +121,11 @@ position = Vector2(960, 910)
 script = ExtResource("5_door")
 target_slot = "Slot_Elevator_F1"
 target_spawn = "SpawnFromF2"
+
+[node name="ElevatorSFX" type="AudioStreamPlayer2D" parent="ElevatorDoor"]
+position = Vector2(-960, -910)
+stream = ExtResource("1_6gmjt")
+bus = &"SFX"
 
 [node name="DetectionArea" type="Area2D" parent="ElevatorDoor"]
 collision_layer = 0

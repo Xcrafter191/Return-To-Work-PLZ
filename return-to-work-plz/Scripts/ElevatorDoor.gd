@@ -5,6 +5,7 @@ extends Node2D
 
 @export var target_slot: String = "Slot_Elevator_F2"
 @export var target_spawn: String = "SpawnDefault"
+@onready var elevator_sfx: AudioStreamPlayer2D = $ElevatorSFX
 
 var player_in_range: bool = false
 
@@ -17,6 +18,10 @@ func _ready() -> void:
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("interact") and player_in_range:
+		if elevator_sfx:
+			elevator_sfx.play()      # Putar suara lift
+			await elevator_sfx.finished
+			
 		RoomManager.change_room(target_slot, target_spawn)
 
 func _on_body_entered(body: Node2D) -> void:
