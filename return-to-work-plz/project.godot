@@ -21,6 +21,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
+UISoundManager="*res://Scripts/UISoundManager.gd"
 RoomManager="*res://Scripts/RoomManager.gd"
 MusicManager="*res://Scripts/MusicManager.gd"
 GameManager="*res://Scripts/GameManager.gd"

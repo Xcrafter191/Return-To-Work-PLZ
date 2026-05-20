@@ -4,6 +4,8 @@ extends CanvasLayer
 ## Contains full settings with Audio, Graphic, Keybinds, Accessibility tabs.
 
 var is_paused: bool = false
+@onready var click_sfx: AudioStreamPlayer2D = $ClickSFX
+@onready var hover_sfx: AudioStreamPlayer2D = $HoverSFX
 
 # UI references
 @onready var dim_overlay: ColorRect = $DimOverlay
@@ -83,6 +85,13 @@ func _connect_signals() -> void:
 	reset_btn.pressed.connect(_reset_settings)
 	apply_btn.pressed.connect(_apply_settings)
 	
+	btn_resume.mouse_entered.connect(_on_button_hover)
+	btn_options.mouse_entered.connect(_on_button_hover)
+	btn_leave.mouse_entered.connect(_on_button_hover)
+	close_btn.mouse_entered.connect(_on_button_hover)
+	reset_btn.mouse_entered.connect(_on_button_hover)
+	apply_btn.mouse_entered.connect(_on_button_hover)
+	
 	master_slider.value_changed.connect(_on_master_changed)
 	master_slider.value_changed.connect(func(val): master_val.text = str(int(val)))
 	music_slider.value_changed.connect(_on_music_changed)
@@ -146,6 +155,9 @@ func _unhandled_input(event: InputEvent) -> void:
 			_pause()
 		get_viewport().set_input_as_handled()
 
+func _on_button_hover():
+	UISoundManager.play_hover()
+
 func _pause() -> void:
 	is_paused = true
 	get_tree().paused = true
@@ -155,22 +167,26 @@ func _pause() -> void:
 	InconvenienceManager.try_pause_inconvenience()
 
 func _resume() -> void:
+	UISoundManager.play_click()
 	is_paused = false
 	get_tree().paused = false
 	visible = false
 	awaiting_rebind = ""
 
 func _open_settings() -> void:
+	UISoundManager.play_click()
 	pause_panel.visible = false
 	settings_panel.visible = true
 
 func _leave_game() -> void:
+	UISoundManager.play_click()
 	get_tree().paused = false
 	if has_node("/root/MusicManager"):
 		MusicManager.stop_music()
 	get_tree().change_scene_to_file("res://Scenes/UI/MainMenu.tscn")
 
 func _close_settings() -> void:
+	UISoundManager.play_click()
 	settings_panel.visible = false
 	pause_panel.visible = true
 	awaiting_rebind = ""
@@ -275,6 +291,7 @@ func _on_brightness_changed(val: float) -> void:
 		overlay.color = Color(brightness, brightness, brightness, 1.0)
 
 func _apply_settings() -> void:
+	UISoundManager.play_click()
 	Engine.max_fps = int(fps_input.value)
 
 	print("[Settings] Applied: %dfps, window=%d, res=%s" % [
@@ -283,6 +300,7 @@ func _apply_settings() -> void:
 	save_settings()
 
 func _reset_settings() -> void:
+	UISoundManager.play_click()
 	master_slider.value = DEFAULTS["master_vol"]
 	music_slider.value = DEFAULTS["music_vol"]
 	sfx_slider.value = DEFAULTS["sfx_vol"]

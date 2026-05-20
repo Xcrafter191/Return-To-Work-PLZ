@@ -6,6 +6,11 @@ extends Control
 @onready var logo_rect = $LogoRect
 @onready var background_rect = $BackgroundRect
 
+#suara hoover + click
+@onready var click_sfx: AudioStreamPlayer2D = $ClickSFX
+@onready var hover_sfx: AudioStreamPlayer2D = $HoverSFX
+
+
 # Settings panel references
 @onready var settings_panel = $SettingsPanel
 @onready var close_btn = $SettingsPanel/CloseBtn
@@ -58,10 +63,19 @@ func _ready():
 	options_button.pressed.connect(_on_options_pressed)
 	exit_button.pressed.connect(_on_exit_pressed)
 	
+	# Hubungkan fungsi hover (mouse masuk ke area button)
+	play_button.mouse_entered.connect(_on_button_hover)
+	exit_button.mouse_entered.connect(_on_button_hover)
+	options_button.mouse_entered.connect(_on_button_hover)
+	
 	# Settings signals
 	close_btn.pressed.connect(_close_settings)
 	reset_btn.pressed.connect(_reset_settings)
 	apply_btn.pressed.connect(_apply_settings)
+	
+	close_btn.mouse_entered.connect(_on_button_hover)
+	reset_btn.mouse_entered.connect(_on_button_hover)
+	apply_btn.mouse_entered.connect(_on_button_hover)
 	
 	master_slider.value_changed.connect(_on_master_changed)
 	master_slider.value_changed.connect(func(val): master_val.text = str(int(val)))
@@ -236,15 +250,24 @@ func _spawn_npc(scene: PackedScene, pos: Vector2, is_moving: bool, parent: Node)
 # MENU BUTTONS
 # ═══════════════════════════════════════════
 
+func _on_button_hover():
+	UISoundManager.play_hover()
+
+func play_click():
+	UISoundManager.play_click()
+
 func _on_play_pressed():
+	UISoundManager.play_click()
 	if has_node("/root/GameManager"):
 		GameManager.reset_game_state()
 	get_tree().change_scene_to_file("res://Scenes/Main.tscn")
 
 func _on_options_pressed():
+	UISoundManager.play_click()
 	settings_panel.visible = true
 
 func _on_exit_pressed():
+	UISoundManager.play_click()
 	print("Exit button pressed")
 	get_tree().quit()
 

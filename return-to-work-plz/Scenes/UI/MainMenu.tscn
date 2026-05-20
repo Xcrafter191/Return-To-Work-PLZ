@@ -22,6 +22,8 @@
 [ext_resource type="Texture2D" uid="uid://c5ikuwroa6hh2" path="res://Assets/UI V4/PAUSE/MAIN/DROPDOWN_BOX/ARROW_V2.png" id="20_arrow"]
 [ext_resource type="Texture2D" uid="uid://d3dvsbpik6yhp" path="res://Assets/UI V4/PAUSE/MAIN/CLOSE.png" id="21_close"]
 [ext_resource type="Texture2D" uid="uid://dwqkdkjgp0qun" path="res://Assets/UI V4/PAUSE/MAIN/CLOSE_H.png" id="22_close_h"]
+[ext_resource type="AudioStream" uid="uid://c3wl5uurm1py6" path="res://Assets/Audio/SFX/UI_hover.mp3" id="23_sdupg"]
+[ext_resource type="AudioStream" uid="uid://cpfvohudya5ci" path="res://Assets/Audio/SFX/UI_click.mp3" id="24_2v0rb"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_slider_grabber"]
 texture = ExtResource("15_scroll_full")
@@ -452,3 +454,12 @@ stream = ExtResource("2_744d7")
 volume_db = 20.0
 autoplay = true
 bus = &"Music"
+
+[node name="HoverSFX" type="AudioStreamPlayer2D" parent="." unique_id=1122982926]
+stream = ExtResource("23_sdupg")
+volume_db = 5.0
+bus = &"SFX"
+
+[node name="ClickSFX" type="AudioStreamPlayer2D" parent="." unique_id=1879447355]
+stream = ExtResource("24_2v0rb")
+volume_db = 5.0
