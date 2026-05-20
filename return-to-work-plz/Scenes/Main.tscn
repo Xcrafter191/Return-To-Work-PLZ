@@ -1,31 +1,25 @@
-[gd_scene load_steps=7 format=3 uid="uid://main001"]
+[gd_scene format=3 uid="uid://main001"]
 
 [ext_resource type="Script" uid="uid://bnxq0p34172de" path="res://Scripts/Main.gd" id="1_main"]
 [ext_resource type="PackedScene" uid="uid://f8bt778unm77" path="res://Scenes/TransitionOverlay.tscn" id="2_transition"]
 [ext_resource type="PackedScene" uid="uid://hud001" path="res://Scenes/UI/HUD.tscn" id="3_hud"]
 [ext_resource type="PackedScene" uid="uid://dkqqgjacxokio" path="res://Scenes/UI/PauseMenu.tscn" id="4_pause"]
-[ext_resource type="AudioStream" uid="uid://hbvf73ak3wf4" path="res://Assets/Audio/bgm.wav" id="5_bgm"]
 [ext_resource type="PackedScene" uid="uid://bsorwac5gj8aj" path="res://Scenes/UI/GameOver.tscn" id="6_gameover"]
 
-[node name="Main" type="Node2D"]
+[node name="Main" type="Node2D" unique_id=1807571146]
 script = ExtResource("1_main")
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1537084494]
 position = Vector2(960, 540)
 
-[node name="RoomContainer" type="Node2D" parent="."]
+[node name="RoomContainer" type="Node2D" parent="." unique_id=344050289]
 
-[node name="TransitionOverlay" parent="." instance=ExtResource("2_transition")]
+[node name="TransitionOverlay" parent="." unique_id=1661581048 instance=ExtResource("2_transition")]
 
-[node name="HUD" parent="." instance=ExtResource("3_hud")]
+[node name="HUD" parent="." unique_id=1005471598 instance=ExtResource("3_hud")]
 
-[node name="PauseMenu" parent="." instance=ExtResource("4_pause")]
+[node name="PauseMenu" parent="." unique_id=1521204360 instance=ExtResource("4_pause")]
 
-[node name="BGM" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("5_bgm")
-autoplay = true
-bus = &"Music"
+[node name="BrightnessOverlay" type="CanvasModulate" parent="." unique_id=454622618]
 
-[node name="BrightnessOverlay" type="CanvasModulate" parent="."]
-
-[node name="GameOver" parent="." instance=ExtResource("6_gameover")]
+[node name="GameOver" parent="." unique_id=94626828 instance=ExtResource("6_gameover")]
