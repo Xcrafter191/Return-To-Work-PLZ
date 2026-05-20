@@ -260,7 +260,7 @@ npc_name = "Coworker Amelia"
 dialogue_text = "Did the clocks always tick that loud?"
 sprite_texture = ExtResource("2_tex")
 
-[node name="AnimSprite" type="AnimatedSprite2D" parent="." index="3" unique_id=896991045]
+[node name="AnimSprite2" type="AnimatedSprite2D" parent="." index="3" unique_id=896991045]
 position = Vector2(0, -185)
 scale = Vector2(0.6, 0.6)
 sprite_frames = SubResource("SpriteFrames_anim")

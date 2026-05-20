@@ -260,7 +260,7 @@ npc_name = "Receptionist Linda"
 dialogue_text = "Welcome back. Again."
 sprite_texture = ExtResource("2_tex")
 
-[node name="AnimSprite" type="AnimatedSprite2D" parent="." index="3" unique_id=1260437521]
+[node name="AnimSprite2" type="AnimatedSprite2D" parent="." index="3" unique_id=1260437521]
 position = Vector2(0, -183)
 scale = Vector2(0.6, 0.6)
 sprite_frames = SubResource("SpriteFrames_anim")

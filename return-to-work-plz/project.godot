@@ -22,6 +22,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 RoomManager="*res://Scripts/RoomManager.gd"
+MusicManager="*res://Scripts/MusicManager.gd"
 GameManager="*res://Scripts/GameManager.gd"
 InconvenienceManager="*res://Scripts/InconvenienceManager.gd"
 AdminPanel="*res://Scripts/AdminPanel.gd"

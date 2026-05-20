@@ -75,7 +75,14 @@ func _trigger_game_over() -> void:
 	morale = 100.0
 	if has_node("/root/InconvenienceManager"):
 		InconvenienceManager._reset_permanent_inconveniences()
-	get_tree().change_scene_to_file("res://Scenes/UI/GameOver.tscn")
+	
+	# Show the GameOver overlay instead of changing scene
+	var game_over = get_tree().current_scene.get_node_or_null("GameOver")
+	if game_over and game_over.has_method("show_game_over"):
+		game_over.show_game_over()
+	else:
+		# Fallback if overlay not found
+		get_tree().change_scene_to_file("res://Scenes/UI/GameOver.tscn")
 
 func reset_game_state() -> void:
 	current_loop = 1

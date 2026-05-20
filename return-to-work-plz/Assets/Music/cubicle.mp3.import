@@ -12,8 +12,8 @@ dest_files=["res://.godot/imported/cubicle.mp3-dc872e966126336e3bab7d952b4bd472.
 
 [params]
 
-loop=false
-loop_offset=0
-bpm=0
+loop=true
+loop_offset=0.0
+bpm=0.0
 beat_count=0
 bar_beats=4

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bsorwac5gj8aj"]
+[gd_scene format=3 uid="uid://bsorwac5gj8aj"]
 
 [ext_resource type="Script" uid="uid://bt1auq3bjl26v" path="res://Scripts/GameOver.gd" id="1_go"]
 [ext_resource type="FontFile" uid="uid://c41kv0pko2t4q" path="res://Assets/Font/Pixeled.ttf" id="2_bnh5c"]
@@ -8,81 +8,75 @@
 [ext_resource type="Texture2D" uid="uid://dwik52i6spdl5" path="res://Assets/UI V4/PAUSE/BUTTONS/TITLE_N.png" id="5_hnsw0"]
 [ext_resource type="Texture2D" uid="uid://c57riptktorsi" path="res://Assets/UI V4/PAUSE/BUTTONS/Group 114.png" id="6_hnsw0"]
 [ext_resource type="Texture2D" uid="uid://d2pd3gmggyfi" path="res://Assets/UI V4/PAUSE/BUTTONS/TITLE_H.png" id="6_pu2ms"]
+[ext_resource type="AudioStream" uid="uid://clwiux4qeqe8u" path="res://Assets/Music/gameover.mp3" id="9_3gbkx"]
 
-[node name="GameOver" type="Control"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="GameOver" type="CanvasLayer" unique_id=2035231543]
+process_mode = 3
+layer = 11
 script = ExtResource("1_go")
 
-[node name="Background" type="ColorRect" parent="."]
-layout_mode = 1
+[node name="DimOverlay" type="ColorRect" parent="." unique_id=1576831830]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.4, 0.1, 0.1, 1)
+color = Color(0.4, 0.1, 0.1, 0.75)
 
-[node name="Title" type="Label" parent="."]
-layout_mode = 1
+[node name="Content" type="VBoxContainer" parent="." unique_id=2045941876]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -200.0
-offset_top = -150.0
+offset_top = -200.0
 offset_right = 200.0
-offset_bottom = -50.0
+offset_bottom = 200.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Title" type="Label" parent="Content" unique_id=63931535]
+layout_mode = 2
 theme_override_fonts/font = ExtResource("2_bnh5c")
 theme_override_font_sizes/font_size = 64
 text = "GAME OVER"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -150.0
-offset_top = 50.0
-offset_right = 150.0
-offset_bottom = 170.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 20
+[node name="Spacer" type="Control" parent="Content" unique_id=686356090]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
 
-[node name="RestartButton" type="TextureButton" parent="VBoxContainer"]
-custom_minimum_size = Vector2(90, 70)
+[node name="RestartButton" type="TextureButton" parent="Content" unique_id=852817946]
+custom_minimum_size = Vector2(0, 120)
 layout_mode = 2
 texture_normal = ExtResource("3_7n8ck")
 texture_hover = ExtResource("4_3gbkx")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="MainMenuButton" type="TextureButton" parent="VBoxContainer"]
-custom_minimum_size = Vector2(0, 70)
+[node name="MainMenuButton" type="TextureButton" parent="Content" unique_id=711961534]
+custom_minimum_size = Vector2(0, 120)
 layout_mode = 2
 texture_normal = ExtResource("5_hnsw0")
 texture_hover = ExtResource("6_pu2ms")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="ExitButton" type="TextureButton" parent="VBoxContainer"]
-custom_minimum_size = Vector2(0, 70)
+[node name="ExitButton" type="TextureButton" parent="Content" unique_id=605114483]
+custom_minimum_size = Vector2(0, 120)
 layout_mode = 2
 texture_normal = ExtResource("5_3gbkx")
 texture_hover = ExtResource("6_hnsw0")
 ignore_texture_size = true
 stretch_mode = 0
 
-[connection signal="pressed" from="VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
+[node name="GameOverBGM" type="AudioStreamPlayer2D" parent="." unique_id=122451898]
+stream = ExtResource("9_3gbkx")
+volume_db = 10.0
+bus = &"Music"
+
+[connection signal="pressed" from="Content/RestartButton" to="." method="_on_restart_button_pressed"]

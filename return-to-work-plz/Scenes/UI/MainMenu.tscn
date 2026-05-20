@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://fhbeppwieudi"]
+[gd_scene format=3 uid="uid://fhbeppwieudi"]
 
 [ext_resource type="Script" uid="uid://bboervcog1iof" path="res://Scripts/MainMenu.gd" id="1_mm"]
 [ext_resource type="AudioStream" uid="uid://cl6a8ja4q5t3a" path="res://Assets/Music/mainmenu.mp3" id="2_744d7"]
@@ -6,9 +6,98 @@
 [ext_resource type="Texture2D" uid="uid://bggq4c8gevr2s" path="res://Assets/UI V4/PAUSE/BUTTONS/Group 115.png" id="3_jex3y"]
 [ext_resource type="Texture2D" uid="uid://b4x8c1278chx2" path="res://Assets/UI V4/PAUSE/BUTTONS/Group 116.png" id="4_744d7"]
 [ext_resource type="Texture2D" uid="uid://dxghmx2wisx6l" path="res://Assets/UI V4/PAUSE/BUTTONS/Group 113.png" id="5_kl3t2"]
+[ext_resource type="Texture2D" uid="uid://bcs73r7y6py20" path="res://Assets/UI V4/PAUSE/BUTTONS/Group 111.png" id="5_opt_n"]
+[ext_resource type="Texture2D" uid="uid://dv2sfbk45lro7" path="res://Assets/UI V4/PAUSE/BUTTONS/Group 112.png" id="6_opt_h"]
 [ext_resource type="Texture2D" uid="uid://c57riptktorsi" path="res://Assets/UI V4/PAUSE/BUTTONS/Group 114.png" id="6_ynupv"]
+[ext_resource type="FontFile" uid="uid://c41kv0pko2t4q" path="res://Assets/Font/Pixeled.ttf" id="10_font"]
+[ext_resource type="Texture2D" uid="uid://cs7udj2lvluqs" path="res://Assets/UI V4/PAUSE/MAIN/MAIN_BOX.png" id="11_mainbox"]
+[ext_resource type="Texture2D" uid="uid://cx5hqpfi3mgya" path="res://Assets/UI V4/PAUSE/MAIN/SELECTED_BOX.png" id="12_selbox"]
+[ext_resource type="Texture2D" uid="uid://c2mv0x0b1v52d" path="res://Assets/UI V4/PAUSE/MAIN/NOT_SELECTED_BOX.png" id="13_unselbox"]
+[ext_resource type="Texture2D" uid="uid://blfn48y6fljk0" path="res://Assets/UI V4/PAUSE/MAIN/SCROLL/SCROLL_EMPTY.png" id="14_scroll_empty"]
+[ext_resource type="Texture2D" uid="uid://b3t7hwxvu3brp" path="res://Assets/UI V4/PAUSE/MAIN/SCROLL/SCROLL_FULL.png" id="15_scroll_full"]
+[ext_resource type="Texture2D" uid="uid://caabtndt5ky3v" path="res://Assets/UI V4/PAUSE/MAIN/SCROLL/SCROLL_BUTTON.png" id="16_scroll_btn"]
+[ext_resource type="Texture2D" uid="uid://ds4xwh38ttgs" path="res://Assets/UI V4/PAUSE/MAIN/DROPDOWN_BOX/HEAD_BOX.png" id="17_dropdown"]
+[ext_resource type="Texture2D" uid="uid://dm1qsgqnppk2a" path="res://Assets/UI V4/PAUSE/MAIN/TEXT_BOX/TEXT AREA.png" id="18_text_area"]
+[ext_resource type="Texture2D" uid="uid://synr4i5n0llg" path="res://Assets/UI V4/PAUSE/MAIN/SCROLL/Scroll_Button3.png" id="19_grabber"]
+[ext_resource type="Texture2D" uid="uid://c5ikuwroa6hh2" path="res://Assets/UI V4/PAUSE/MAIN/DROPDOWN_BOX/ARROW_V2.png" id="20_arrow"]
+[ext_resource type="Texture2D" uid="uid://d3dvsbpik6yhp" path="res://Assets/UI V4/PAUSE/MAIN/CLOSE.png" id="21_close"]
+[ext_resource type="Texture2D" uid="uid://dwqkdkjgp0qun" path="res://Assets/UI V4/PAUSE/MAIN/CLOSE_H.png" id="22_close_h"]
 
-[node name="MainMenu" type="Control"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_slider_grabber"]
+texture = ExtResource("15_scroll_full")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 2.0
+expand_margin_top = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_slider"]
+texture = ExtResource("14_scroll_empty")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 2.0
+expand_margin_top = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_dropdown"]
+texture = ExtResource("17_dropdown")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_text"]
+texture = ExtResource("18_text_area")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_panel"]
+texture = ExtResource("11_mainbox")
+texture_margin_left = 6.0
+texture_margin_top = 6.0
+texture_margin_right = 6.0
+texture_margin_bottom = 6.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tab_selected"]
+texture = ExtResource("12_selbox")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tab_unselected"]
+texture = ExtResource("13_unselbox")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+
+[sub_resource type="Theme" id="Theme_settings"]
+default_font = ExtResource("10_font")
+default_font_size = 12
+HSlider/icons/grabber = ExtResource("16_scroll_btn")
+HSlider/icons/grabber_highlight = ExtResource("16_scroll_btn")
+HSlider/styles/grabber_area = SubResource("StyleBoxTexture_slider_grabber")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBoxTexture_slider_grabber")
+HSlider/styles/slider = SubResource("StyleBoxTexture_slider")
+Label/colors/font_color = Color(0, 0, 0, 1)
+OptionButton/colors/font_color = Color(0, 0, 0, 1)
+OptionButton/colors/font_pressed_color = Color(1, 1, 1, 1)
+OptionButton/styles/hover = SubResource("StyleBoxTexture_dropdown")
+OptionButton/styles/normal = SubResource("StyleBoxTexture_dropdown")
+OptionButton/styles/pressed = SubResource("StyleBoxTexture_dropdown")
+SpinBox/styles/normal = SubResource("StyleBoxTexture_text")
+TabContainer/colors/font_selected_color = Color(1, 1, 1, 1)
+TabContainer/colors/font_unselected_color = Color(1, 1, 1, 1)
+TabContainer/constants/side_margin = 0
+TabContainer/styles/panel = SubResource("StyleBoxTexture_panel")
+TabContainer/styles/tab_selected = SubResource("StyleBoxTexture_tab_selected")
+TabContainer/styles/tab_unselected = SubResource("StyleBoxTexture_tab_unselected")
+
+[node name="MainMenu" type="Control" unique_id=756368326]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -17,7 +106,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_mm")
 
-[node name="BackgroundRect" type="TextureRect" parent="."]
+[node name="BackgroundRect" type="TextureRect" parent="." unique_id=861531322]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -27,7 +116,7 @@ grow_vertical = 2
 expand_mode = 1
 stretch_mode = 6
 
-[node name="LogoRect" type="TextureRect" parent="."]
+[node name="LogoRect" type="TextureRect" parent="." unique_id=2122166198]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -44,7 +133,7 @@ texture = ExtResource("2_mjmdf")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=689616756]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -54,12 +143,12 @@ anchor_bottom = 0.5
 offset_left = -100.0
 offset_top = 50.0
 offset_right = 100.0
-offset_bottom = 150.0
+offset_bottom = 250.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 20
 
-[node name="PlayButton" type="TextureButton" parent="VBoxContainer"]
+[node name="PlayButton" type="TextureButton" parent="VBoxContainer" unique_id=1991222824]
 custom_minimum_size = Vector2(400, 90)
 layout_mode = 2
 texture_normal = ExtResource("3_jex3y")
@@ -67,7 +156,15 @@ texture_hover = ExtResource("4_744d7")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="ExitButton" type="TextureButton" parent="VBoxContainer"]
+[node name="OptionsButton" type="TextureButton" parent="VBoxContainer" unique_id=1816726673]
+custom_minimum_size = Vector2(400, 90)
+layout_mode = 2
+texture_normal = ExtResource("5_opt_n")
+texture_hover = ExtResource("6_opt_h")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="ExitButton" type="TextureButton" parent="VBoxContainer" unique_id=1795230594]
 custom_minimum_size = Vector2(400, 90)
 layout_mode = 2
 texture_normal = ExtResource("5_kl3t2")
@@ -75,7 +172,283 @@ texture_hover = ExtResource("6_ynupv")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="MainMenuBGM" type="AudioStreamPlayer2D" parent="."]
+[node name="SettingsPanel" type="Control" parent="." unique_id=704880162]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DimOverlay" type="ColorRect" parent="SettingsPanel" unique_id=491758170]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.1, 0.1, 0.1, 0.85)
+
+[node name="MainBox" type="VBoxContainer" parent="SettingsPanel" unique_id=1646107283]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -320.0
+offset_right = 400.0
+offset_bottom = 320.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_settings")
+theme_override_constants/separation = 5
+
+[node name="Tabs" type="TabContainer" parent="SettingsPanel/MainBox" unique_id=1760592740]
+layout_mode = 2
+size_flags_vertical = 3
+current_tab = 0
+
+[node name="AUDIO" type="MarginContainer" parent="SettingsPanel/MainBox/Tabs" unique_id=849087333]
+custom_minimum_size = Vector2(768, 0)
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+metadata/_tab_index = 0
+
+[node name="VBox" type="VBoxContainer" parent="SettingsPanel/MainBox/Tabs/AUDIO" unique_id=844450632]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[node name="MasterVolRow" type="HBoxContainer" parent="SettingsPanel/MainBox/Tabs/AUDIO/VBox" unique_id=514831668]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="SettingsPanel/MainBox/Tabs/AUDIO/VBox/MasterVolRow" unique_id=239513848]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "MASTER VOLUME"
+
+[node name="MasterSlider" type="HSlider" parent="SettingsPanel/MainBox/Tabs/AUDIO/VBox/MasterVolRow" unique_id=1616772202]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_icons/grabber = ExtResource("19_grabber")
+theme_override_icons/grabber_highlight = ExtResource("19_grabber")
+theme_override_icons/grabber_disabled = ExtResource("19_grabber")
+theme_override_icons/tick = ExtResource("19_grabber")
+value = 50.0
+
+[node name="MasterVal" type="Label" parent="SettingsPanel/MainBox/Tabs/AUDIO/VBox/MasterVolRow" unique_id=2110318015]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+text = "50"
+horizontal_alignment = 2
+
+[node name="MusicVolRow" type="HBoxContainer" parent="SettingsPanel/MainBox/Tabs/AUDIO/VBox" unique_id=649000945]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="SettingsPanel/MainBox/Tabs/AUDIO/VBox/MusicVolRow" unique_id=1099800930]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "MUSIC"
+
+[node name="MusicSlider" type="HSlider" parent="SettingsPanel/MainBox/Tabs/AUDIO/VBox/MusicVolRow" unique_id=991856485]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_icons/grabber = ExtResource("19_grabber")
+theme_override_icons/grabber_highlight = ExtResource("19_grabber")
+theme_override_icons/grabber_disabled = ExtResource("19_grabber")
+theme_override_icons/tick = ExtResource("19_grabber")
+value = 50.0
+
+[node name="MusicVal" type="Label" parent="SettingsPanel/MainBox/Tabs/AUDIO/VBox/MusicVolRow" unique_id=960429119]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+text = "50"
+horizontal_alignment = 2
+
+[node name="SfxVolRow" type="HBoxContainer" parent="SettingsPanel/MainBox/Tabs/AUDIO/VBox" unique_id=1086354856]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="SettingsPanel/MainBox/Tabs/AUDIO/VBox/SfxVolRow" unique_id=1561871629]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "SOUND EFFECTS"
+
+[node name="SfxSlider" type="HSlider" parent="SettingsPanel/MainBox/Tabs/AUDIO/VBox/SfxVolRow" unique_id=1194342248]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_icons/grabber = ExtResource("19_grabber")
+theme_override_icons/grabber_highlight = ExtResource("19_grabber")
+theme_override_icons/grabber_disabled = ExtResource("19_grabber")
+theme_override_icons/tick = ExtResource("19_grabber")
+value = 50.0
+
+[node name="SfxVal" type="Label" parent="SettingsPanel/MainBox/Tabs/AUDIO/VBox/SfxVolRow" unique_id=1156280493]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+text = "50"
+horizontal_alignment = 2
+
+[node name="AudioTypeRow" type="HBoxContainer" parent="SettingsPanel/MainBox/Tabs/AUDIO/VBox" unique_id=1710976654]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="SettingsPanel/MainBox/Tabs/AUDIO/VBox/AudioTypeRow" unique_id=1952140409]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "AUDIO TYPE"
+
+[node name="AudioTypeDropdown" type="OptionButton" parent="SettingsPanel/MainBox/Tabs/AUDIO/VBox/AudioTypeRow" unique_id=1263232922]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/arrow_margin = 15
+theme_override_icons/arrow = ExtResource("20_arrow")
+alignment = 1
+selected = 0
+item_count = 2
+popup/item_0/text = "STEREO"
+popup/item_0/id = 0
+popup/item_1/text = "MONO"
+popup/item_1/id = 1
+
+[node name="GRAPHICS" type="MarginContainer" parent="SettingsPanel/MainBox/Tabs" unique_id=1225365451]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+metadata/_tab_index = 1
+
+[node name="VBox" type="VBoxContainer" parent="SettingsPanel/MainBox/Tabs/GRAPHICS" unique_id=1333745249]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[node name="FpsRow" type="HBoxContainer" parent="SettingsPanel/MainBox/Tabs/GRAPHICS/VBox" unique_id=1330533758]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="SettingsPanel/MainBox/Tabs/GRAPHICS/VBox/FpsRow" unique_id=23771103]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "FPS CAP"
+
+[node name="FpsInput" type="SpinBox" parent="SettingsPanel/MainBox/Tabs/GRAPHICS/VBox/FpsRow" unique_id=1282703919]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 999.0
+value = 60.0
+suffix = " fps"
+
+[node name="BrightRow" type="HBoxContainer" parent="SettingsPanel/MainBox/Tabs/GRAPHICS/VBox" unique_id=1622737397]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="SettingsPanel/MainBox/Tabs/GRAPHICS/VBox/BrightRow" unique_id=1918115210]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "BRIGHTNESS"
+
+[node name="BrightnessSlider" type="HSlider" parent="SettingsPanel/MainBox/Tabs/GRAPHICS/VBox/BrightRow" unique_id=778056179]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_icons/grabber = ExtResource("19_grabber")
+theme_override_icons/grabber_highlight = ExtResource("19_grabber")
+theme_override_icons/grabber_disabled = ExtResource("19_grabber")
+theme_override_icons/tick = ExtResource("19_grabber")
+value = 100.0
+
+[node name="BrightnessVal" type="Label" parent="SettingsPanel/MainBox/Tabs/GRAPHICS/VBox/BrightRow" unique_id=2077868372]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+text = "100"
+horizontal_alignment = 2
+
+[node name="KEYBINDS" type="MarginContainer" parent="SettingsPanel/MainBox/Tabs" unique_id=169631073]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+metadata/_tab_index = 2
+
+[node name="VBox" type="VBoxContainer" parent="SettingsPanel/MainBox/Tabs/KEYBINDS" unique_id=579981585]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="Footer" type="HBoxContainer" parent="SettingsPanel/MainBox" unique_id=2116116967]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="ResetBtn" type="TextureButton" parent="SettingsPanel/MainBox/Footer" unique_id=1245811242]
+custom_minimum_size = Vector2(180, 40)
+layout_mode = 2
+texture_normal = ExtResource("17_dropdown")
+texture_hover = ExtResource("13_unselbox")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="SettingsPanel/MainBox/Footer/ResetBtn" unique_id=1236522613]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 3.0
+offset_right = 174.0
+offset_bottom = 38.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "RESET SETTINGS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ApplyBtn" type="TextureButton" parent="SettingsPanel/MainBox/Footer" unique_id=1664051654]
+custom_minimum_size = Vector2(180, 40)
+layout_mode = 2
+texture_normal = ExtResource("17_dropdown")
+texture_hover = ExtResource("13_unselbox")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="SettingsPanel/MainBox/Footer/ApplyBtn" unique_id=823626596]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 3.0
+offset_right = 178.0
+offset_bottom = 38.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "APPLY"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CloseBtn" type="TextureButton" parent="SettingsPanel" unique_id=1546291482]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 352.0
+offset_top = -330.0
+offset_right = 400.0
+offset_bottom = -280.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("21_close")
+texture_hover = ExtResource("22_close_h")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="MainMenuBGM" type="AudioStreamPlayer2D" parent="." unique_id=1115683026]
 stream = ExtResource("2_744d7")
+volume_db = 20.0
 autoplay = true
 bus = &"Music"
