@@ -39,7 +39,7 @@ var red_ambience_rect: ColorRect = null
 var blur_rect: ColorRect = null
 
 # Auto-fix timer constants
-const AUTOFIX_NO_SOLUTION: float = 5.0
+const AUTOFIX_NO_SOLUTION: float = 10.0
 const AUTOFIX_HAS_SOLUTION: float = 30.0
 
 func _process(_delta: float) -> void:
@@ -83,24 +83,24 @@ func _setup_loop_quotas(loop_num: int) -> void:
 		base_chance = 0.0
 		quotas = { Difficulty.MINOR: 0, Difficulty.MEDIUM: 0, Difficulty.MAJOR: 0 }
 	elif loop_num == 2:
-		base_chance = 0.05
-		quotas = { Difficulty.MINOR: 1, Difficulty.MEDIUM: 0, Difficulty.MAJOR: 0 }
-	elif loop_num == 3:
 		base_chance = 0.10
 		quotas = { Difficulty.MINOR: 1, Difficulty.MEDIUM: 0, Difficulty.MAJOR: 0 }
+	elif loop_num == 3:
+		base_chance = 0.15
+		quotas = { Difficulty.MINOR: 1, Difficulty.MEDIUM: 0, Difficulty.MAJOR: 0 }
 	elif loop_num == 4:
-		base_chance = 0.12
+		base_chance = 0.25
 		quotas = { Difficulty.MINOR: 1, Difficulty.MEDIUM: 1, Difficulty.MAJOR: 0 }
 	elif loop_num == 5:
-		base_chance = 0.15
+		base_chance = 0.35
 		quotas = { Difficulty.MINOR: 1, Difficulty.MEDIUM: 1, Difficulty.MAJOR: 0 }
 	elif loop_num == 6:
-		base_chance = 0.20 # Smoothed curve instead of jumping to 0.50
+		base_chance = 0.40 # Smoothed curve instead of jumping to 0.50
 		quotas = { Difficulty.MINOR: 3, Difficulty.MEDIUM: 2, Difficulty.MAJOR: 1 }
 	elif loop_num >= 7 and loop_num <= 10:
 		base_chance = 0.50
 		quotas = { Difficulty.MINOR: 5, Difficulty.MEDIUM: 4, Difficulty.MAJOR: 2 }
-	elif loop_num >= 11 and loop_num <= 20:
+	elif loop_num >= 11 and loop_num <= 15:
 		base_chance = 0.80
 		quotas = { Difficulty.MINOR: 8, Difficulty.MEDIUM: 5, Difficulty.MAJOR: 3 }
 	else:

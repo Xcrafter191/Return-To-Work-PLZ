@@ -145,30 +145,66 @@ func _configure_room_boundaries() -> void:
 	var active_slots = active_slots_f1 if current_floor == 1 else active_slots_f2
 	var idx = active_slots.find(current_slot)
 	
-	var is_far_left = (idx == 0)
-	var is_far_right = (idx == active_slots.size() - 1)
+	# Guard: slot tidak ditemukan → paksa wall kedua sisi
+	if idx == -1:
+		push_warning("RoomManager: slot '%s' not in active_slots, forcing walls." % current_slot)
+		_apply_boundary("Left", true, false)
+		_apply_boundary("Right", true, false)
+		return
 	
-	var wall_left = current_room.get_node_or_null("WallLeft")
-	var exit_left = current_room.get_node_or_null("ExitLeft")
-	var visual_left = current_room.get_node_or_null("ExitVisual_Left")
-	var label_left = current_room.get_node_or_null("ExitLabel_Left")
+	# Ada tetangga kiri? → exit. Tidak ada? → wall
+	var has_left  = (idx > 0)
+	var has_right = (idx < active_slots.size() - 1)
 	
-	if wall_left: wall_left.process_mode = Node.PROCESS_MODE_INHERIT if is_far_left else Node.PROCESS_MODE_DISABLED
-	if wall_left: wall_left.visible = is_far_left
-	if exit_left: exit_left.process_mode = Node.PROCESS_MODE_DISABLED if is_far_left else Node.PROCESS_MODE_INHERIT
-	if visual_left: visual_left.visible = not is_far_left
-	if label_left: label_left.visible = not is_far_left
+	_apply_boundary("Left",  not has_left,  has_left)
+	_apply_boundary("Right", not has_right, has_right)
+
+
+func _apply_boundary(side: String, need_wall: bool, need_exit: bool) -> void:
+	var wall   = current_room.get_node_or_null("Wall" + side)
+	var exit   = current_room.get_node_or_null("Exit" + side)
+	var visual = current_room.get_node_or_null("ExitVisual_" + side)
+	var label  = current_room.get_node_or_null("ExitLabel_" + side)
 	
-	var wall_right = current_room.get_node_or_null("WallRight")
-	var exit_right = current_room.get_node_or_null("ExitRight")
-	var visual_right = current_room.get_node_or_null("ExitVisual_Right")
-	var label_right = current_room.get_node_or_null("ExitLabel_Right")
+	# Handle wall node
+	if wall:
+		wall.process_mode = Node.PROCESS_MODE_INHERIT if need_wall else Node.PROCESS_MODE_DISABLED
+		wall.visible = need_wall
+	elif need_wall:
+		# Room tidak punya WallLeft/WallRight (special rooms) — spawn dinamis
+		_spawn_temp_wall(side)
 	
-	if wall_right: wall_right.process_mode = Node.PROCESS_MODE_INHERIT if is_far_right else Node.PROCESS_MODE_DISABLED
-	if wall_right: wall_right.visible = is_far_right
-	if exit_right: exit_right.process_mode = Node.PROCESS_MODE_DISABLED if is_far_right else Node.PROCESS_MODE_INHERIT
-	if visual_right: visual_right.visible = not is_far_right
-	if label_right: label_right.visible = not is_far_right
+	# Handle exit node
+	if exit:
+		exit.process_mode = Node.PROCESS_MODE_INHERIT if need_exit else Node.PROCESS_MODE_DISABLED
+	if visual: visual.visible = need_exit
+	if label:  label.visible  = need_exit
+
+
+func _spawn_temp_wall(side: String) -> void:
+	# Cegah duplikat kalau dipanggil dua kali
+	var existing = current_room.get_node_or_null("TempWall" + side)
+	if existing: return
+	
+	var body = StaticBody2D.new()
+	body.name = "TempWall" + side
+	
+	var shape = CollisionShape2D.new()
+	var rect  = RectangleShape2D.new()
+	rect.size = Vector2(32, 2000)  # tinggi lebih dari cukup
+	shape.shape = rect
+	body.add_child(shape)
+	current_room.add_child(body)
+	
+	# Posisi: tempel di tepi kiri atau kanan viewport
+	var vp_width = get_viewport().get_visible_rect().size.x
+	if side == "Left":
+   
+		body.position = Vector2(0, 0)
+	else:
+		body.position = Vector2(vp_width, 0)
+	
+	print("[RoomManager] Spawned temp wall on %s for room '%s'" % [side, current_room_name])
 
 func go_left() -> void:
 	var active_slots = active_slots_f1 if current_floor == 1 else active_slots_f2

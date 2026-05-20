@@ -1,7 +1,7 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene format=3 uid="uid://dk5nourv43qes"]
 
 [ext_resource type="Script" uid="uid://cge2twkky6a4n" path="res://Scripts/RoomExit.gd" id="1_exit"]
-[ext_resource type="Texture2D" path="res://Assets/Rooms/beach.png" id="2_bg"]
+[ext_resource type="Texture2D" uid="uid://c0ii20vvs2ofi" path="res://Assets/Rooms/beach.png" id="2_bg"]
 [ext_resource type="PackedScene" path="res://Scenes/NPCs/Derek.tscn" id="3_npc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
@@ -10,35 +10,35 @@ size = Vector2(1920, 40)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_exit"]
 size = Vector2(40, 708)
 
-[node name="Special_Beach" type="Node2D"]
+[node name="Special_Beach" type="Node2D" unique_id=1814925]
 
-[node name="Background" type="Sprite2D" parent="."]
+[node name="Background" type="Sprite2D" parent="." unique_id=61288680]
 position = Vector2(960, 540)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_bg")
 
-[node name="Floor" type="StaticBody2D" parent="."]
+[node name="Floor" type="StaticBody2D" parent="." unique_id=65381671]
 position = Vector2(960, 873)
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=1168419619]
 position = Vector2(-3, 22)
 shape = SubResource("RectangleShape2D_floor")
 
-[node name="RoomCenter" type="Marker2D" parent="."]
+[node name="RoomCenter" type="Marker2D" parent="." unique_id=985846768]
 position = Vector2(960, 540)
 
-[node name="SpawnDefault" type="Marker2D" parent="."]
+[node name="SpawnDefault" type="Marker2D" parent="." unique_id=647687179]
 position = Vector2(297, 870)
 
-[node name="SpawnLeft" type="Marker2D" parent="."]
+[node name="SpawnLeft" type="Marker2D" parent="." unique_id=1342290256]
 position = Vector2(297, 870)
 
-[node name="SpawnRight" type="Marker2D" parent="."]
+[node name="SpawnRight" type="Marker2D" parent="." unique_id=627397390]
 position = Vector2(1750, 877)
 
-[node name="RoomLabel" type="Label" parent="."]
+[node name="RoomLabel" type="Label" parent="." unique_id=1163974170]
 offset_left = 860.0
 offset_top = 30.0
 offset_right = 1060.0
@@ -46,27 +46,26 @@ offset_bottom = 60.0
 text = "BEACH"
 horizontal_alignment = 1
 
-[node name="Derek" parent="." instance=ExtResource("3_npc")]
+[node name="Derek" parent="." unique_id=1904495921 instance=ExtResource("3_npc")]
 position = Vector2(960, 873)
 
-[node name="ExitLeft" type="Area2D" parent="."]
+[node name="ExitLeft" type="Area2D" parent="." unique_id=455432065]
 position = Vector2(10, 780)
 collision_layer = 0
 script = ExtResource("1_exit")
 exit_direction = -1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitLeft"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitLeft" unique_id=346008185]
 position = Vector2(-2, -198)
 shape = SubResource("RectangleShape2D_exit")
 
-[node name="ExitVisual_Left" type="ColorRect" parent="."]
-offset_left = 0.0
+[node name="ExitVisual_Left" type="ColorRect" parent="." unique_id=155719726]
 offset_top = 574.0
 offset_right = 30.0
 offset_bottom = 874.0
 color = Color(0.3, 0.3, 0.5, 0.4)
 
-[node name="ExitLabel_Left" type="Label" parent="."]
+[node name="ExitLabel_Left" type="Label" parent="." unique_id=1197072923]
 offset_left = 10.0
 offset_top = 760.0
 offset_right = 120.0
@@ -74,24 +73,23 @@ offset_bottom = 790.0
 text = "<- Lobby"
 horizontal_alignment = 1
 
-[node name="ExitRight" type="Area2D" parent="."]
+[node name="ExitRight" type="Area2D" parent="." unique_id=2043404934]
 position = Vector2(1910, 780)
 collision_layer = 0
 script = ExtResource("1_exit")
-exit_direction = 1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitRight"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitRight" unique_id=1504665403]
 position = Vector2(-2, -198)
 shape = SubResource("RectangleShape2D_exit")
 
-[node name="ExitVisual_Right" type="ColorRect" parent="."]
+[node name="ExitVisual_Right" type="ColorRect" parent="." unique_id=1532835653]
 offset_left = 1890.0
 offset_top = 574.0
 offset_right = 1920.0
 offset_bottom = 874.0
 color = Color(0.3, 0.3, 0.5, 0.4)
 
-[node name="ExitLabel_Right" type="Label" parent="."]
+[node name="ExitLabel_Right" type="Label" parent="." unique_id=1943172882]
 offset_left = 1800.0
 offset_top = 760.0
 offset_right = 1910.0
@@ -99,20 +97,20 @@ offset_bottom = 790.0
 text = "Cubicle ->"
 horizontal_alignment = 1
 
-[node name="WallRight" type="StaticBody2D" parent="."]
+[node name="WallRight" type="StaticBody2D" parent="." unique_id=446817420]
 position = Vector2(1945, 524)
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WallRight"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallRight" unique_id=1329071384]
 position = Vector2(-2, 55)
 shape = SubResource("RectangleShape2D_exit")
 
-[node name="WallLeft" type="StaticBody2D" parent="."]
+[node name="WallLeft" type="StaticBody2D" parent="." unique_id=776550184]
 position = Vector2(-10, 513)
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WallLeft"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallLeft" unique_id=5291857]
 position = Vector2(-2, 55)
 shape = SubResource("RectangleShape2D_exit")

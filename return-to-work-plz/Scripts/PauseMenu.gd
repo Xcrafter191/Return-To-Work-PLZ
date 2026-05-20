@@ -28,12 +28,9 @@ var is_paused: bool = false
 @onready var audio_type_dropdown: OptionButton = $SettingsPanel/MainBox/Tabs/AUDIO/VBox/AudioTypeRow/AudioTypeDropdown
 
 @onready var fps_input: SpinBox = $SettingsPanel/MainBox/Tabs/GRAPHICS/VBox/FpsRow/FpsInput
-@onready var resolution_dropdown: OptionButton = $SettingsPanel/MainBox/Tabs/GRAPHICS/VBox/ResRow/ResolutionDropdown
-@onready var window_dropdown: OptionButton = $SettingsPanel/MainBox/Tabs/GRAPHICS/VBox/WinRow/WindowDropdown
 @onready var brightness_slider: HSlider = $SettingsPanel/MainBox/Tabs/GRAPHICS/VBox/BrightRow/BrightnessSlider
 @onready var brightness_val: Label = $SettingsPanel/MainBox/Tabs/GRAPHICS/VBox/BrightRow/BrightnessVal
 
-@onready var language_dropdown: OptionButton = $SettingsPanel/MainBox/Tabs/ACCESSIBILITY/VBox/LangRow/LanguageDropdown
 @onready var keybinds_vbox: VBoxContainer = $SettingsPanel/MainBox/Tabs/KEYBINDS/VBox
 @onready var tabs: TabContainer = $SettingsPanel/MainBox/Tabs
 
@@ -74,7 +71,6 @@ const DEFAULTS = {
 
 func _ready() -> void:
 	_connect_signals()
-	_populate_dropdowns()
 	_build_keybind_ui()
 	load_settings()
 	visible = false
@@ -97,12 +93,6 @@ func _connect_signals() -> void:
 	
 	brightness_slider.value_changed.connect(_on_brightness_changed)
 	brightness_slider.value_changed.connect(func(val): brightness_val.text = str(int(val)))
-
-func _populate_dropdowns() -> void:
-	resolution_dropdown.clear()
-	for i in resolutions.size():
-		var r = resolutions[i]
-		resolution_dropdown.add_item("%d x %d" % [r.x, r.y], i)
 
 func _build_keybind_ui() -> void:
 	for child in keybinds_vbox.get_children():
@@ -284,31 +274,9 @@ func _on_brightness_changed(val: float) -> void:
 
 func _apply_settings() -> void:
 	Engine.max_fps = int(fps_input.value)
-	
-	var win = get_window()
-	match window_dropdown.selected:
-		0:
-			win.mode = Window.MODE_WINDOWED
-		1:
-			win.mode = Window.MODE_FULLSCREEN
-		2:
-			win.mode = Window.MODE_EXCLUSIVE_FULLSCREEN
-	
-	if window_dropdown.selected == 0:
-		var res_idx = resolution_dropdown.selected
-		if res_idx >= 0 and res_idx < resolutions.size():
-			var res = resolutions[res_idx]
-			win.size = res
-			
-			var screen_id = win.current_screen
-			var screen_size = DisplayServer.screen_get_size(screen_id)
-			var win_pos = DisplayServer.screen_get_position(screen_id) + (screen_size - res) / 2
-			win.position = win_pos
-	
+
 	print("[Settings] Applied: %dfps, window=%d, res=%s" % [
-		int(fps_input.value),
-		window_dropdown.selected,
-		str(resolutions[resolution_dropdown.selected]) if resolution_dropdown.selected >= 0 else "N/A"
+		int(fps_input.value)
 	])
 	save_settings()
 
@@ -318,10 +286,7 @@ func _reset_settings() -> void:
 	sfx_slider.value = DEFAULTS["sfx_vol"]
 	audio_type_dropdown.selected = DEFAULTS["audio_type"]
 	fps_input.value = DEFAULTS["fps_cap"]
-	window_dropdown.selected = DEFAULTS["window_type"]
-	resolution_dropdown.selected = DEFAULTS["resolution"]
 	brightness_slider.value = DEFAULTS["brightness"]
-	language_dropdown.selected = DEFAULTS["language"]
 	_apply_settings()
 	_on_brightness_changed(DEFAULTS["brightness"])
 	
@@ -345,11 +310,7 @@ func save_settings() -> void:
 	config.set_value("Audio", "audio_type", audio_type_dropdown.selected)
 	
 	config.set_value("Graphic", "fps_cap", fps_input.value)
-	config.set_value("Graphic", "window_type", window_dropdown.selected)
-	config.set_value("Graphic", "resolution", resolution_dropdown.selected)
 	config.set_value("Graphic", "brightness", brightness_slider.value)
-	
-	config.set_value("Accessibility", "language", language_dropdown.selected)
 	
 	for action in keybind_actions:
 		var events = InputMap.action_get_events(action)
@@ -377,12 +338,8 @@ func load_settings() -> void:
 	audio_type_dropdown.selected = config.get_value("Audio", "audio_type", DEFAULTS["audio_type"])
 	
 	fps_input.value = config.get_value("Graphic", "fps_cap", DEFAULTS["fps_cap"])
-	window_dropdown.selected = config.get_value("Graphic", "window_type", DEFAULTS["window_type"])
-	resolution_dropdown.selected = config.get_value("Graphic", "resolution", DEFAULTS["resolution"])
 	brightness_slider.value = config.get_value("Graphic", "brightness", DEFAULTS["brightness"])
-	
-	language_dropdown.selected = config.get_value("Accessibility", "language", DEFAULTS["language"])
-	
+
 	for action in keybind_actions:
 		var keycode = config.get_value("Keybinds", action + "_key", -1)
 		var phys_keycode = config.get_value("Keybinds", action + "_phys", -1)

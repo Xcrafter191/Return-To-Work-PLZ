@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://dkqqgjacxokio"]
+[gd_scene format=3 uid="uid://dkqqgjacxokio"]
 
 [ext_resource type="Script" uid="uid://dtjkfc6g2efv4" path="res://Scripts/PauseMenu.gd" id="1_pause"]
 [ext_resource type="FontFile" uid="uid://c41kv0pko2t4q" path="res://Assets/Font/Pixeled.ttf" id="2_8hc20"]
@@ -95,12 +95,12 @@ TabContainer/styles/panel = SubResource("StyleBoxTexture_panel")
 TabContainer/styles/tab_selected = SubResource("StyleBoxTexture_tab_selected")
 TabContainer/styles/tab_unselected = SubResource("StyleBoxTexture_tab_unselected")
 
-[node name="PauseMenu" type="CanvasLayer"]
+[node name="PauseMenu" type="CanvasLayer" unique_id=1966743008]
 process_mode = 3
 layer = 10
 script = ExtResource("1_pause")
 
-[node name="DimOverlay" type="ColorRect" parent="."]
+[node name="DimOverlay" type="ColorRect" parent="." unique_id=1004568897]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -108,7 +108,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.1, 0.1, 0.1, 0.85)
 
-[node name="PausePanel" type="VBoxContainer" parent="."]
+[node name="PausePanel" type="VBoxContainer" parent="." unique_id=911297094]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -123,18 +123,18 @@ grow_vertical = 2
 theme_override_constants/separation = 20
 alignment = 1
 
-[node name="Title" type="Label" parent="PausePanel"]
+[node name="Title" type="Label" parent="PausePanel" unique_id=951920527]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_8hc20")
 theme_override_font_sizes/font_size = 36
 text = "GAME PAUSED"
 horizontal_alignment = 1
 
-[node name="Spacer" type="Control" parent="PausePanel"]
+[node name="Spacer" type="Control" parent="PausePanel" unique_id=36393188]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 
-[node name="BtnResume" type="TextureButton" parent="PausePanel"]
+[node name="BtnResume" type="TextureButton" parent="PausePanel" unique_id=1734346688]
 custom_minimum_size = Vector2(200, 80)
 layout_mode = 2
 texture_normal = ExtResource("3_heeld")
@@ -142,7 +142,7 @@ texture_hover = ExtResource("4_t5wsj")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="BtnOptions" type="TextureButton" parent="PausePanel"]
+[node name="BtnOptions" type="TextureButton" parent="PausePanel" unique_id=1845179524]
 custom_minimum_size = Vector2(200, 80)
 layout_mode = 2
 texture_normal = ExtResource("6_ilrxe")
@@ -150,7 +150,7 @@ texture_hover = ExtResource("5_5j7uh")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="BtnLeave" type="TextureButton" parent="PausePanel"]
+[node name="BtnLeave" type="TextureButton" parent="PausePanel" unique_id=940099309]
 clip_contents = true
 custom_minimum_size = Vector2(200, 90)
 layout_mode = 2
@@ -159,7 +159,7 @@ texture_hover = ExtResource("8_4wb8h")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="SettingsPanel" type="Control" parent="."]
+[node name="SettingsPanel" type="Control" parent="." unique_id=647235339]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -167,7 +167,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MainBox" type="VBoxContainer" parent="SettingsPanel"]
+[node name="MainBox" type="VBoxContainer" parent="SettingsPanel" unique_id=353455928]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -183,12 +183,12 @@ grow_vertical = 2
 theme = SubResource("Theme_settings")
 theme_override_constants/separation = 5
 
-[node name="Tabs" type="TabContainer" parent="SettingsPanel/MainBox"]
+[node name="Tabs" type="TabContainer" parent="SettingsPanel/MainBox" unique_id=694671348]
 layout_mode = 2
 size_flags_vertical = 3
 current_tab = 0
 
-[node name="AUDIO" type="MarginContainer" parent="SettingsPanel/MainBox/Tabs"]
+[node name="AUDIO" type="MarginContainer" parent="SettingsPanel/MainBox/Tabs" unique_id=788637804]
 custom_minimum_size = Vector2(768, 0)
 layout_mode = 2
 theme_override_constants/margin_left = 16
@@ -197,20 +197,20 @@ theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 metadata/_tab_index = 0
 
-[node name="VBox" type="VBoxContainer" parent="SettingsPanel/MainBox/Tabs/AUDIO"]
+[node name="VBox" type="VBoxContainer" parent="SettingsPanel/MainBox/Tabs/AUDIO" unique_id=543619727]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 12
 
-[node name="MasterVolRow" type="HBoxContainer" parent="SettingsPanel/MainBox/Tabs/AUDIO/VBox"]
+[node name="MasterVolRow" type="HBoxContainer" parent="SettingsPanel/MainBox/Tabs/AUDIO/VBox" unique_id=1538899820]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="SettingsPanel/MainBox/Tabs/AUDIO/VBox/MasterVolRow"]
+[node name="Label" type="Label" parent="SettingsPanel/MainBox/Tabs/AUDIO/VBox/MasterVolRow" unique_id=998966718]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 text = "MASTER VOLUME"
 
-[node name="MasterSlider" type="HSlider" parent="SettingsPanel/MainBox/Tabs/AUDIO/VBox/MasterVolRow"]
+[node name="MasterSlider" type="HSlider" parent="SettingsPanel/MainBox/Tabs/AUDIO/VBox/MasterVolRow" unique_id=1591017943]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -220,21 +220,21 @@ theme_override_icons/grabber_disabled = ExtResource("14_e6kvg")
 theme_override_icons/tick = ExtResource("14_e6kvg")
 value = 50.0
 
-[node name="MasterVal" type="Label" parent="SettingsPanel/MainBox/Tabs/AUDIO/VBox/MasterVolRow"]
+[node name="MasterVal" type="Label" parent="SettingsPanel/MainBox/Tabs/AUDIO/VBox/MasterVolRow" unique_id=8894582]
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 text = "50"
 horizontal_alignment = 2
 
-[node name="MusicVolRow" type="HBoxContainer" parent="SettingsPanel/MainBox/Tabs/AUDIO/VBox"]
+[node name="MusicVolRow" type="HBoxContainer" parent="SettingsPanel/MainBox/Tabs/AUDIO/VBox" unique_id=759376909]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="SettingsPanel/MainBox/Tabs/AUDIO/VBox/MusicVolRow"]
+[node name="Label" type="Label" parent="SettingsPanel/MainBox/Tabs/AUDIO/VBox/MusicVolRow" unique_id=805001317]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 text = "MUSIC"
 
-[node name="MusicSlider" type="HSlider" parent="SettingsPanel/MainBox/Tabs/AUDIO/VBox/MusicVolRow"]
+[node name="MusicSlider" type="HSlider" parent="SettingsPanel/MainBox/Tabs/AUDIO/VBox/MusicVolRow" unique_id=2022248421]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -244,21 +244,21 @@ theme_override_icons/grabber_disabled = ExtResource("14_e6kvg")
 theme_override_icons/tick = ExtResource("14_e6kvg")
 value = 50.0
 
-[node name="MusicVal" type="Label" parent="SettingsPanel/MainBox/Tabs/AUDIO/VBox/MusicVolRow"]
+[node name="MusicVal" type="Label" parent="SettingsPanel/MainBox/Tabs/AUDIO/VBox/MusicVolRow" unique_id=210954156]
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 text = "50"
 horizontal_alignment = 2
 
-[node name="SfxVolRow" type="HBoxContainer" parent="SettingsPanel/MainBox/Tabs/AUDIO/VBox"]
+[node name="SfxVolRow" type="HBoxContainer" parent="SettingsPanel/MainBox/Tabs/AUDIO/VBox" unique_id=1522133182]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="SettingsPanel/MainBox/Tabs/AUDIO/VBox/SfxVolRow"]
+[node name="Label" type="Label" parent="SettingsPanel/MainBox/Tabs/AUDIO/VBox/SfxVolRow" unique_id=619286921]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 text = "SOUND EFFECTS"
 
-[node name="SfxSlider" type="HSlider" parent="SettingsPanel/MainBox/Tabs/AUDIO/VBox/SfxVolRow"]
+[node name="SfxSlider" type="HSlider" parent="SettingsPanel/MainBox/Tabs/AUDIO/VBox/SfxVolRow" unique_id=1615702159]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -268,21 +268,21 @@ theme_override_icons/grabber_disabled = ExtResource("14_e6kvg")
 theme_override_icons/tick = ExtResource("14_e6kvg")
 value = 50.0
 
-[node name="SfxVal" type="Label" parent="SettingsPanel/MainBox/Tabs/AUDIO/VBox/SfxVolRow"]
+[node name="SfxVal" type="Label" parent="SettingsPanel/MainBox/Tabs/AUDIO/VBox/SfxVolRow" unique_id=896780683]
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 text = "50"
 horizontal_alignment = 2
 
-[node name="AudioTypeRow" type="HBoxContainer" parent="SettingsPanel/MainBox/Tabs/AUDIO/VBox"]
+[node name="AudioTypeRow" type="HBoxContainer" parent="SettingsPanel/MainBox/Tabs/AUDIO/VBox" unique_id=1540245228]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="SettingsPanel/MainBox/Tabs/AUDIO/VBox/AudioTypeRow"]
+[node name="Label" type="Label" parent="SettingsPanel/MainBox/Tabs/AUDIO/VBox/AudioTypeRow" unique_id=1150526208]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 text = "AUDIO TYPE"
 
-[node name="AudioTypeDropdown" type="OptionButton" parent="SettingsPanel/MainBox/Tabs/AUDIO/VBox/AudioTypeRow"]
+[node name="AudioTypeDropdown" type="OptionButton" parent="SettingsPanel/MainBox/Tabs/AUDIO/VBox/AudioTypeRow" unique_id=1045467824]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/arrow_margin = 15
@@ -295,7 +295,7 @@ popup/item_0/id = 0
 popup/item_1/text = "MONO"
 popup/item_1/id = 1
 
-[node name="GRAPHICS" type="MarginContainer" parent="SettingsPanel/MainBox/Tabs"]
+[node name="GRAPHICS" type="MarginContainer" parent="SettingsPanel/MainBox/Tabs" unique_id=1303650071]
 visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 16
@@ -304,76 +304,35 @@ theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 metadata/_tab_index = 1
 
-[node name="VBox" type="VBoxContainer" parent="SettingsPanel/MainBox/Tabs/GRAPHICS"]
+[node name="VBox" type="VBoxContainer" parent="SettingsPanel/MainBox/Tabs/GRAPHICS" unique_id=1676288423]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 12
 
-[node name="FpsRow" type="HBoxContainer" parent="SettingsPanel/MainBox/Tabs/GRAPHICS/VBox"]
+[node name="FpsRow" type="HBoxContainer" parent="SettingsPanel/MainBox/Tabs/GRAPHICS/VBox" unique_id=166116406]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="SettingsPanel/MainBox/Tabs/GRAPHICS/VBox/FpsRow"]
+[node name="Label" type="Label" parent="SettingsPanel/MainBox/Tabs/GRAPHICS/VBox/FpsRow" unique_id=1000271358]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 text = "FPS CAP"
 
-[node name="FpsInput" type="SpinBox" parent="SettingsPanel/MainBox/Tabs/GRAPHICS/VBox/FpsRow"]
+[node name="FpsInput" type="SpinBox" parent="SettingsPanel/MainBox/Tabs/GRAPHICS/VBox/FpsRow" unique_id=1512623599]
 layout_mode = 2
 size_flags_horizontal = 3
 max_value = 999.0
 value = 60.0
 suffix = " fps"
 
-[node name="ResRow" type="HBoxContainer" parent="SettingsPanel/MainBox/Tabs/GRAPHICS/VBox"]
+[node name="BrightRow" type="HBoxContainer" parent="SettingsPanel/MainBox/Tabs/GRAPHICS/VBox" unique_id=766403070]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="SettingsPanel/MainBox/Tabs/GRAPHICS/VBox/ResRow"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-text = "RESOLUTION"
-
-[node name="ResolutionDropdown" type="OptionButton" parent="SettingsPanel/MainBox/Tabs/GRAPHICS/VBox/ResRow"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/arrow_margin = 15
-theme_override_icons/arrow = ExtResource("15_rkfds")
-alignment = 1
-
-[node name="WinRow" type="HBoxContainer" parent="SettingsPanel/MainBox/Tabs/GRAPHICS/VBox"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="SettingsPanel/MainBox/Tabs/GRAPHICS/VBox/WinRow"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-text = "WINDOW TYPE"
-
-[node name="WindowDropdown" type="OptionButton" parent="SettingsPanel/MainBox/Tabs/GRAPHICS/VBox/WinRow"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/outline_size = 0
-theme_override_constants/h_separation = 10
-theme_override_constants/arrow_margin = 15
-theme_override_constants/modulate_arrow = 10
-theme_override_icons/arrow = ExtResource("15_rkfds")
-alignment = 1
-selected = 0
-item_count = 3
-popup/item_0/text = "WINDOWED"
-popup/item_0/id = 0
-popup/item_1/text = "FULLSCREEN"
-popup/item_1/id = 1
-popup/item_2/text = "BORDERLESS FULLSCREEN"
-popup/item_2/id = 2
-
-[node name="BrightRow" type="HBoxContainer" parent="SettingsPanel/MainBox/Tabs/GRAPHICS/VBox"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="SettingsPanel/MainBox/Tabs/GRAPHICS/VBox/BrightRow"]
+[node name="Label" type="Label" parent="SettingsPanel/MainBox/Tabs/GRAPHICS/VBox/BrightRow" unique_id=1251560472]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 text = "BRIGHTNESS"
 
-[node name="BrightnessSlider" type="HSlider" parent="SettingsPanel/MainBox/Tabs/GRAPHICS/VBox/BrightRow"]
+[node name="BrightnessSlider" type="HSlider" parent="SettingsPanel/MainBox/Tabs/GRAPHICS/VBox/BrightRow" unique_id=1718454888]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -383,13 +342,13 @@ theme_override_icons/grabber_disabled = ExtResource("14_e6kvg")
 theme_override_icons/tick = ExtResource("14_e6kvg")
 value = 100.0
 
-[node name="BrightnessVal" type="Label" parent="SettingsPanel/MainBox/Tabs/GRAPHICS/VBox/BrightRow"]
+[node name="BrightnessVal" type="Label" parent="SettingsPanel/MainBox/Tabs/GRAPHICS/VBox/BrightRow" unique_id=1824266203]
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 text = "100"
 horizontal_alignment = 2
 
-[node name="KEYBINDS" type="MarginContainer" parent="SettingsPanel/MainBox/Tabs"]
+[node name="KEYBINDS" type="MarginContainer" parent="SettingsPanel/MainBox/Tabs" unique_id=1921311396]
 visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 16
@@ -398,53 +357,17 @@ theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 metadata/_tab_index = 2
 
-[node name="VBox" type="VBoxContainer" parent="SettingsPanel/MainBox/Tabs/KEYBINDS"]
+[node name="VBox" type="VBoxContainer" parent="SettingsPanel/MainBox/Tabs/KEYBINDS" unique_id=2064772580]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 8
 
-[node name="ACCESSIBILITY" type="MarginContainer" parent="SettingsPanel/MainBox/Tabs"]
-visible = false
-layout_mode = 2
-theme_override_constants/margin_left = 16
-theme_override_constants/margin_top = 16
-theme_override_constants/margin_right = 16
-theme_override_constants/margin_bottom = 16
-metadata/_tab_index = 3
-
-[node name="VBox" type="VBoxContainer" parent="SettingsPanel/MainBox/Tabs/ACCESSIBILITY"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 12
-
-[node name="LangRow" type="HBoxContainer" parent="SettingsPanel/MainBox/Tabs/ACCESSIBILITY/VBox"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="SettingsPanel/MainBox/Tabs/ACCESSIBILITY/VBox/LangRow"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-text = "LANGUAGE"
-
-[node name="LanguageDropdown" type="OptionButton" parent="SettingsPanel/MainBox/Tabs/ACCESSIBILITY/VBox/LangRow"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/arrow_margin = 15
-theme_override_icons/arrow = ExtResource("15_rkfds")
-alignment = 1
-icon_alignment = 1
-selected = 0
-item_count = 2
-popup/item_0/text = "ENGLISH"
-popup/item_0/id = 0
-popup/item_1/text = "BAHASA INDONESIA"
-popup/item_1/id = 1
-
-[node name="Footer" type="HBoxContainer" parent="SettingsPanel/MainBox"]
+[node name="Footer" type="HBoxContainer" parent="SettingsPanel/MainBox" unique_id=279667988]
 layout_mode = 2
 theme_override_constants/separation = 20
 alignment = 1
 
-[node name="ResetBtn" type="TextureButton" parent="SettingsPanel/MainBox/Footer"]
+[node name="ResetBtn" type="TextureButton" parent="SettingsPanel/MainBox/Footer" unique_id=989548439]
 custom_minimum_size = Vector2(180, 40)
 layout_mode = 2
 texture_normal = ExtResource("12_dropdown")
@@ -452,7 +375,7 @@ texture_hover = ExtResource("8_unselbox")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="Label" type="Label" parent="SettingsPanel/MainBox/Footer/ResetBtn"]
+[node name="Label" type="Label" parent="SettingsPanel/MainBox/Footer/ResetBtn" unique_id=1944182396]
 layout_mode = 0
 offset_left = 8.0
 offset_top = 3.0
@@ -463,7 +386,7 @@ text = "RESET SETTINGS"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ApplyBtn" type="TextureButton" parent="SettingsPanel/MainBox/Footer"]
+[node name="ApplyBtn" type="TextureButton" parent="SettingsPanel/MainBox/Footer" unique_id=968630798]
 custom_minimum_size = Vector2(180, 40)
 layout_mode = 2
 texture_normal = ExtResource("12_dropdown")
@@ -471,7 +394,7 @@ texture_hover = ExtResource("8_unselbox")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="Label" type="Label" parent="SettingsPanel/MainBox/Footer/ApplyBtn"]
+[node name="Label" type="Label" parent="SettingsPanel/MainBox/Footer/ApplyBtn" unique_id=2017328643]
 layout_mode = 0
 offset_left = 5.0
 offset_top = 3.0
@@ -482,7 +405,7 @@ text = "APPLY"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="CloseBtn" type="TextureButton" parent="SettingsPanel"]
+[node name="CloseBtn" type="TextureButton" parent="SettingsPanel" unique_id=58370330]
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 1
 anchors_preset = 8

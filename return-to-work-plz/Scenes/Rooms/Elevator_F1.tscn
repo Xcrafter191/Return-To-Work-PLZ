@@ -1,8 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://ffbhrgc5bb2f"]
+[gd_scene format=3 uid="uid://ffbhrgc5bb2f"]
 
+[ext_resource type="Texture2D" uid="uid://dy8rtmh1x5k5h" path="res://Assets/Rooms/elevator_first.png" id="1_0pc62"]
 [ext_resource type="Script" uid="uid://cge2twkky6a4n" path="res://Scripts/RoomExit.gd" id="1_exit"]
 [ext_resource type="AudioStream" uid="uid://btsox283u0al3" path="res://Assets/Audio/SFX/Lift_Sound.MP3" id="4_0pc62"]
-[ext_resource type="Texture2D" uid="uid://c8q63rmahv30x" path="res://Assets/Rooms/Elevator_P.png" id="4_bg"]
 [ext_resource type="Texture2D" uid="uid://bmb4rt8vljrax" path="res://Assets/UI V4/TEXTBOX/INTERACT.png" id="4_uh8m8"]
 [ext_resource type="FontFile" uid="uid://c41kv0pko2t4q" path="res://Assets/Font/Pixeled.ttf" id="5_0pc62"]
 [ext_resource type="Script" uid="uid://bkd8s0as4fa0w" path="res://Scripts/ElevatorDoor.gd" id="5_door"]
@@ -22,14 +22,13 @@ size = Vector2(44, 917)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3xbwk"]
 size = Vector2(42, 972.5)
 
-[node name="Elevator_F1" type="Node2D"]
+[node name="Elevator_F1" type="Node2D" unique_id=948293458]
 
-[node name="Background" type="Sprite2D" parent="."]
+[node name="Background" type="Sprite2D" parent="." unique_id=1258511281]
 position = Vector2(960, 540)
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("4_bg")
+texture = ExtResource("1_0pc62")
 
-[node name="FloorLabel" type="Label" parent="."]
+[node name="FloorLabel" type="Label" parent="." unique_id=1952841764]
 modulate = Color(0, 0, 0, 1)
 offset_left = 1013.0
 offset_top = 929.0
@@ -38,35 +37,31 @@ offset_bottom = 959.0
 text = "1F - Ground Floor"
 horizontal_alignment = 1
 
-[node name="Floor" type="StaticBody2D" parent="."]
+[node name="Floor" type="StaticBody2D" parent="." unique_id=766435920]
 position = Vector2(960, 930)
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=2108186960]
 position = Vector2(0, -26)
 shape = SubResource("RectangleShape2D_floor")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/CollisionShape2D"]
-position = Vector2(2, -782)
-shape = SubResource("RectangleShape2D_floor")
-
-[node name="RoomCenter" type="Marker2D" parent="."]
+[node name="RoomCenter" type="Marker2D" parent="." unique_id=1815622591]
 position = Vector2(960, 540)
 
-[node name="SpawnDefault" type="Marker2D" parent="."]
+[node name="SpawnDefault" type="Marker2D" parent="." unique_id=118691414]
 position = Vector2(960, 910)
 
-[node name="SpawnLeft" type="Marker2D" parent="."]
+[node name="SpawnLeft" type="Marker2D" parent="." unique_id=187480656]
 position = Vector2(150, 876)
 
-[node name="SpawnRight" type="Marker2D" parent="."]
+[node name="SpawnRight" type="Marker2D" parent="." unique_id=376514423]
 position = Vector2(1750, 877)
 
-[node name="SpawnLeft2" type="Marker2D" parent="."]
+[node name="SpawnLeft2" type="Marker2D" parent="." unique_id=177903324]
 position = Vector2(858, 879)
 
-[node name="RoomLabel" type="Label" parent="."]
+[node name="RoomLabel" type="Label" parent="." unique_id=1810090649]
 offset_left = 829.0
 offset_top = 30.0
 offset_right = 1089.0
@@ -74,57 +69,57 @@ offset_bottom = 60.0
 text = "ELEVATOR HALL"
 horizontal_alignment = 1
 
-[node name="ExitLeft" type="Area2D" parent="."]
+[node name="ExitLeft" type="Area2D" parent="." unique_id=1790192627]
 position = Vector2(10, 780)
 collision_layer = 0
 script = ExtResource("1_exit")
 exit_direction = -1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitLeft"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitLeft" unique_id=59077524]
 position = Vector2(0, -59)
 shape = SubResource("RectangleShape2D_exit")
 
-[node name="ExitVisual_Left" type="ColorRect" parent="."]
+[node name="ExitVisual_Left" type="ColorRect" parent="." unique_id=1773641745]
 offset_top = 571.0
 offset_right = 30.0
 offset_bottom = 871.0
 color = Color(0.3, 0.3, 0.5, 0.4)
 
-[node name="ExitRight" type="Area2D" parent="."]
+[node name="ExitRight" type="Area2D" parent="." unique_id=455959532]
 position = Vector2(1910, 780)
 collision_layer = 0
 script = ExtResource("1_exit")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitRight"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitRight" unique_id=1078624369]
 position = Vector2(0, -57)
 shape = SubResource("RectangleShape2D_exit")
 
-[node name="ExitVisual_Right" type="ColorRect" parent="."]
+[node name="ExitVisual_Right" type="ColorRect" parent="." unique_id=818965679]
 offset_left = 1890.0
 offset_top = 573.0
 offset_right = 1920.0
 offset_bottom = 873.0
 color = Color(0.3, 0.3, 0.5, 0.4)
 
-[node name="ElevatorDoor" type="Node2D" parent="."]
-position = Vector2(960, 910)
+[node name="ElevatorDoor" type="Node2D" parent="." unique_id=693287657]
+position = Vector2(806, 893)
 script = ExtResource("5_door")
 target_spawn = "SpawnFromF1"
 
-[node name="ElevatorSFX" type="AudioStreamPlayer2D" parent="ElevatorDoor"]
+[node name="ElevatorSFX" type="AudioStreamPlayer2D" parent="ElevatorDoor" unique_id=1596389073]
 position = Vector2(-960, -910)
 stream = ExtResource("4_0pc62")
 volume_db = 15.0
 bus = &"SFX"
 
-[node name="DetectionArea" type="Area2D" parent="ElevatorDoor"]
+[node name="DetectionArea" type="Area2D" parent="ElevatorDoor" unique_id=1516318953]
 collision_layer = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ElevatorDoor/DetectionArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ElevatorDoor/DetectionArea" unique_id=494661285]
 position = Vector2(-104, -386)
 shape = SubResource("RectangleShape2D_doorarea")
 
-[node name="PromptLabel" type="Label" parent="ElevatorDoor"]
+[node name="PromptLabel" type="Label" parent="ElevatorDoor" unique_id=78449524]
 offset_left = -244.0
 offset_top = -565.0
 offset_right = -30.0
@@ -132,7 +127,7 @@ offset_bottom = -519.0
 theme_override_fonts/font = ExtResource("5_0pc62")
 text = "GO_UPSTAIRS.int"
 
-[node name="PromptBox" type="TextureRect" parent="ElevatorDoor/PromptLabel"]
+[node name="PromptBox" type="TextureRect" parent="ElevatorDoor/PromptLabel" unique_id=741515671]
 layout_mode = 0
 offset_left = -18.0
 offset_top = -12.0
@@ -141,7 +136,7 @@ offset_bottom = 87.0
 texture = ExtResource("4_uh8m8")
 expand_mode = 1
 
-[node name="LabelIntereact" type="Label" parent="ElevatorDoor/PromptLabel/PromptBox"]
+[node name="LabelIntereact" type="Label" parent="ElevatorDoor/PromptLabel/PromptBox" unique_id=1864756648]
 layout_mode = 0
 offset_left = 11.0
 offset_top = 39.0
@@ -151,7 +146,7 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("5_0pc62")
 text = "PRESS E TO INTERACT"
 
-[node name="LabelPress" type="Label" parent="ElevatorDoor/PromptLabel/PromptBox"]
+[node name="LabelPress" type="Label" parent="ElevatorDoor/PromptLabel/PromptBox" unique_id=2058244096]
 layout_mode = 0
 offset_left = 10.0
 offset_top = -5.0
@@ -160,20 +155,20 @@ offset_bottom = 41.0
 theme_override_fonts/font = ExtResource("5_0pc62")
 text = "GO_UPSTAIRS.py"
 
-[node name="WallLeft" type="StaticBody2D" parent="."]
+[node name="WallLeft" type="StaticBody2D" parent="." unique_id=1918755889]
 position = Vector2(-10, 511)
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WallLeft"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallLeft" unique_id=898767404]
 position = Vector2(-4, -49.5)
 shape = SubResource("RectangleShape2D_nuuul")
 
-[node name="WallRight" type="StaticBody2D" parent="."]
+[node name="WallRight" type="StaticBody2D" parent="." unique_id=670342752]
 position = Vector2(1930, 540)
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WallRight"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallRight" unique_id=1231531689]
 position = Vector2(-3, -100)
 shape = SubResource("RectangleShape2D_3xbwk")

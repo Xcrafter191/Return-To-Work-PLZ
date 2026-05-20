@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://d4g23c65v6xio"]
+[gd_scene format=3 uid="uid://d4g23c65v6xio"]
 
 [ext_resource type="Script" uid="uid://cge2twkky6a4n" path="res://Scripts/RoomExit.gd" id="1_exit"]
 [ext_resource type="Texture2D" uid="uid://jiw54ogq1hxt" path="res://Assets/Rooms/lobby.png" id="1_gvs2b"]
@@ -21,40 +21,51 @@ size = Vector2(60, 1078)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ced4q"]
 size = Vector2(40, 708)
 
-[node name="Lobby" type="Node2D"]
+[node name="Lobby" type="Node2D" unique_id=2049473311]
 
-[node name="Background2" type="Sprite2D" parent="."]
+[node name="Background2" type="Sprite2D" parent="." unique_id=1369954624]
 position = Vector2(960, 540)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("1_gvs2b")
 
-[node name="ReceptionistLinda" parent="." instance=ExtResource("2_linda")]
-position = Vector2(1528, 816)
+[node name="ReceptionistLinda" parent="." unique_id=1792867825 instance=ExtResource("2_linda")]
+position = Vector2(1528, 765)
+collision_layer = 8
+collision_mask = 8
 
-[node name="Background" type="Sprite2D" parent="."]
+[node name="Background" type="Sprite2D" parent="." unique_id=2027456219]
 position = Vector2(912, 555)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("3_q7psc")
 
-[node name="Floor" type="StaticBody2D" parent="."]
+[node name="Floor2" type="StaticBody2D" parent="." unique_id=1405555423]
+position = Vector2(1502, 842)
+collision_layer = 8
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor2" unique_id=474955126]
+position = Vector2(0, -18)
+shape = SubResource("RectangleShape2D_floor")
+
+[node name="Floor" type="StaticBody2D" parent="." unique_id=271198626]
 position = Vector2(960, 911)
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=1464004084]
 position = Vector2(0, -18)
 shape = SubResource("RectangleShape2D_floor")
 
-[node name="RoomCenter" type="Marker2D" parent="."]
+[node name="RoomCenter" type="Marker2D" parent="." unique_id=373055387]
 position = Vector2(960, 540)
 
-[node name="SpawnDefault" type="Marker2D" parent="."]
+[node name="SpawnDefault" type="Marker2D" parent="." unique_id=1624172585]
 position = Vector2(170, 869)
 
-[node name="SpawnRight" type="Marker2D" parent="."]
+[node name="SpawnRight" type="Marker2D" parent="." unique_id=64249095]
 position = Vector2(1750, 868)
 
-[node name="RoomLabel" type="Label" parent="."]
+[node name="RoomLabel" type="Label" parent="." unique_id=2120108332]
 modulate = Color(0, 0, 0, 1)
 offset_left = 860.0
 offset_top = 30.0
@@ -63,27 +74,27 @@ offset_bottom = 60.0
 text = "LOBBY"
 horizontal_alignment = 1
 
-[node name="JanitorMike" parent="." instance=ExtResource("3_mike")]
+[node name="JanitorMike" parent="." unique_id=1994303146 instance=ExtResource("3_mike")]
 position = Vector2(400, 870)
 patrol_right_x = 900.0
 
-[node name="ExitRight" type="Area2D" parent="."]
+[node name="ExitRight" type="Area2D" parent="." unique_id=313494895]
 position = Vector2(1910, 722)
 collision_layer = 0
 script = ExtResource("1_exit")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitRight"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitRight" unique_id=1467753010]
 position = Vector2(1.5, -221.5)
 shape = SubResource("RectangleShape2D_exit")
 
-[node name="ExitVisual_Right" type="ColorRect" parent="."]
+[node name="ExitVisual_Right" type="ColorRect" parent="." unique_id=463131619]
 offset_left = 1892.0
 offset_top = 575.0
 offset_right = 1922.0
 offset_bottom = 875.0
 color = Color(0.3, 0.3, 0.5, 0.4)
 
-[node name="ExitLabel_Right" type="Label" parent="."]
+[node name="ExitLabel_Right" type="Label" parent="." unique_id=1550601083]
 offset_left = 1800.0
 offset_top = 760.0
 offset_right = 1910.0
@@ -91,16 +102,16 @@ offset_bottom = 790.0
 text = "→ Elevator"
 horizontal_alignment = 1
 
-[node name="ClockOut" type="Area2D" parent="."]
+[node name="ClockOut" type="Area2D" parent="." unique_id=1990418334]
 position = Vector2(30, 743)
 collision_layer = 0
 script = ExtResource("7_clockout")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ClockOut"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ClockOut" unique_id=597348274]
 position = Vector2(0, -203)
 shape = SubResource("RectangleShape2D_clockout")
 
-[node name="PromptLabel" type="Label" parent="ClockOut"]
+[node name="PromptLabel" type="Label" parent="ClockOut" unique_id=202099162]
 offset_left = 36.0
 offset_top = -197.0
 offset_right = 236.0
@@ -108,7 +119,7 @@ offset_bottom = -167.0
 text = "Clock Out"
 horizontal_alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="ClockOut/PromptLabel"]
+[node name="TextureRect" type="TextureRect" parent="ClockOut/PromptLabel" unique_id=297392545]
 layout_mode = 0
 offset_left = -33.0
 offset_top = -167.0
@@ -117,7 +128,7 @@ offset_bottom = -68.0
 texture = ExtResource("6_uwxd2")
 expand_mode = 1
 
-[node name="LabelInteract" type="Label" parent="ClockOut/PromptLabel/TextureRect"]
+[node name="LabelInteract" type="Label" parent="ClockOut/PromptLabel/TextureRect" unique_id=1580538193]
 layout_mode = 0
 offset_left = 10.0
 offset_top = -2.0
@@ -126,7 +137,7 @@ offset_bottom = 44.0
 theme_override_fonts/font = ExtResource("7_ced4q")
 text = "CLOCK_IN/OUT.py"
 
-[node name="LabelPress" type="Label" parent="ClockOut/PromptLabel/TextureRect"]
+[node name="LabelPress" type="Label" parent="ClockOut/PromptLabel/TextureRect" unique_id=1996437712]
 layout_mode = 0
 offset_left = 10.0
 offset_top = 38.0
@@ -136,11 +147,11 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("7_ced4q")
 text = "PRESS E TO INTERACT"
 
-[node name="WallLeft" type="StaticBody2D" parent="."]
+[node name="WallLeft" type="StaticBody2D" parent="." unique_id=60152819]
 position = Vector2(4, 513)
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WallLeft"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallLeft" unique_id=1053421525]
 position = Vector2(-2, 55)
 shape = SubResource("RectangleShape2D_ced4q")

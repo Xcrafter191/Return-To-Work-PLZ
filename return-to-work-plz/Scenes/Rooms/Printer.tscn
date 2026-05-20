@@ -1,6 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://dsdmnrkmh88my"]
+[gd_scene format=3 uid="uid://dsdmnrkmh88my"]
 
 [ext_resource type="Script" uid="uid://cge2twkky6a4n" path="res://Scripts/RoomExit.gd" id="1_exit"]
+[ext_resource type="Texture2D" uid="uid://bcmapr3xx8im2" path="res://Assets/Rooms/printer.png" id="1_r48yt"]
 [ext_resource type="AudioStream" uid="uid://bui7c7r0ydo32" path="res://Assets/Audio/SFX/Printer_Sound.MP3" id="2_148kx"]
 [ext_resource type="Texture2D" uid="uid://bmb4rt8vljrax" path="res://Assets/UI V4/TEXTBOX/INTERACT.png" id="2_b4vsv"]
 [ext_resource type="PackedScene" uid="uid://c78m5pq10ipis" path="res://Scenes/NPCs/Mark.tscn" id="2_npc_stat"]
@@ -12,43 +13,36 @@
 size = Vector2(1920, 40)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_workarea"]
-size = Vector2(201, 129)
+size = Vector2(544, 438)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_exit"]
 size = Vector2(42, 972.5)
 
-[node name="Printer" type="Node2D"]
+[node name="Printer" type="Node2D" unique_id=1814266504]
 
-[node name="Background" type="ColorRect" parent="."]
-offset_right = 1920.0
-offset_bottom = 1080.0
-color = Color(0.8, 0.8, 0.82, 1)
+[node name="Background" type="Sprite2D" parent="." unique_id=2089086399]
+position = Vector2(951, 540)
+texture = ExtResource("1_r48yt")
 
-[node name="FloorVisual" type="ColorRect" parent="."]
-offset_top = 930.0
-offset_right = 1920.0
-offset_bottom = 1080.0
-color = Color(0.5, 0.48, 0.45, 1)
-
-[node name="Floor" type="StaticBody2D" parent="."]
+[node name="Floor" type="StaticBody2D" parent="." unique_id=1272906816]
 position = Vector2(960, 930)
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=110783810]
 position = Vector2(-5, 24)
 shape = SubResource("RectangleShape2D_floor")
 
-[node name="RoomCenter" type="Marker2D" parent="."]
+[node name="RoomCenter" type="Marker2D" parent="." unique_id=1718518327]
 position = Vector2(960, 540)
 
-[node name="SpawnDefault" type="Marker2D" parent="."]
+[node name="SpawnDefault" type="Marker2D" parent="." unique_id=515025204]
 position = Vector2(300, 930)
 
-[node name="SpawnLeft" type="Marker2D" parent="."]
+[node name="SpawnLeft" type="Marker2D" parent="." unique_id=1407412096]
 position = Vector2(100, 930)
 
-[node name="RoomLabel" type="Label" parent="."]
+[node name="RoomLabel" type="Label" parent="." unique_id=1188377226]
 offset_left = 830.0
 offset_top = 30.0
 offset_right = 1090.0
@@ -56,49 +50,41 @@ offset_bottom = 60.0
 text = "PRINTER ROOM"
 horizontal_alignment = 1
 
-[node name="PrinterMachine" type="ColorRect" parent="."]
-offset_left = 900.0
-offset_top = 800.0
-offset_right = 1100.0
-offset_bottom = 930.0
-color = Color(0.35, 0.35, 0.38, 1)
-
-[node name="PrintTask" type="Node2D" parent="."]
-position = Vector2(1000, 910)
+[node name="PrintTask" type="Node2D" parent="." unique_id=323092955]
+position = Vector2(739, 911)
 script = ExtResource("6_interact")
 task_name = "Printing documents..."
 task_id = "print_paper"
 
-[node name="TaskSFX" type="AudioStreamPlayer2D" parent="PrintTask"]
+[node name="TaskSFX" type="AudioStreamPlayer2D" parent="PrintTask" unique_id=688505664]
 stream = ExtResource("2_148kx")
 bus = &"SFX"
 
-[node name="DetectionArea" type="Area2D" parent="PrintTask"]
+[node name="DetectionArea" type="Area2D" parent="PrintTask" unique_id=675403039]
 collision_layer = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PrintTask/DetectionArea"]
-position = Vector2(-0.5, -45.5)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PrintTask/DetectionArea" unique_id=461503987]
+position = Vector2(-172, -200)
 shape = SubResource("RectangleShape2D_workarea")
 
-[node name="PromptLabel" type="Label" parent="PrintTask"]
+[node name="PromptLabel" type="Label" parent="PrintTask" unique_id=762674473]
 offset_left = -100.0
 offset_top = -430.0
 offset_right = 108.0
 offset_bottom = -407.0
-text = "Press [E] - Print documents"
 horizontal_alignment = 1
 
-[node name="PromptBox" type="TextureRect" parent="PrintTask/PromptLabel"]
+[node name="PromptBox" type="TextureRect" parent="PrintTask/PromptLabel" unique_id=1479312221]
 custom_minimum_size = Vector2(318, 99)
 layout_mode = 0
-offset_left = -54.0
-offset_top = -5.0
-offset_right = 264.0
-offset_bottom = 94.0
+offset_left = -288.0
+offset_top = -122.0
+offset_right = 30.0
+offset_bottom = -23.0
 texture = ExtResource("2_b4vsv")
 expand_mode = 1
 
-[node name="LabelInteract" type="Label" parent="PrintTask/PromptLabel/PromptBox"]
+[node name="LabelInteract" type="Label" parent="PrintTask/PromptLabel/PromptBox" unique_id=1777030029]
 layout_mode = 0
 offset_left = 13.0
 offset_top = -5.0
@@ -107,7 +93,7 @@ offset_bottom = 41.0
 theme_override_fonts/font = ExtResource("3_148kx")
 text = "PRINT_DOCS.py"
 
-[node name="LabelPress" type="Label" parent="PrintTask/PromptLabel/PromptBox"]
+[node name="LabelPress" type="Label" parent="PrintTask/PromptLabel/PromptBox" unique_id=209543720]
 layout_mode = 0
 offset_left = 12.0
 offset_top = 42.0
@@ -117,39 +103,32 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("3_148kx")
 text = "PRESS E TO INTERACT"
 
-[node name="Shelf" type="ColorRect" parent="."]
-offset_left = 1400.0
-offset_top = 700.0
-offset_right = 1600.0
-offset_bottom = 930.0
-color = Color(0.55, 0.45, 0.3, 1)
-
-[node name="TechnicianMark" parent="." instance=ExtResource("2_npc_stat")]
+[node name="TechnicianMark" parent="." unique_id=350740757 instance=ExtResource("2_npc_stat")]
 position = Vector2(1221, 930)
 dialogue_text = "The ink is running low already."
 
-[node name="InternOlivia" parent="." instance=ExtResource("3_npc_mov")]
+[node name="InternOlivia" parent="." unique_id=1113901012 instance=ExtResource("3_npc_mov")]
 position = Vector2(500, 930)
 dialogue_text = "I've been here since Tuesday. I think."
 patrol_right_x = 1400.0
 
-[node name="ExitLeft" type="Area2D" parent="."]
+[node name="ExitLeft" type="Area2D" parent="." unique_id=408109267]
 position = Vector2(10, 780)
 collision_layer = 0
 script = ExtResource("1_exit")
 exit_direction = -1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitLeft"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitLeft" unique_id=234468864]
 position = Vector2(0, -289.75)
 shape = SubResource("RectangleShape2D_exit")
 
-[node name="ExitVisual_Left" type="ColorRect" parent="."]
+[node name="ExitVisual_Left" type="ColorRect" parent="." unique_id=1150025189]
 offset_top = 630.0
 offset_right = 30.0
 offset_bottom = 930.0
 color = Color(0.3, 0.3, 0.5, 0.4)
 
-[node name="ExitLabel_Left" type="Label" parent="."]
+[node name="ExitLabel_Left" type="Label" parent="." unique_id=1517357571]
 offset_left = 10.0
 offset_top = 760.0
 offset_right = 120.0
@@ -157,16 +136,16 @@ offset_bottom = 790.0
 text = "← Meeting"
 horizontal_alignment = 1
 
-[node name="WallRight" type="StaticBody2D" parent="."]
+[node name="WallRight" type="StaticBody2D" parent="." unique_id=1950967837]
 position = Vector2(1930, 540)
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WallRight"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallRight" unique_id=1290531485]
 position = Vector2(-22, -73.5)
 shape = SubResource("RectangleShape2D_exit")
 
-[node name="WallVisual_Right" type="ColorRect" parent="."]
+[node name="WallVisual_Right" type="ColorRect" parent="." unique_id=921256980]
 offset_left = 1910.0
 offset_right = 1920.0
 offset_bottom = 930.0
