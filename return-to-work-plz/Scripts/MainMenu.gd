@@ -46,8 +46,11 @@ func _load_resources():
 		bg_dir.list_dir_begin()
 		var file_name = bg_dir.get_next()
 		while file_name != "":
-			if not bg_dir.current_is_dir() and file_name.ends_with(".png"):
-				backgrounds.append("res://Assets/Rooms/" + file_name)
+			# Bersihkan suffix .import kalau ada
+			var clean_name = file_name.trim_suffix(".import")
+			
+			if not bg_dir.current_is_dir() and clean_name.ends_with(".png"):
+				backgrounds.append("res://Assets/Rooms/" + clean_name)
 			file_name = bg_dir.get_next()
 			
 	# Load NPCs
@@ -56,8 +59,11 @@ func _load_resources():
 		npc_dir.list_dir_begin()
 		var file_name = npc_dir.get_next()
 		while file_name != "":
-			if not npc_dir.current_is_dir() and file_name.ends_with(".tscn") and file_name != "StationaryNPC.tscn" and file_name != "MovingNPC.tscn":
-				var path = "res://Scenes/NPCs/" + file_name
+			# Bersihkan suffix .remap kalau ada
+			var clean_name = file_name.trim_suffix(".remap")
+			
+			if not npc_dir.current_is_dir() and clean_name.ends_with(".tscn") and clean_name != "StationaryNPC.tscn" and clean_name != "MovingNPC.tscn":
+				var path = "res://Scenes/NPCs/" + clean_name
 				var scene = load(path)
 				if scene:
 					var inst = scene.instantiate()
