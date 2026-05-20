@@ -5,14 +5,18 @@ extends CanvasLayer
 @onready var restart_button = $Content/RestartButton
 
 func _ready():
-	main_menu_button.pressed.connect(_on_main_menu_pressed)
-	exit_button.pressed.connect(_on_exit_pressed)
-	if restart_button:
+	if not main_menu_button.pressed.is_connected(_on_main_menu_pressed):
+		main_menu_button.pressed.connect(_on_main_menu_pressed)
+	if not exit_button.pressed.is_connected(_on_exit_pressed):
+		exit_button.pressed.connect(_on_exit_pressed)
+	if restart_button and not restart_button.pressed.is_connected(_on_restart_button_pressed):
 		restart_button.pressed.connect(_on_restart_button_pressed)
 		
-	main_menu_button.mouse_entered.connect(_on_button_hover)
-	exit_button.mouse_entered.connect(_on_button_hover)
-	if restart_button:
+	if not main_menu_button.mouse_entered.is_connected(_on_button_hover):
+		main_menu_button.mouse_entered.connect(_on_button_hover)
+	if not exit_button.mouse_entered.is_connected(_on_button_hover):
+		exit_button.mouse_entered.connect(_on_button_hover)
+	if restart_button and not restart_button.mouse_entered.is_connected(_on_button_hover):
 		restart_button.mouse_entered.connect(_on_button_hover)
 		
 	visible = false

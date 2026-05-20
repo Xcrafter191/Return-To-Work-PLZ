@@ -35,6 +35,7 @@ const REQUIRED_NPC_TALKS: int = 5
 
 # ── NPC position persistence ──
 var npc_positions: Dictionary = {}
+var special_npc_assignments: Dictionary = {}
 
 func _ready() -> void:
 	_build_objectives()
@@ -50,7 +51,7 @@ func _process(delta: float) -> void:
 			set_productivity(productivity - 10.0)
 			consecutive_tasks = 0
 			# Reset to 20 seconds to keep the pressure on!
-			task_deadline_time -= 5.0
+			task_deadline_time = 20.0
 
 ## Stat Helpers
 func set_morale(val: float) -> void:
@@ -88,6 +89,7 @@ func reset_game_state() -> void:
 	consecutive_tasks = 0
 	talked_npcs.clear()
 	npc_positions.clear()
+	special_npc_assignments.clear()
 	is_deadline_active = false
 	task_deadline_time = 0.0
 	_build_objectives()
@@ -97,6 +99,7 @@ func reset_game_state() -> void:
 
 	if has_node("/root/RoomManager"):
 		RoomManager.reset_layout()
+	loop_restarted.emit(1)
 	call_deferred("emit_signal", "morale_changed", morale)
 	call_deferred("emit_signal", "productivity_changed", productivity)
 
@@ -280,6 +283,7 @@ func clock_out() -> void:
 	_build_objectives()
 	npc_positions.clear()
 	shuffle_rooms(true)
+	determine_special_npc_spawns()
 	loop_restarted.emit(current_loop)
 	print("[GameManager] === LOOP %d START === (difficulty: %.2f)" % [current_loop, difficulty_modifier])
 
@@ -370,3 +374,53 @@ func shuffle_rooms(is_start_of_loop: bool = false) -> void:
 				RoomManager.active_slots_f2.insert(insert_idx, slot_id)
 				RoomManager.current_layout[slot_id] = chosen_room
 				print("[GameManager] Spawned special room %s at F2 index %d" % [chosen_room, insert_idx])
+
+func determine_special_npc_spawns() -> void:
+	special_npc_assignments.clear()
+	
+	# Probability schedule:
+	# - loop 1: 0%
+	# - loop 2-3: 10%
+	# - loop 4-7: 30%
+	# - loop 8+: 40%
+	var chance: float = 0.0
+	if current_loop == 1:
+		chance = 0.0
+	elif current_loop in [2, 3]:
+		chance = 0.1
+	elif current_loop >= 4 and current_loop <= 7:
+		chance = 0.3
+	else:
+		chance = 0.4
+		
+	var to_spawn: Array = []
+	for npc_name in ["Steve", "Hans", "Chloe"]:
+		if randf() < chance:
+			to_spawn.append(npc_name)
+			
+	if to_spawn.is_empty():
+		return
+		
+	# Get all active rooms in layout, excluding Lobby and Elevators
+	var valid_rooms: Array = []
+	if has_node("/root/RoomManager"):
+		for slot in RoomManager.current_layout.keys():
+			var rname = RoomManager.current_layout[slot]
+			if "Elevator" in rname:
+				continue
+			if rname == "Lobby":
+				continue
+			valid_rooms.append(rname)
+			
+	if valid_rooms.is_empty():
+		return
+		
+	valid_rooms.shuffle()
+	for npc_name in to_spawn:
+		if valid_rooms.is_empty():
+			break
+		var chosen_room = valid_rooms.pop_back()
+		if not chosen_room in special_npc_assignments:
+			special_npc_assignments[chosen_room] = []
+		special_npc_assignments[chosen_room].append(npc_name)
+		print("[GameManager] Special NPC %s assigned to spawn in %s" % [npc_name, chosen_room])

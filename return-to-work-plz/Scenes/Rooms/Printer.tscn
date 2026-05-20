@@ -42,14 +42,6 @@ position = Vector2(300, 930)
 [node name="SpawnLeft" type="Marker2D" parent="." unique_id=1407412096]
 position = Vector2(297, 930)
 
-[node name="RoomLabel" type="Label" parent="." unique_id=1188377226]
-offset_left = 830.0
-offset_top = 30.0
-offset_right = 1090.0
-offset_bottom = 60.0
-text = "PRINTER ROOM"
-horizontal_alignment = 1
-
 [node name="PrintTask" type="Node2D" parent="." unique_id=323092955]
 position = Vector2(739, 911)
 script = ExtResource("6_interact")
@@ -127,14 +119,6 @@ offset_top = 630.0
 offset_right = 30.0
 offset_bottom = 930.0
 color = Color(0.3, 0.3, 0.5, 0.4)
-
-[node name="ExitLabel_Left" type="Label" parent="." unique_id=1517357571]
-offset_left = 10.0
-offset_top = 760.0
-offset_right = 120.0
-offset_bottom = 790.0
-text = "← Meeting"
-horizontal_alignment = 1
 
 [node name="WallRight" type="StaticBody2D" parent="." unique_id=1950967837]
 position = Vector2(1930, 540)

@@ -38,6 +38,12 @@ func _ready() -> void:
 			anim_sprite.play("idleaware")
 		else:
 			anim_sprite.play("idle")
+	GameManager.morale_changed.connect(_on_morale_changed)
+
+func _on_morale_changed(new_morale: float) -> void:
+	if new_morale < 33:
+		if current_anim_state == "idle":
+			play_state("idleaware")
 
 func _physics_process(delta: float) -> void:
 	if not is_on_floor():
@@ -97,60 +103,101 @@ func _get_idle_anim() -> String:
 	return "idle"
 
 # ── Animation State Machine ──
+var target_state: String = ""
+
 func _play_anim(anim_name: String) -> void:
 	if not anim_sprite: return
 	if anim_sprite.animation == anim_name: return
 	anim_sprite.play(anim_name)
 
+## Get current base state name (ignores transition prefixes)
+func _get_base_state(state: String) -> String:
+	if state.begins_with("trans-"):
+		var parts = state.split("-")
+		if parts.size() >= 3:
+			var dest = parts[parts.size() - 1]
+			if dest == "aware":
+				return "idleaware"
+			return dest
+	return state
+
+## Check if transition exists and returns its name, otherwise empty string
+func _get_transition_name(from_state: String, to_state: String) -> String:
+	if not anim_sprite or not anim_sprite.sprite_frames:
+		return ""
+	
+	var f = _get_base_state(from_state)
+	var t = _get_base_state(to_state)
+	
+	if f == t:
+		return ""
+		
+	# Try candidates based on naming pattern
+	var candidates = [
+		"trans-" + f + "-" + t,
+		"trans-" + f.replace("idleaware", "aware") + "-" + t.replace("idleaware", "aware"),
+		"trans-" + f.replace("idleaware", "aware") + "-" + t,
+		"trans-" + f + "-" + t.replace("idleaware", "aware")
+	]
+	
+	for cand in candidates:
+		if anim_sprite.sprite_frames.has_animation(cand):
+			return cand
+	return ""
+
+## Play animation with transition if one exists
+func play_state(new_state: String) -> void:
+	if not anim_sprite: return
+	
+	var current_base = _get_base_state(current_anim_state)
+	var target_base = _get_base_state(new_state)
+	
+	if current_base == target_base:
+		if not current_anim_state.begins_with("trans-"):
+			current_anim_state = new_state
+			_play_anim(new_state)
+		return
+		
+	var trans = _get_transition_name(current_anim_state, new_state)
+	if trans != "":
+		target_state = new_state
+		current_anim_state = trans
+		_play_anim(trans)
+	else:
+		target_state = ""
+		current_anim_state = new_state
+		_play_anim(new_state)
+
 func _update_animation(input_dir: float) -> void:
 	if not anim_sprite: return
 	if is_working:
-		_play_anim("interact")
+		play_state("interact")
 		return
+		
 	var is_moving = input_dir != 0.0
-	var idle_anim = _get_idle_anim()
-	match current_anim_state:
-		"interact":
-			current_anim_state = "trans-walk-idle"
-			_play_anim("trans-walk-idle")
-		"idle", "idleaware":
-			if is_moving:
-				current_anim_state = "trans-idle-walk"
-				_play_anim("trans-idle-walk")
-			else:
-				current_anim_state = idle_anim
-				_play_anim(idle_anim)
-		"walk":
-			if not is_moving:
-				current_anim_state = "trans-walk-idle"
-				_play_anim("trans-walk-idle")
-			else:
-				_play_anim("walk")
-		"trans-idle-walk":
-			pass
-		"trans-walk-idle":
-			if is_moving:
-				current_anim_state = "walk"
-				_play_anim("walk")
+	var target = "walk" if is_moving else _get_idle_anim()
+	
+	# Allow quick responsive switches if we reverse direction mid-transition
+	if current_anim_state == "trans-idle-walk" and not is_moving:
+		play_state(target)
+	elif current_anim_state == "trans-walk-idle" and is_moving:
+		play_state(target)
+	elif not current_anim_state.begins_with("trans-"):
+		play_state(target)
 
 func _on_animation_finished() -> void:
-	var idle_anim = _get_idle_anim()
-	if current_anim_state == "trans-idle-walk":
-		var input_dir: float = Input.get_axis("move_left", "move_right")
-		if input_dir != 0.0:
-			current_anim_state = "walk"
-			_play_anim("walk")
+	if current_anim_state.begins_with("trans-"):
+		if target_state != "":
+			var next = target_state
+			target_state = ""
+			current_anim_state = next
+			_play_anim(next)
 		else:
-			current_anim_state = "trans-walk-idle"
-			_play_anim("trans-walk-idle")
-	elif current_anim_state == "trans-walk-idle":
-		var input_dir: float = Input.get_axis("move_left", "move_right")
-		if input_dir != 0.0:
-			current_anim_state = "trans-idle-walk"
-			_play_anim("trans-idle-walk")
-		else:
-			current_anim_state = idle_anim
-			_play_anim(idle_anim)
+			var input_dir: float = Input.get_axis("move_left", "move_right")
+			var is_moving = input_dir != 0.0
+			var next = "walk" if is_moving else _get_idle_anim()
+			current_anim_state = next
+			_play_anim(next)
 
 func set_nearby_workstation(obj: Node) -> void:
 	nearby_workstation = obj
@@ -255,8 +302,6 @@ func _complete_task() -> void:
 	is_working = false
 	is_filling = false
 	InconvenienceManager.is_stuck_99 = false
-	# Reset anim state so the "interact" state doesn't linger after task is done
-	current_anim_state = _get_idle_anim()
 	_update_animation(0.0)
 	
 	progress_container.visible = false

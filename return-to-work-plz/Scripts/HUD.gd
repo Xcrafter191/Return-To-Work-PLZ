@@ -134,6 +134,10 @@ func _update_direction_arrow() -> void:
 	var current_slot = RoomManager.current_slot
 	var in_elevator = ("Elevator" in current_slot)
 	
+	# Declare variables at function scope to avoid child-block shadowing warnings
+	var active_slots: Array = f1_slots if RoomManager.current_floor == 1 else f2_slots
+	var cur_idx: int = active_slots.find(current_slot)
+	
 	# Tentukan floor target
 	var target_floor := 0
 	if target_slot in f1_slots: target_floor = 1
@@ -159,7 +163,6 @@ func _update_direction_arrow() -> void:
 	
 	# --- Target di lantai berbeda: tunjuk ke elevator ---
 	if target_floor != RoomManager.current_floor:
-		var active_slots: Array = f1_slots if RoomManager.current_floor == 1 else f2_slots
 		var elev_key = "Elevator_F1" if RoomManager.current_floor == 1 else "Elevator_F2"
 		# Cari slot elevator di floor ini
 		var elev_slot = ""
@@ -167,7 +170,6 @@ func _update_direction_arrow() -> void:
 			if RoomManager.current_layout[slot] == elev_key:
 				elev_slot = slot
 				break
-		var cur_idx  = active_slots.find(current_slot)
 		var elev_idx = active_slots.find(elev_slot)
 		_set_arrow_side(elev_idx < cur_idx)
 		direction_arrow.visible = true
@@ -175,8 +177,6 @@ func _update_direction_arrow() -> void:
 		return
 	
 	# --- Target di lantai sama ---
-	var active_slots: Array = f1_slots if RoomManager.current_floor == 1 else f2_slots
-	var cur_idx    = active_slots.find(current_slot)
 	var target_idx = active_slots.find(target_slot)
 	if cur_idx == -1 or target_idx == -1:
 		# Slot tidak dikenal (special room), hide arrow

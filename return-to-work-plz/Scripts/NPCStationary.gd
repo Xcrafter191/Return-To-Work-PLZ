@@ -20,9 +20,10 @@ var _fade_tween: Tween = null
 @onready var dialogue_label: Label = $DialogueBox/Label
 @onready var dialogue_bg: TextureRect = $DialogueBox/Bubble
 @onready var sprite: Sprite2D = $Sprite if has_node("Sprite") else null
-@onready var anim_sprite: AnimatedSprite2D = $AnimSprite if has_node("AnimSprite") else null
+@onready var anim_sprite: AnimatedSprite2D = $AnimSprite if has_node("AnimSprite") else ($AnimatedSprite2D if has_node("AnimatedSprite2D") else null)
 
 func _ready() -> void:
+	add_to_group("npc")
 	dialogue_box.visible = false
 	dialogue_box.modulate.a = 0.0
 	dialogue_box.position.y = dialogue_offset_y

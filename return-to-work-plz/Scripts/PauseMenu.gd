@@ -146,6 +146,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	
 	if event.is_action_pressed("pause"):
+		if get_tree().current_scene.get_node_or_null("LoopTutorial") != null:
+			return # Ignore pause menu inputs when the loop tutorial is active!
+			
 		if settings_panel.visible:
 			settings_panel.visible = false
 			pause_panel.visible = true
@@ -294,7 +297,7 @@ func _apply_settings() -> void:
 	UISoundManager.play_click()
 	Engine.max_fps = int(fps_input.value)
 
-	print("[Settings] Applied: %dfps, window=%d, res=%s" % [
+	print("[Settings] Applied: %dfps" % [
 		int(fps_input.value)
 	])
 	save_settings()

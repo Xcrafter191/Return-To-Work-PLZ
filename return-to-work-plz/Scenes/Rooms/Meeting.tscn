@@ -1,7 +1,8 @@
 [gd_scene format=3 uid="uid://xd33hxe3ygja"]
 
-[ext_resource type="Texture2D" uid="uid://5itjp1ja71wm" path="res://Assets/Rooms/meeting_room.png" id="1_4lyue"]
 [ext_resource type="Script" uid="uid://cge2twkky6a4n" path="res://Scripts/RoomExit.gd" id="1_exit"]
+[ext_resource type="Texture2D" uid="uid://46cmbqo0g56m" path="res://Assets/Rooms/meeting_space.png" id="1_sqrf7"]
+[ext_resource type="Texture2D" uid="uid://cmdna4vbhdkwg" path="res://Assets/Rooms/Objects/meeting_desk.png" id="2_5xjlf"]
 [ext_resource type="PackedScene" uid="uid://dfqlq6if2etm" path="res://Scenes/NPCs/Luke.tscn" id="2_npc_stat"]
 [ext_resource type="Texture2D" uid="uid://bmb4rt8vljrax" path="res://Assets/UI V4/TEXTBOX/INTERACT.png" id="3_am3xq"]
 [ext_resource type="AudioStream" uid="uid://nvoa305b6qg4" path="res://Assets/Audio/SFX/Paper_Sound.MP3" id="3_ubtj4"]
@@ -29,10 +30,13 @@ size = Vector2(214, 367)
 
 [node name="Meeting" type="Node2D" unique_id=37233455]
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2107215825]
+[node name="Background" type="Sprite2D" parent="." unique_id=2107215825]
 position = Vector2(967, 594)
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("1_4lyue")
+texture = ExtResource("1_sqrf7")
+
+[node name="Sprite2D2" type="Sprite2D" parent="." unique_id=2071199220]
+position = Vector2(965, 456)
+texture = ExtResource("2_5xjlf")
 
 [node name="WallRight" type="StaticBody2D" parent="." unique_id=1136195116]
 position = Vector2(1930, 540)
@@ -73,11 +77,11 @@ position = Vector2(-2, -56.5)
 shape = SubResource("RectangleShape2D_efn1h")
 
 [node name="ManagerLuke" parent="." unique_id=34825516 instance=ExtResource("2_npc_stat")]
-position = Vector2(850, 930)
+position = Vector2(959, 936)
 dialogue_text = "Let's circle back on that."
 
 [node name="GivePaperTask" type="Node2D" parent="." unique_id=1228870247]
-position = Vector2(1196, 933)
+position = Vector2(1249, 937)
 script = ExtResource("4_interact")
 task_name = "Giving paper to Manager..."
 task_duration = 2.0
@@ -147,14 +151,6 @@ offset_right = 30.0
 offset_bottom = 930.0
 color = Color(0.3, 0.3, 0.5, 0.4)
 
-[node name="ExitLabel_Left" type="Label" parent="." unique_id=1595714878]
-offset_left = 10.0
-offset_top = 760.0
-offset_right = 120.0
-offset_bottom = 790.0
-text = "← Elevator"
-horizontal_alignment = 1
-
 [node name="ExitRight" type="Area2D" parent="." unique_id=1208404082]
 position = Vector2(1910, 780)
 collision_layer = 0
@@ -170,16 +166,8 @@ offset_right = 1920.0
 offset_bottom = 930.0
 color = Color(0.3, 0.3, 0.5, 0.4)
 
-[node name="ExitLabel_Right" type="Label" parent="." unique_id=685016470]
-offset_left = 1800.0
-offset_top = 760.0
-offset_right = 1910.0
-offset_bottom = 790.0
-text = "→ Printer"
-horizontal_alignment = 1
-
 [node name="PresentTask" type="Node2D" parent="." unique_id=1809630325]
-position = Vector2(699, 926)
+position = Vector2(853, 934)
 script = ExtResource("4_interact")
 task_name = "Presenting to Manager..."
 task_duration = 4.0

@@ -99,6 +99,33 @@ func change_room(slot_name: String, spawn_point_name: String = "SpawnDefault", f
 	current_room = room_scene.instantiate()
 	room_container.add_child(current_room)
 	current_room_name = target_room_name
+	
+	# Spawn special NPCs if assigned for this room
+	if GameManager.special_npc_assignments.has(target_room_name):
+		for npc_id in GameManager.special_npc_assignments[target_room_name]:
+			var npc_scene_path = "res://Scenes/NPCs/%s.tscn" % npc_id
+			var npc_scene = load(npc_scene_path)
+			if npc_scene:
+				var npc_inst = npc_scene.instantiate()
+				npc_inst.name = npc_id
+				
+				var spawn_pos = Vector2(960, 873)
+				if npc_id == "Steve":
+					spawn_pos = Vector2(1100, 873)
+				elif npc_id == "Hans":
+					spawn_pos = Vector2(900, 873)
+					npc_inst.patrol_left_x = 400.0
+					npc_inst.patrol_right_x = 1400.0
+				elif npc_id == "Chloe":
+					spawn_pos = Vector2(800, 873)
+					npc_inst.patrol_left_x = 300.0
+					npc_inst.patrol_right_x = 1500.0
+					npc_inst.move_speed = 40.0
+				
+				current_room.add_child(npc_inst)
+				npc_inst.global_position = spawn_pos
+				print("[RoomManager] Dynamically spawned special NPC %s in room %s at %s" % [npc_id, target_room_name, str(spawn_pos)])
+				
 	current_slot = slot_name
 	
 	if current_slot in active_slots_f1:
@@ -188,6 +215,8 @@ func _spawn_temp_wall(side: String) -> void:
 	
 	var body = StaticBody2D.new()
 	body.name = "TempWall" + side
+	body.collision_layer = 2
+	body.collision_mask = 0
 	
 	var shape = CollisionShape2D.new()
 	var rect  = RectangleShape2D.new()

@@ -44,14 +44,6 @@ position = Vector2(1750, 877)
 [node name="SpawnRight2" type="Marker2D" parent="." unique_id=791833543]
 position = Vector2(1750, 881)
 
-[node name="RoomLabel" type="Label" parent="." unique_id=1197014761]
-offset_left = 860.0
-offset_top = 30.0
-offset_right = 1060.0
-offset_bottom = 60.0
-text = "LOUNGE"
-horizontal_alignment = 1
-
 [node name="CoffeeTask" type="Node2D" parent="." unique_id=47411027]
 position = Vector2(966, 655)
 script = ExtResource("3_interact")
@@ -75,7 +67,6 @@ offset_left = -238.0
 offset_top = -276.0
 offset_right = -64.0
 offset_bottom = -253.0
-text = "Press [E] - Make coffee"
 horizontal_alignment = 1
 
 [node name="PromptBox" type="TextureRect" parent="CoffeeTask/PromptLabel" unique_id=18641918]
@@ -127,14 +118,6 @@ offset_top = 574.0
 offset_right = 1920.0
 offset_bottom = 874.0
 color = Color(0.3, 0.3, 0.5, 0.4)
-
-[node name="ExitLabel_Right" type="Label" parent="." unique_id=1284935757]
-offset_left = 1800.0
-offset_top = 760.0
-offset_right = 1910.0
-offset_bottom = 790.0
-text = "→ Cubicle"
-horizontal_alignment = 1
 
 [node name="WallRight" type="StaticBody2D" parent="." unique_id=1547611188]
 position = Vector2(1945, 524)

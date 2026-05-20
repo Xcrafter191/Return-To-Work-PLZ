@@ -1,0 +1,816 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://dgdbq3ad6jm3b" path="res://Scripts/NPCMoving.gd" id="1_npc"]
+[ext_resource type="Texture2D" uid="uid://b1551mr8wt1cd" path="res://Assets/UI V4/TEXTBOX/CHAT.png" id="2_q4axa"]
+[ext_resource type="FontFile" uid="uid://c41kv0pko2t4q" path="res://Assets/Font/Pixeled.ttf" id="3_wvd2y"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Folder-carrier Chloe.png" id="4_sprite"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_000.png" id="5_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_001.png" id="6_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_002.png" id="7_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_003.png" id="8_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_004.png" id="9_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_005.png" id="10_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_006.png" id="11_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_007.png" id="12_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_008.png" id="13_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_009.png" id="14_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_010.png" id="15_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_011.png" id="16_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_012.png" id="17_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_013.png" id="18_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_014.png" id="19_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_015.png" id="20_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_016.png" id="21_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_017.png" id="22_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_018.png" id="23_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_019.png" id="24_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_020.png" id="25_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_021.png" id="26_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_022.png" id="27_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_023.png" id="28_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_024.png" id="29_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_025.png" id="30_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_026.png" id="31_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_027.png" id="32_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_028.png" id="33_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_029.png" id="34_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_030.png" id="35_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_031.png" id="36_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_032.png" id="37_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_033.png" id="38_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_034.png" id="39_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_035.png" id="40_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_036.png" id="41_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_037.png" id="42_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_038.png" id="43_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_039.png" id="44_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_040.png" id="45_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_041.png" id="46_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_042.png" id="47_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_043.png" id="48_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_044.png" id="49_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_045.png" id="50_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_046.png" id="51_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_047.png" id="52_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_048.png" id="53_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_049.png" id="54_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_050.png" id="55_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_051.png" id="56_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_052.png" id="57_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_053.png" id="58_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_054.png" id="59_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_055.png" id="60_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_056.png" id="61_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_057.png" id="62_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_058.png" id="63_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_059.png" id="64_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_060.png" id="65_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_061.png" id="66_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_062.png" id="67_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_063.png" id="68_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_064.png" id="69_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_065.png" id="70_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_066.png" id="71_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_067.png" id="72_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_068.png" id="73_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_069.png" id="74_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_070.png" id="75_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_071.png" id="76_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_072.png" id="77_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_073.png" id="78_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_074.png" id="79_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_075.png" id="80_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_076.png" id="81_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_077.png" id="82_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_078.png" id="83_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_079.png" id="84_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_080.png" id="85_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_081.png" id="86_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_082.png" id="87_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_083.png" id="88_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_084.png" id="89_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_085.png" id="90_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_086.png" id="91_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_087.png" id="92_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_088.png" id="93_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_089.png" id="94_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_090.png" id="95_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_091.png" id="96_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_092.png" id="97_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_093.png" id="98_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_094.png" id="99_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_095.png" id="100_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_096.png" id="101_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_097.png" id="102_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_098.png" id="103_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_099.png" id="104_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_100.png" id="105_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_101.png" id="106_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_102.png" id="107_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_103.png" id="108_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_104.png" id="109_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_105.png" id="110_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_106.png" id="111_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_107.png" id="112_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_108.png" id="113_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_109.png" id="114_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_110.png" id="115_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_111.png" id="116_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_112.png" id="117_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_113.png" id="118_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_114.png" id="119_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_115.png" id="120_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_116.png" id="121_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_117.png" id="122_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_118.png" id="123_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_119.png" id="124_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_120.png" id="125_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_121.png" id="126_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_122.png" id="127_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_123.png" id="128_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_124.png" id="129_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_125.png" id="130_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_126.png" id="131_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_127.png" id="132_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_128.png" id="133_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_129.png" id="134_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_130.png" id="135_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_131.png" id="136_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_132.png" id="137_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_133.png" id="138_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_134.png" id="139_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_135.png" id="140_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_136.png" id="141_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_137.png" id="142_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_138.png" id="143_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_139.png" id="144_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_140.png" id="145_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_141.png" id="146_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_142.png" id="147_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_143.png" id="148_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_144.png" id="149_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_145.png" id="150_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_146.png" id="151_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_147.png" id="152_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_148.png" id="153_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_149.png" id="154_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_150.png" id="155_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_151.png" id="156_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_152.png" id="157_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_153.png" id="158_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_154.png" id="159_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_155.png" id="160_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_156.png" id="161_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_157.png" id="162_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_158.png" id="163_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_159.png" id="164_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_160.png" id="165_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_161.png" id="166_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_162.png" id="167_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_163.png" id="168_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_164.png" id="169_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_165.png" id="170_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_166.png" id="171_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_167.png" id="172_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_168.png" id="173_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_169.png" id="174_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_170.png" id="175_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_171.png" id="176_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_172.png" id="177_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_173.png" id="178_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_174.png" id="179_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_175.png" id="180_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_176.png" id="181_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_177.png" id="182_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_178.png" id="183_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_179.png" id="184_frame"]
+[ext_resource type="Texture2D" path="res://Assets/Sprites/Sprites_Animation/Chloe/walk/walk_180.png" id="185_frame"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_chloe"]
+animations = [{
+"frames": [
+{
+"duration": 1.0,
+"texture": ExtResource("5_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("25_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("26_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("27_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("28_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("29_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("30_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("31_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("32_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("33_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("34_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("35_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("36_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("37_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("38_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("39_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("40_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("41_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("42_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("43_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("44_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("45_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("46_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("47_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("48_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("49_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("50_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("51_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("52_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("53_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("54_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("55_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("56_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("57_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("58_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("59_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("60_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("61_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("62_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("63_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("64_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("65_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("66_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("67_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("68_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("69_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("70_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("71_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("72_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("73_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("74_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("75_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("76_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("77_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("78_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("79_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("80_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("81_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("82_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("83_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("84_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("85_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("86_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("87_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("88_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("89_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("90_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("91_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("92_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("93_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("94_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("95_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("96_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("97_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("98_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("99_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("100_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("101_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("102_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("103_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("104_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("105_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("106_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("107_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("108_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("109_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("110_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("111_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("112_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("113_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("114_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("115_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("116_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("117_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("118_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("119_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("120_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("121_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("122_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("123_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("124_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("125_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("126_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("127_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("128_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("129_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("130_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("131_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("132_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("133_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("134_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("135_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("136_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("137_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("138_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("139_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("140_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("141_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("142_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("143_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("144_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("145_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("146_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("147_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("148_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("149_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("150_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("151_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("152_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("153_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("154_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("155_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("156_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("157_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("158_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("159_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("160_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("161_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("162_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("163_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("164_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("165_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("166_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("167_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("168_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("169_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("170_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("171_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("172_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("173_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("174_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("175_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("176_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("177_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("178_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("179_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("180_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("181_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("182_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("183_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("184_frame")
+}, {
+"duration": 1.0,
+"texture": ExtResource("185_frame")
+}
+],
+"loop": true,
+"name": &"walk",
+"speed": 24.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(205, 365)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_detect"]
+size = Vector2(232, 375)
+
+[node name="Chloe" type="CharacterBody2D" unique_id=987293847]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_npc")
+npc_name = "Folder-carrier Chloe"
+dialogue_text = "These are heavy. Can you help?"
+move_speed = 40.0
+sprite_texture = ExtResource("4_sprite")
+
+[node name="AnimSprite" type="AnimatedSprite2D" parent="." unique_id=192837482]
+position = Vector2(0, -187)
+scale = Vector2(0.6, 0.6)
+sprite_frames = SubResource("SpriteFrames_chloe")
+animation = &"walk"
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=283749281]
+visible = false
+position = Vector2(0, -183)
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("4_sprite")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=384729381]
+position = Vector2(0, -183)
+shape = SubResource("RectangleShape2D_body")
+
+[node name="InteractionArea" type="Area2D" parent="." unique_id=483729382]
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea" unique_id=583729383]
+position = Vector2(0, -189)
+shape = SubResource("RectangleShape2D_detect")
+
+[node name="DialogueBox" type="Node2D" parent="." unique_id=683729384]
+position = Vector2(0, -390)
+
+[node name="Bubble" type="TextureRect" parent="DialogueBox" unique_id=783729385]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -177.0
+offset_top = -125.0
+offset_right = 178.0
+offset_bottom = -7.0
+grow_horizontal = 2
+grow_vertical = 0
+texture = ExtResource("2_q4axa")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="DialogueBox" unique_id=883729386]
+offset_left = -165.0
+offset_top = -86.0
+offset_right = 166.0
+offset_bottom = -21.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_wvd2y")
+theme_override_font_sizes/font_size = 10
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Label2" type="Label" parent="DialogueBox" unique_id=983729387]
+offset_left = -171.0
+offset_top = -133.0
+offset_right = -46.0
+offset_bottom = -87.0
+theme_override_fonts/font = ExtResource("3_wvd2y")
+text = "CHAT.txt"

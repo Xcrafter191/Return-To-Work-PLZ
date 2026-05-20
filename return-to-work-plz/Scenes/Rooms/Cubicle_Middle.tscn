@@ -13,7 +13,7 @@
 size = Vector2(1920, 40)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_workarea"]
-size = Vector2(358, 552)
+size = Vector2(251, 464)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_exit"]
 size = Vector2(40, 300)
@@ -25,10 +25,10 @@ size = Vector2(42, 972.5)
 size = Vector2(40, 917)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_emailarea"]
-size = Vector2(80, 80)
+size = Vector2(260, 404)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sheetarea"]
-size = Vector2(80, 80)
+size = Vector2(249, 435)
 
 [node name="Cubicle_Middle" type="Node2D" unique_id=1535908360]
 
@@ -57,14 +57,6 @@ position = Vector2(242, 878)
 [node name="SpawnRight" type="Marker2D" parent="." unique_id=1869091380]
 position = Vector2(1750, 878)
 
-[node name="RoomLabel" type="Label" parent="." unique_id=1585863481]
-offset_left = 830.0
-offset_top = 30.0
-offset_right = 1090.0
-offset_bottom = 60.0
-text = "CUBICLE FLOOR"
-horizontal_alignment = 1
-
 [node name="CoworkerAmelia" parent="." unique_id=1960886892 instance=ExtResource("2_amelia")]
 position = Vector2(700, 876)
 
@@ -86,15 +78,14 @@ bus = &"SFX"
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Workstation/DetectionArea" unique_id=2015091629]
-position = Vector2(-98, -276)
+position = Vector2(-262.5, -232)
 shape = SubResource("RectangleShape2D_workarea")
 
 [node name="PromptLabel" type="Label" parent="Workstation" unique_id=820128448]
-offset_left = -177.0
+offset_left = -347.0
 offset_top = -495.0
-offset_right = -48.0
+offset_right = -218.0
 offset_bottom = -472.0
-text = "Press [E] to work"
 horizontal_alignment = 1
 
 [node name="PromtBox" type="TextureRect" parent="Workstation/PromptLabel" unique_id=12800038]
@@ -142,28 +133,12 @@ script = ExtResource("1_exit")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExitRight" unique_id=713084759]
 shape = SubResource("RectangleShape2D_exit")
 
-[node name="ExitLabel_Left" type="Label" parent="." unique_id=321771415]
-offset_left = 10.0
-offset_top = 760.0
-offset_right = 120.0
-offset_bottom = 790.0
-text = "+? Lounge"
-horizontal_alignment = 1
-
 [node name="ExitVisual_Right" type="ColorRect" parent="." unique_id=1596272618]
 offset_left = 1890.0
 offset_top = 583.0
 offset_right = 1920.0
 offset_bottom = 883.0
 color = Color(0.3, 0.3, 0.5, 0.4)
-
-[node name="ExitLabel_Right" type="Label" parent="." unique_id=667729159]
-offset_left = 1800.0
-offset_top = 760.0
-offset_right = 1910.0
-offset_bottom = 790.0
-text = "→ Elevator"
-horizontal_alignment = 1
 
 [node name="WallRight" type="StaticBody2D" parent="." unique_id=1037150890]
 position = Vector2(1946, 540)
@@ -184,7 +159,7 @@ position = Vector2(-2, -49.5)
 shape = SubResource("RectangleShape2D_udknq")
 
 [node name="EmailStation" type="Node2D" parent="." unique_id=221690747]
-position = Vector2(600, 910)
+position = Vector2(510, 884)
 script = ExtResource("5_interact")
 task_name = "Replying email..."
 task_id = "reply_email"
@@ -197,15 +172,14 @@ bus = &"SFX"
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EmailStation/DetectionArea" unique_id=1542423681]
-position = Vector2(0, -40)
+position = Vector2(-90, -202)
 shape = SubResource("RectangleShape2D_emailarea")
 
 [node name="PromptLabel" type="Label" parent="EmailStation" unique_id=241445186]
-offset_left = -299.0
-offset_top = -471.0
-offset_right = -130.0
-offset_bottom = -448.0
-text = "Press [E] - Reply email"
+offset_left = -199.0
+offset_top = -457.0
+offset_right = -30.0
+offset_bottom = -434.0
 horizontal_alignment = 1
 
 [node name="PromptBox" type="TextureRect" parent="EmailStation/PromptLabel" unique_id=1900984973]
@@ -252,15 +226,14 @@ bus = &"SFX"
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SpreadsheetStation/DetectionArea" unique_id=1167599200]
-position = Vector2(0, -40)
+position = Vector2(-151.5, -238.5)
 shape = SubResource("RectangleShape2D_sheetarea")
 
 [node name="PromptLabel" type="Label" parent="SpreadsheetStation" unique_id=248168357]
-offset_left = 32.0
-offset_top = -444.0
-offset_right = 233.0
-offset_bottom = -421.0
-text = "Press [E] - Fix spreadsheet"
+offset_left = -256.0
+offset_top = -454.0
+offset_right = -55.0
+offset_bottom = -431.0
 horizontal_alignment = 1
 
 [node name="PromptBox" type="TextureRect" parent="SpreadsheetStation/PromptLabel" unique_id=2138209524]

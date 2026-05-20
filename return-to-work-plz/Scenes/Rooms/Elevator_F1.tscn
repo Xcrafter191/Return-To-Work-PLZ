@@ -28,15 +28,6 @@ size = Vector2(42, 972.5)
 position = Vector2(960, 540)
 texture = ExtResource("1_0pc62")
 
-[node name="FloorLabel" type="Label" parent="." unique_id=1952841764]
-modulate = Color(0, 0, 0, 1)
-offset_left = 1013.0
-offset_top = 929.0
-offset_right = 1213.0
-offset_bottom = 959.0
-text = "1F - Ground Floor"
-horizontal_alignment = 1
-
 [node name="Floor" type="StaticBody2D" parent="." unique_id=766435920]
 position = Vector2(960, 930)
 collision_layer = 2
@@ -60,14 +51,6 @@ position = Vector2(1750, 877)
 
 [node name="SpawnLeft2" type="Marker2D" parent="." unique_id=177903324]
 position = Vector2(858, 879)
-
-[node name="RoomLabel" type="Label" parent="." unique_id=1810090649]
-offset_left = 829.0
-offset_top = 30.0
-offset_right = 1089.0
-offset_bottom = 60.0
-text = "ELEVATOR HALL"
-horizontal_alignment = 1
 
 [node name="ExitLeft" type="Area2D" parent="." unique_id=1790192627]
 position = Vector2(10, 780)

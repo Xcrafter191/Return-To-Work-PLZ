@@ -80,3 +80,38 @@ collision_mask = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WallRight" unique_id=420762307]
 position = Vector2(-28, -80)
 shape = SubResource("RectangleShape2D_exit")
+
+[node name="SpawnRight" type="Marker2D" parent="." unique_id=319678863]
+position = Vector2(1770, 868)
+
+[node name="ExitRight" type="Area2D" parent="." unique_id=792382116]
+position = Vector2(1910, 450)
+collision_layer = 0
+script = ExtResource("1_exit")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitRight" unique_id=1672122159]
+shape = SubResource("RectangleShape2D_exit")
+
+[node name="ExitVisual_Right" type="ColorRect" parent="." unique_id=1656001726]
+offset_left = 1890.0
+offset_top = 577.0
+offset_right = 1920.0
+offset_bottom = 877.0
+color = Color(0.3, 0.3, 0.5, 0.4)
+
+[node name="ExitLabel_Right" type="Label" parent="." unique_id=59229681]
+offset_left = 1790.0
+offset_top = 760.0
+offset_right = 1910.0
+offset_bottom = 790.0
+text = "Next Room →"
+horizontal_alignment = 1
+
+[node name="WallLeft" type="StaticBody2D" parent="." unique_id=1516365255]
+position = Vector2(-10, 540)
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallLeft" unique_id=420762308]
+position = Vector2(28, -80)
+shape = SubResource("RectangleShape2D_exit")

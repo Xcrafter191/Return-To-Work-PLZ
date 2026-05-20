@@ -18,6 +18,8 @@ var task_completed: bool = false
 
 @onready var prompt_label: Label = $PromptLabel
 
+var _highlight_rect: ColorRect = null
+
 func _ready() -> void:
 	prompt_label.visible = false
 	$DetectionArea.body_entered.connect(_on_body_entered)
@@ -25,6 +27,27 @@ func _ready() -> void:
 	GameManager.loop_restarted.connect(_on_loop_restarted)
 	# Update prompt when task changes (in case player is already standing here)
 	GameManager.current_task_changed.connect(_on_task_changed)
+	_setup_highlight_rect()
+
+func _setup_highlight_rect() -> void:
+	var area = get_node_or_null("DetectionArea")
+	if not area: return
+	var col_shape = area.get_node_or_null("CollisionShape2D")
+	if not col_shape or not col_shape.shape is RectangleShape2D: return
+	
+	var rect_shape: RectangleShape2D = col_shape.shape
+	var size = rect_shape.size
+	var pos = col_shape.position + area.position
+	
+	_highlight_rect = ColorRect.new()
+	_highlight_rect.size = size
+	_highlight_rect.position = pos - (size / 2.0)
+	_highlight_rect.color = Color(1.0, 0.95, 0.0, 0.0)
+	_highlight_rect.visible = false
+	_highlight_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	
+	add_child(_highlight_rect)
+	move_child(_highlight_rect, 0)
 
 func _is_available() -> bool:
 	if task_completed or task_id == "": return false
@@ -95,16 +118,20 @@ func _update_prompt() -> void:
 
 var _glow_tween: Tween = null
 func _start_glow() -> void:
+	if not _highlight_rect: return
+	_highlight_rect.visible = true
 	if _glow_tween and _glow_tween.is_valid(): return
 	_glow_tween = create_tween().set_loops()
-	_glow_tween.tween_property(self, "modulate", Color(1.4, 1.3, 0.2), 0.4)
-	_glow_tween.tween_property(self, "modulate", Color(1.0, 1.0, 1.0), 0.4)
+	_glow_tween.tween_property(_highlight_rect, "color:a", 0.45, 0.5)
+	_glow_tween.tween_property(_highlight_rect, "color:a", 0.05, 0.5)
 
 func _stop_glow() -> void:
 	if _glow_tween and _glow_tween.is_valid():
 		_glow_tween.kill()
 		_glow_tween = null
-	modulate = Color(1.0, 1.0, 1.0)
+	if _highlight_rect:
+		_highlight_rect.visible = false
+		_highlight_rect.color.a = 0.0
 
 func on_interact_start() -> void:
 	prompt_label.visible = false

@@ -167,9 +167,6 @@ func trigger_attack(inconvenience_name: String) -> void:
 	if player:
 		player.process_mode = Node.PROCESS_MODE_ALWAYS
 		player.is_locked = true
-		if player.has_method("_play_anim"):
-			player.current_anim_state = "idleaware"
-			player._play_anim("idleaware")
 	
 	var tween = create_tween().set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
 	tween.tween_interval(0.5)
@@ -199,8 +196,8 @@ func trigger_attack(inconvenience_name: String) -> void:
 	tween.tween_property(dialogue_bubble, "modulate:a", 0.0, 0.3)
 	
 	# Trigger attack animation — plays WHILE console fades in
-	if player and player.has_method("_play_anim"):
-		tween.tween_callback(func(): player._play_anim("attack"))
+	if player and player.has_method("play_state"):
+		tween.tween_callback(func(): player.play_state("attack"))
 	
 	tween.tween_interval(0.3)
 	
@@ -238,9 +235,8 @@ func _finish_attack() -> void:
 		player.process_mode = Node.PROCESS_MODE_INHERIT
 		player.is_locked = false
 		# Reset to idle after attack
-		if player.has_method("_play_anim"):
+		if player.has_method("play_state"):
 			var idle_anim = player._get_idle_anim()
-			player.current_anim_state = idle_anim
-			player._play_anim(idle_anim)
+			player.play_state(idle_anim)
 	
 	sequence_finished.emit()

@@ -398,7 +398,7 @@ func _on_audio_type_changed(idx: int) -> void:
 		if effect_idx >= 0:
 			AudioServer.set_bus_effect_enabled(bus_idx, effect_idx, false)
 
-func _on_brightness_changed(val: float) -> void:
+func _on_brightness_changed(_val: float) -> void:
 	# No BrightnessOverlay in MainMenu, just store the value
 	pass
 

@@ -210,7 +210,7 @@ func _trigger_random_inconvenience() -> void:
 	var specific_choice = ""
 	match chosen_diff:
 		Difficulty.MINOR: 
-			specific_choice = ["lights_out", "random_ui", "shaky", "sprite_flip", "blur"].pick_random()
+			specific_choice = ["lights_out", "random_ui", "sprite_flip", "blur"].pick_random()
 		Difficulty.MEDIUM: 
 			specific_choice = ["fps", "unplug", "keybind", "time_stop", "time_accelerate", "force_room_swap"].pick_random()
 		Difficulty.MAJOR: 
