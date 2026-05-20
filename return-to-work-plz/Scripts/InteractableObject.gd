@@ -88,8 +88,23 @@ func _update_prompt() -> void:
 		else:
 			prompt_label.text = "Press [E] - %s" % display_name
 		prompt_label.visible = true
+		_start_glow()
 	else:
 		prompt_label.visible = false
+		_start_glow()
+
+var _glow_tween: Tween = null
+func _start_glow() -> void:
+	if _glow_tween and _glow_tween.is_valid(): return
+	_glow_tween = create_tween().set_loops()
+	_glow_tween.tween_property(self, "modulate", Color(1.4, 1.3, 0.2), 0.4)
+	_glow_tween.tween_property(self, "modulate", Color(1.0, 1.0, 1.0), 0.4)
+
+func _stop_glow() -> void:
+	if _glow_tween and _glow_tween.is_valid():
+		_glow_tween.kill()
+		_glow_tween = null
+	modulate = Color(1.0, 1.0, 1.0)
 
 func on_interact_start() -> void:
 	prompt_label.visible = false

@@ -12,7 +12,20 @@ extends CanvasLayer
 @onready var clockout_label: Label = $ClockOutLabel
 
 var deadline_label: Label = null
+var direction_arrow: Label = null  ## Flashing arrow CTA pointing toward task room
+var _cta_tween: Tween = null
 
+# Slot order on each floor for direction logic
+const FLOOR1_SLOTS = ["Slot_F1_Left", "Slot_Elevator_F1", "Slot_F1_Right"]
+const FLOOR2_SLOTS = ["Slot_F2_Left", "Slot_F2_Middle", "Slot_Elevator_F2", "Slot_F2_Right", "Slot_F2_FarRight"]
+
+# Maps task room name → which floor slots to search
+const TASK_ROOM_TO_SLOT: Dictionary = {
+	"Lobby": "Slot_F1_Left",
+	"Lounge": "Slot_F2_Left",
+	"Printer": "Slot_F2_FarRight",
+	"Meeting": "Slot_F2_Right",
+}
 
 var texbox_task: Texture2D = preload("res://Assets/UI V4/TEXTBOX/TASK.png")
 const productive_mid = preload("res://Assets/UI V4/PRODUCTIVITY BAR/BAR/ALERT.png")
@@ -31,6 +44,9 @@ func _ready() -> void:
 	GameManager.npc_talk_updated.connect(_on_npc_talk_updated)
 	GameManager.morale_changed.connect(_on_morale_changed)
 	GameManager.productivity_changed.connect(_on_productivity_changed)
+	GameManager.current_task_changed.connect(_on_current_task_changed)
+	if has_node("/root/RoomManager"):
+		RoomManager.room_changed.connect(_on_room_changed)
 	
 	clockout_label.visible = false
 	_show_current_task()
@@ -47,6 +63,21 @@ func _ready() -> void:
 	deadline_label.add_theme_font_size_override("font_size", 36)
 	deadline_label.add_theme_color_override("font_color", Color(0.8, 0.1, 0.1))
 	add_child(deadline_label)
+	
+	# Create directional arrow indicator
+	direction_arrow = Label.new()
+	direction_arrow.set_anchors_preset(Control.PRESET_CENTER_LEFT)
+	direction_arrow.offset_left = 30
+	direction_arrow.offset_top = -40
+	direction_arrow.offset_right = 200
+	direction_arrow.offset_bottom = 40
+	direction_arrow.add_theme_font_size_override("font_size", 64)
+	direction_arrow.add_theme_color_override("font_color", Color(1.0, 0.85, 0.0))
+	direction_arrow.text = ""
+	direction_arrow.visible = false
+	add_child(direction_arrow)
+	
+	_update_direction_arrow()
 
 func _process(_delta: float) -> void:
 	if not deadline_label: return
@@ -60,6 +91,131 @@ func _process(_delta: float) -> void:
 			deadline_label.text = "TIME REMAINING: %.1fs" % t
 	else:
 		deadline_label.text = ""
+
+func _on_current_task_changed(_idx: int) -> void:
+	_update_direction_arrow()
+
+func _on_room_changed(_room_name: String) -> void:
+	_update_direction_arrow()
+
+## Work out which direction the current task room is relative to the player's current room,
+## then show a flashing yellow arrow. Hide it if the task is in the current room.
+func _update_direction_arrow() -> void:
+	if not direction_arrow: return
+	
+	var task_idx = GameManager.current_task_index
+	if task_idx >= GameManager.objectives.size():
+		_stop_cta_flash()
+		direction_arrow.visible = false
+		return
+	
+	var task_room: String = GameManager.objectives[task_idx].get("room", "")
+	if task_room == "Any" or task_room == "Cubicle":
+		_stop_cta_flash()
+		direction_arrow.visible = false
+		return
+	
+	# Cari slot yang megang task room ini
+	var target_slot = ""
+	for slot in RoomManager.current_layout:
+		if RoomManager.current_layout[slot] == task_room:
+			target_slot = slot
+			break
+	
+	if target_slot == "" or target_slot == RoomManager.current_slot:
+		_stop_cta_flash()
+		direction_arrow.visible = false
+		return
+	
+	# Pakai live array dari RoomManager, bukan constant
+	var f1_slots: Array = RoomManager.active_slots_f1
+	var f2_slots: Array = RoomManager.active_slots_f2
+	
+	var current_slot = RoomManager.current_slot
+	var in_elevator = ("Elevator" in current_slot)
+	
+	# Tentukan floor target
+	var target_floor := 0
+	if target_slot in f1_slots: target_floor = 1
+	elif target_slot in f2_slots: target_floor = 2
+	
+	# --- Special case: player di dalam elevator ---
+	if in_elevator:
+		if target_floor == 0:
+			# target tidak dikenal, sembunyikan
+			_stop_cta_flash()
+			direction_arrow.visible = false
+			return
+		var arrow_text = "↑" if target_floor > RoomManager.current_floor else "↓"
+		direction_arrow.text = arrow_text
+		direction_arrow.set_anchors_preset(Control.PRESET_CENTER)
+		direction_arrow.offset_left   = -50
+		direction_arrow.offset_right  =  50
+		direction_arrow.offset_top    = -50
+		direction_arrow.offset_bottom =  50
+		direction_arrow.visible = true
+		_start_cta_flash()
+		return
+	
+	# --- Target di lantai berbeda: tunjuk ke elevator ---
+	if target_floor != RoomManager.current_floor:
+		var active_slots: Array = f1_slots if RoomManager.current_floor == 1 else f2_slots
+		var elev_key = "Elevator_F1" if RoomManager.current_floor == 1 else "Elevator_F2"
+		# Cari slot elevator di floor ini
+		var elev_slot = ""
+		for slot in RoomManager.current_layout:
+			if RoomManager.current_layout[slot] == elev_key:
+				elev_slot = slot
+				break
+		var cur_idx  = active_slots.find(current_slot)
+		var elev_idx = active_slots.find(elev_slot)
+		_set_arrow_side(elev_idx < cur_idx)
+		direction_arrow.visible = true
+		_start_cta_flash()
+		return
+	
+	# --- Target di lantai sama ---
+	var active_slots: Array = f1_slots if RoomManager.current_floor == 1 else f2_slots
+	var cur_idx    = active_slots.find(current_slot)
+	var target_idx = active_slots.find(target_slot)
+	if cur_idx == -1 or target_idx == -1:
+		# Slot tidak dikenal (special room), hide arrow
+		_stop_cta_flash()
+		direction_arrow.visible = false
+		return
+	_set_arrow_side(target_idx < cur_idx)
+	direction_arrow.visible = true
+	_start_cta_flash()
+
+
+## Helper: true = kiri, false = kanan
+func _set_arrow_side(is_left: bool) -> void:
+	if is_left:
+		direction_arrow.text = "←"
+		direction_arrow.set_anchors_preset(Control.PRESET_CENTER_LEFT)
+		direction_arrow.offset_left   =  30
+		direction_arrow.offset_right  = 200
+	else:
+		direction_arrow.text = "→"
+		direction_arrow.set_anchors_preset(Control.PRESET_CENTER_RIGHT)
+		direction_arrow.offset_right  = -30
+		direction_arrow.offset_left   = -170
+	direction_arrow.offset_top    = -40
+	direction_arrow.offset_bottom =  40
+
+func _start_cta_flash() -> void:
+	if _cta_tween and _cta_tween.is_valid():
+		return  # Already flashing
+	_cta_tween = create_tween().set_loops()
+	_cta_tween.tween_property(task_bg, "modulate:a", 0.4, 0.45).set_ease(Tween.EASE_IN_OUT)
+	_cta_tween.tween_property(task_bg, "modulate:a", 1.0, 0.45).set_ease(Tween.EASE_IN_OUT)
+
+func _stop_cta_flash() -> void:
+	if _cta_tween and _cta_tween.is_valid():
+		_cta_tween.kill()
+		_cta_tween = null
+	if task_bg:
+		task_bg.modulate.a = 1.0
 
 func _on_morale_changed(val: float) -> void:
 	var tween = create_tween()
@@ -92,7 +248,9 @@ func _on_all_completed() -> void:
 func _on_loop_restarted(_loop_number: int) -> void:
 	clockout_label.visible = false
 	task_bg.position.x = 1550.0
+	_stop_cta_flash()
 	_show_current_task()
+	_update_direction_arrow()
 
 func _on_npc_talk_updated(_count: int) -> void:
 	if not _animating and GameManager.get_current_task_id() == "talk_npcs":
@@ -152,5 +310,7 @@ func _on_slide_out_done() -> void:
 	_animating = false
 	if GameManager.current_task_index >= GameManager.objectives.size():
 		task_bg.visible = false
+		_stop_cta_flash()
 	else:
 		_show_current_task()
+		_update_direction_arrow()

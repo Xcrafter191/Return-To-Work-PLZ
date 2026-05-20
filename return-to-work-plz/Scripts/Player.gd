@@ -255,6 +255,8 @@ func _complete_task() -> void:
 	is_working = false
 	is_filling = false
 	InconvenienceManager.is_stuck_99 = false
+	# Reset anim state so the "interact" state doesn't linger after task is done
+	current_anim_state = _get_idle_anim()
 	_update_animation(0.0)
 	
 	progress_container.visible = false
@@ -265,11 +267,7 @@ func _complete_task() -> void:
 
 func _trigger_game_over() -> void:
 	cancel_task()
-	GameManager.current_loop = 1
-	GameManager.productivity = 100.0
-	GameManager.morale = 100.0
-	InconvenienceManager._reset_permanent_inconveniences()
-	get_tree().change_scene_to_file("res://Scenes/UI/GameOver.tscn")
+	GameManager._trigger_game_over()
 
 func cancel_task() -> void:
 	if not is_working: return

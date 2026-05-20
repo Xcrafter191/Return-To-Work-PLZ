@@ -64,7 +64,7 @@
 [ext_resource type="Texture2D" uid="uid://brk16qf08fcv4" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_059.png" id="62_tmkxm"]
 [ext_resource type="Texture2D" uid="uid://bt8lgxr7me7xk" path="res://Assets/Sprites/Sprites_Animation/Linda/idle/idle_060.png" id="63_nhto0"]
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_anim"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_o02cb"]
 animations = [{
 "frames": [{
 "duration": 1.0,
@@ -260,10 +260,10 @@ npc_name = "Receptionist Linda"
 dialogue_text = "Welcome back. Again."
 sprite_texture = ExtResource("2_tex")
 
-[node name="AnimSprite2" type="AnimatedSprite2D" parent="." index="3" unique_id=1260437521]
-position = Vector2(0, -183)
+[node name="Sprite" parent="." index="0"]
+visible = false
+
+[node name="AnimSprite" parent="." index="1"]
 scale = Vector2(0.6, 0.6)
-sprite_frames = SubResource("SpriteFrames_anim")
+sprite_frames = SubResource("SpriteFrames_o02cb")
 animation = &"idle"
-frame = 5
-frame_progress = 0.13305049

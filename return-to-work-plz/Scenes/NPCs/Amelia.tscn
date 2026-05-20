@@ -64,7 +64,7 @@
 [ext_resource type="Texture2D" uid="uid://boo0ynyq6dfga" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_059.png" id="62_mho5u"]
 [ext_resource type="Texture2D" uid="uid://buj0u2utopcyd" path="res://Assets/Sprites/Sprites_Animation/Amelia/idle/idle_060.png" id="63_4q8u0"]
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_anim"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_48v1c"]
 animations = [{
 "frames": [{
 "duration": 1.0,
@@ -260,10 +260,10 @@ npc_name = "Coworker Amelia"
 dialogue_text = "Did the clocks always tick that loud?"
 sprite_texture = ExtResource("2_tex")
 
-[node name="AnimSprite2" type="AnimatedSprite2D" parent="." index="3" unique_id=896991045]
-position = Vector2(0, -185)
+[node name="Sprite" parent="." index="0"]
+visible = false
+
+[node name="AnimSprite" parent="." index="1"]
 scale = Vector2(0.6, 0.6)
-sprite_frames = SubResource("SpriteFrames_anim")
+sprite_frames = SubResource("SpriteFrames_48v1c")
 animation = &"idle"
-frame = 43
-frame_progress = 0.13032942

@@ -2,10 +2,13 @@ extends CanvasLayer
 
 @onready var main_menu_button = $Content/MainMenuButton
 @onready var exit_button = $Content/ExitButton
+@onready var restart_button = $Content/RestartButton
 
 func _ready():
 	main_menu_button.pressed.connect(_on_main_menu_pressed)
 	exit_button.pressed.connect(_on_exit_pressed)
+	if restart_button:
+		restart_button.pressed.connect(_on_restart_button_pressed)
 	visible = false
 
 func show_game_over():
@@ -30,5 +33,7 @@ func _on_restart_button_pressed() -> void:
 	get_tree().change_scene_to_file("res://Scenes/Main.tscn")
 
 func _on_exit_pressed():
-	print("Exit button pressed")
-	get_tree().quit()
+	get_tree().paused = false
+	if has_node("/root/MusicManager"):
+		MusicManager.stop_music()
+	get_tree().change_scene_to_file("res://Scenes/UI/MainMenu.tscn")

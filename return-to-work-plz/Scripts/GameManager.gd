@@ -49,9 +49,8 @@ func _process(delta: float) -> void:
 			# Failed deadline!
 			set_productivity(productivity - 10.0)
 			consecutive_tasks = 0
-			print("[GameManager] Task deadline missed! Productivity dropped.")
 			# Reset to 20 seconds to keep the pressure on!
-			task_deadline_time = 20.0
+			task_deadline_time -= 5.0
 
 ## Stat Helpers
 func set_morale(val: float) -> void:
@@ -69,10 +68,7 @@ func _trigger_game_over() -> void:
 	var player = get_tree().get_first_node_in_group("player")
 	if player and player.has_method("cancel_task"):
 		player.cancel_task()
-	
-	current_loop = 1
-	productivity = 100.0
-	morale = 100.0
+
 	if has_node("/root/InconvenienceManager"):
 		InconvenienceManager._reset_permanent_inconveniences()
 	
@@ -98,7 +94,9 @@ func reset_game_state() -> void:
 	
 	if has_node("/root/InconvenienceManager"):
 		InconvenienceManager._reset_permanent_inconveniences()
-	
+
+	if has_node("/root/RoomManager"):
+		RoomManager.reset_layout()
 	call_deferred("emit_signal", "morale_changed", morale)
 	call_deferred("emit_signal", "productivity_changed", productivity)
 
@@ -124,7 +122,7 @@ func _start_task_deadline() -> void:
 	if current_task_index >= objectives.size():
 		is_deadline_active = false
 		return
-	var time_to_complete = 25.0 * difficulty_modifier
+	var time_to_complete = 24.0 * difficulty_modifier
 	task_deadline_time = time_to_complete
 	is_deadline_active = true
 	print("[GameManager] Deadline started: %.1fs" % time_to_complete)
@@ -167,7 +165,7 @@ func complete_objective(task_id: String) -> void:
 		total_drop = 20.0
 	elif current_loop == 2:
 		total_drop = 40.0
-	elif current_loop >= 7:
+	elif current_loop >= 5:
 		total_drop = 1000.0 # Instantly drains morale to 0 on 1 task
 	else:
 		total_drop = 250.0 # 25% per task (assuming 10 tasks)

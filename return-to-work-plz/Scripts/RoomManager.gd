@@ -138,6 +138,8 @@ func change_room(slot_name: String, spawn_point_name: String = "SpawnDefault", f
 	
 	is_transitioning = false
 	room_changed.emit(current_room_name)
+	# Brief cooldown so RoomExit areas don't immediately re-fire after the player spawns
+	await get_tree().create_timer(0.15).timeout
 
 func _configure_room_boundaries() -> void:
 	if not current_room: return
@@ -159,7 +161,6 @@ func _configure_room_boundaries() -> void:
 	_apply_boundary("Left",  not has_left,  has_left)
 	_apply_boundary("Right", not has_right, has_right)
 
-
 func _apply_boundary(side: String, need_wall: bool, need_exit: bool) -> void:
 	var wall   = current_room.get_node_or_null("Wall" + side)
 	var exit   = current_room.get_node_or_null("Exit" + side)
@@ -180,7 +181,6 @@ func _apply_boundary(side: String, need_wall: bool, need_exit: bool) -> void:
 	if visual: visual.visible = need_exit
 	if label:  label.visible  = need_exit
 
-
 func _spawn_temp_wall(side: String) -> void:
 	# Cegah duplikat kalau dipanggil dua kali
 	var existing = current_room.get_node_or_null("TempWall" + side)
@@ -199,10 +199,10 @@ func _spawn_temp_wall(side: String) -> void:
 	# Posisi: tempel di tepi kiri atau kanan viewport
 	var vp_width = get_viewport().get_visible_rect().size.x
 	if side == "Left":
-   
-		body.position = Vector2(0, 0)
+		# Place wall flush against the left edge (half-width offset so collision covers the boundary)
+		body.position = Vector2(16, 0)
 	else:
-		body.position = Vector2(vp_width, 0)
+		body.position = Vector2(vp_width - 16, 0)
 	
 	print("[RoomManager] Spawned temp wall on %s for room '%s'" % [side, current_room_name])
 
@@ -242,3 +242,20 @@ func _update_camera() -> void:
 		else:
 			# Default to center of viewport
 			camera.global_position = Vector2(960, 540)
+
+func reset_layout() -> void:
+	active_slots_f1 = ["Slot_F1_Left", "Slot_Elevator_F1", "Slot_F1_Right"]
+	active_slots_f2 = ["Slot_F2_Left", "Slot_F2_Middle", "Slot_Elevator_F2", "Slot_F2_Right", "Slot_F2_FarRight"]
+	current_layout = {
+		"Slot_F1_Left":       "Lobby",
+		"Slot_Elevator_F1":   "Elevator_F1",
+		"Slot_F1_Right":      "Bathroom",
+		"Slot_F2_Left":       "Lounge",
+		"Slot_F2_Middle":     "Cubicle_Middle",
+		"Slot_Elevator_F2":   "Elevator_F2",
+		"Slot_F2_Right":      "Meeting",
+		"Slot_F2_FarRight":   "Printer"
+	}
+	current_slot = "Slot_F1_Left"
+	current_floor = 1
+	print("[RoomManager] Layout reset to default.")

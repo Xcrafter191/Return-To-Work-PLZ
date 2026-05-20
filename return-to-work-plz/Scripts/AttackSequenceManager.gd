@@ -107,7 +107,7 @@ func _setup_ui() -> void:
 	
 	# Name label at top of bubble
 	dialogue_name_label = Label.new()
-	dialogue_name_label.text = "HACKER"
+	dialogue_name_label.text = "PLAYER"
 	dialogue_name_label.position = Vector2(15, 8)
 	var font = load("res://Assets/Font/Pixeled.ttf")
 	if font:
@@ -182,7 +182,8 @@ func trigger_attack(inconvenience_name: String) -> void:
 		var milestone_lines = milestone_dialogues[total_inconveniences]
 		for line in milestone_lines:
 			tween.tween_callback(func(): dialogue_label.text = line)
-			tween.tween_interval(2.0)
+			var display_time = clampf(line.length() * 0.06, 1.5, 4.5)
+			tween.tween_interval(display_time)
 	
 	# 2. Play the specific inconvenience dialogue
 	var specific_lines = ["Initiating protocol..."]
@@ -191,7 +192,8 @@ func trigger_attack(inconvenience_name: String) -> void:
 		
 	for line in specific_lines:
 		tween.tween_callback(func(): dialogue_label.text = line)
-		tween.tween_interval(2.0)
+		var display_time = clampf(line.length() * 0.06, 1.5, 4.5)
+		tween.tween_interval(display_time)
 	
 	# 3. Fade out dialogue, play attack animation, then fade in console
 	tween.tween_property(dialogue_bubble, "modulate:a", 0.0, 0.3)

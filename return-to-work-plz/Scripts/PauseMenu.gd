@@ -166,7 +166,9 @@ func _open_settings() -> void:
 
 func _leave_game() -> void:
 	get_tree().paused = false
-	get_tree().quit()
+	if has_node("/root/MusicManager"):
+		MusicManager.stop_music()
+	get_tree().change_scene_to_file("res://Scenes/UI/MainMenu.tscn")
 
 func _close_settings() -> void:
 	settings_panel.visible = false
