@@ -41,13 +41,13 @@ func _show_tutorial(pending_speed: float) -> void:
 	# Full-screen dark background
 	var bg = ColorRect.new()
 	bg.color = Color(0, 0, 0, 0.85)
-	bg.anchors_preset = Control.PRESET_FULL_RECT
+	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
 	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_tutorial_node.add_child(bg)
 
 	# Container for centered content
 	var container = VBoxContainer.new()
-	container.anchors_preset = Control.PRESET_FULL_RECT
+	container.set_anchors_preset(Control.PRESET_FULL_RECT)
 	container.alignment = BoxContainer.ALIGNMENT_CENTER
 	container.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_tutorial_node.add_child(container)

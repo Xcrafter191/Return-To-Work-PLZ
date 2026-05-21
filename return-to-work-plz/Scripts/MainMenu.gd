@@ -6,6 +6,9 @@ extends Control
 @onready var logo_rect = $LogoRect
 @onready var background_rect = $BackgroundRect
 
+var about_button: Button = null
+var about_panel: ColorRect = null
+
 #suara hoover + click
 @onready var click_sfx: AudioStreamPlayer2D = $ClickSFX
 @onready var hover_sfx: AudioStreamPlayer2D = $HoverSFX
@@ -62,6 +65,9 @@ func _ready():
 	play_button.pressed.connect(_on_play_pressed)
 	options_button.pressed.connect(_on_options_pressed)
 	exit_button.pressed.connect(_on_exit_pressed)
+	
+	# Create About button between Options and Exit
+	_create_about_button()
 	
 	# Hubungkan fungsi hover (mouse masuk ke area button)
 	play_button.mouse_entered.connect(_on_button_hover)
@@ -320,6 +326,180 @@ func _on_exit_pressed():
 	UISoundManager.play_click()
 	print("Exit button pressed")
 	get_tree().quit()
+
+func _create_about_button() -> void:
+	about_button = Button.new()
+	about_button.text = "ABOUT"
+	about_button.custom_minimum_size = Vector2(400, 70)
+	
+	# Style to match the menu aesthetic
+	var normal_style = StyleBoxFlat.new()
+	normal_style.bg_color = Color(0.15, 0.15, 0.15, 0.9)
+	normal_style.border_color = Color(1.0, 1.0, 1.0, 0.3)
+	normal_style.set_border_width_all(2)
+	normal_style.set_corner_radius_all(4)
+	normal_style.set_content_margin_all(8)
+	about_button.add_theme_stylebox_override("normal", normal_style)
+	
+	var hover_style = StyleBoxFlat.new()
+	hover_style.bg_color = Color(0.25, 0.25, 0.25, 0.95)
+	hover_style.border_color = Color(1.0, 1.0, 1.0, 0.6)
+	hover_style.set_border_width_all(2)
+	hover_style.set_corner_radius_all(4)
+	hover_style.set_content_margin_all(8)
+	about_button.add_theme_stylebox_override("hover", hover_style)
+	
+	var pressed_style = StyleBoxFlat.new()
+	pressed_style.bg_color = Color(0.1, 0.1, 0.1, 1.0)
+	pressed_style.border_color = Color(1.0, 1.0, 1.0, 0.8)
+	pressed_style.set_border_width_all(2)
+	pressed_style.set_corner_radius_all(4)
+	pressed_style.set_content_margin_all(8)
+	about_button.add_theme_stylebox_override("pressed", pressed_style)
+	
+	about_button.add_theme_font_size_override("font_size", 20)
+	about_button.add_theme_color_override("font_color", Color.WHITE)
+	about_button.add_theme_color_override("font_hover_color", Color(1.0, 0.9, 0.6))
+	
+	# Insert between Options and Exit in VBoxContainer
+	var vbox = $VBoxContainer
+	vbox.add_child(about_button)
+	vbox.move_child(about_button, options_button.get_index() + 1)
+	
+	about_button.pressed.connect(_on_about_pressed)
+	about_button.mouse_entered.connect(_on_button_hover)
+
+func _on_about_pressed() -> void:
+	UISoundManager.play_click()
+	_show_about_panel()
+
+func _show_about_panel() -> void:
+	if about_panel and is_instance_valid(about_panel):
+		about_panel.visible = true
+		return
+	
+	about_panel = ColorRect.new()
+	about_panel.set_anchors_preset(Control.PRESET_FULL_RECT)
+	about_panel.color = Color(0, 0, 0, 0.0)
+	about_panel.mouse_filter = Control.MOUSE_FILTER_STOP
+	add_child(about_panel)
+	
+	# Animate: slide menu items up and fade in background
+	var vbox = $VBoxContainer
+	var logo = logo_rect
+	
+	var tween = create_tween()
+	tween.tween_property(about_panel, "color:a", 0.85, 0.3)
+	tween.parallel().tween_property(vbox, "modulate:a", 0.0, 0.3)
+	tween.parallel().tween_property(logo, "modulate:a", 0.0, 0.3)
+	tween.tween_callback(func(): _build_about_content())
+
+func _build_about_content() -> void:
+	# Center container for all about text
+	var container = VBoxContainer.new()
+	container.set_anchors_preset(Control.PRESET_FULL_RECT)
+	container.alignment = BoxContainer.ALIGNMENT_CENTER
+	container.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	about_panel.add_child(container)
+	
+	var font = load("res://Assets/Font/Pixeled.ttf")
+	
+	# "Game by RUI" header
+	var header = Label.new()
+	header.text = "Game by RUI"
+	header.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	header.add_theme_color_override("font_color", Color(1.0, 0.85, 0.3))
+	header.add_theme_font_size_override("font_size", 28)
+	if font: header.add_theme_font_override("font", font)
+	header.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	container.add_child(header)
+	
+	var spacer1 = Control.new()
+	spacer1.custom_minimum_size = Vector2(0, 30)
+	container.add_child(spacer1)
+	
+	# Credits
+	var credits_data = [
+		"Audrick Estrello - Lead Programmer",
+		"Nathanael Wijaya - Programmer, UI Designer",
+		"Nathaniel Dustin H. - 2D Artist, Animator",
+		"Evan Radithya G. - Environment Artist",
+	]
+	
+	for line in credits_data:
+		var lbl = Label.new()
+		lbl.text = line
+		lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		lbl.add_theme_color_override("font_color", Color.WHITE)
+		lbl.add_theme_font_size_override("font_size", 16)
+		if font: lbl.add_theme_font_override("font", font)
+		lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		container.add_child(lbl)
+	
+	var spacer2 = Control.new()
+	spacer2.custom_minimum_size = Vector2(0, 25)
+	container.add_child(spacer2)
+	
+	# Music credit
+	var music_lbl = Label.new()
+	music_lbl.text = "Music by Eric Matyas - www.soundimage.org"
+	music_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	music_lbl.add_theme_color_override("font_color", Color(0.7, 0.85, 1.0))
+	music_lbl.add_theme_font_size_override("font_size", 14)
+	if font: music_lbl.add_theme_font_override("font", font)
+	music_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	container.add_child(music_lbl)
+	
+	var spacer3 = Control.new()
+	spacer3.custom_minimum_size = Vector2(0, 50)
+	container.add_child(spacer3)
+	
+	# Back button
+	var back_btn = Button.new()
+	back_btn.text = "BACK"
+	back_btn.custom_minimum_size = Vector2(200, 50)
+	back_btn.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	back_btn.add_theme_font_size_override("font_size", 18)
+	if font: back_btn.add_theme_font_override("font", font)
+	
+	var btn_style = StyleBoxFlat.new()
+	btn_style.bg_color = Color(0.2, 0.2, 0.2, 0.9)
+	btn_style.border_color = Color(1.0, 1.0, 1.0, 0.4)
+	btn_style.set_border_width_all(2)
+	btn_style.set_corner_radius_all(4)
+	btn_style.set_content_margin_all(8)
+	back_btn.add_theme_stylebox_override("normal", btn_style)
+	
+	var btn_hover = StyleBoxFlat.new()
+	btn_hover.bg_color = Color(0.3, 0.3, 0.3, 0.95)
+	btn_hover.border_color = Color(1.0, 1.0, 1.0, 0.7)
+	btn_hover.set_border_width_all(2)
+	btn_hover.set_corner_radius_all(4)
+	btn_hover.set_content_margin_all(8)
+	back_btn.add_theme_stylebox_override("hover", btn_hover)
+	
+	back_btn.pressed.connect(_close_about)
+	back_btn.mouse_entered.connect(_on_button_hover)
+	container.add_child(back_btn)
+	
+	# Fade in content
+	container.modulate.a = 0.0
+	var tween = create_tween()
+	tween.tween_property(container, "modulate:a", 1.0, 0.3)
+
+func _close_about() -> void:
+	UISoundManager.play_click()
+	if about_panel and is_instance_valid(about_panel):
+		var vbox = $VBoxContainer
+		var logo = logo_rect
+		var tween = create_tween()
+		tween.tween_property(about_panel, "color:a", 0.0, 0.3)
+		tween.parallel().tween_property(vbox, "modulate:a", 1.0, 0.3)
+		tween.parallel().tween_property(logo, "modulate:a", 1.0, 0.3)
+		tween.tween_callback(func():
+			about_panel.queue_free()
+			about_panel = null
+		)
 
 func _close_settings():
 	settings_panel.visible = false
