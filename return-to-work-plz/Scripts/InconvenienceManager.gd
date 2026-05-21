@@ -38,6 +38,10 @@ var is_reverse_controls: bool = false
 var reverse_controls_direction: int = -1  # -1 = invert to left, 1 = invert to right
 var pending_reverse_task_id: String = ""  # Track reversed task for cross-room reset
 
+# Jumpscare state (loop 10+)
+var _jumpscare_task_index: int = -1  # Which task index triggers the jumpscare this loop
+var _jumpscare_triggered_this_loop: bool = false
+
 var red_ambience_rect: ColorRect = null
 var blur_rect: ColorRect = null
 var time_stop_overlay: CanvasLayer = null
@@ -137,6 +141,12 @@ func _on_loop_restarted(loop_num: int) -> void:
 	_setup_loop_quotas(loop_num)
 	_update_red_ambience(loop_num)
 	_reset_permanent_inconveniences()
+	# Jumpscare: pick a random task index for this loop (loop 10+)
+	_jumpscare_triggered_this_loop = false
+	if loop_num >= 10:
+		_jumpscare_task_index = randi_range(0, GameManager.objectives.size() - 1)
+	else:
+		_jumpscare_task_index = -1
 
 func _reset_permanent_inconveniences() -> void:
 	is_shaky = false
@@ -192,6 +202,13 @@ func full_reset() -> void:
 	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 
 func _on_objective_completed(_task_id: String) -> void:
+	# Jumpscare: loop 10+, triggers once per loop on a random task
+	if GameManager.current_loop >= 10 and not _jumpscare_triggered_this_loop:
+		# Check if this is the chosen task
+		if GameManager.current_task_index - 1 == _jumpscare_task_index:
+			_jumpscare_triggered_this_loop = true
+			_show_jumpscare()
+	
 	if base_chance <= 0.0: return
 	
 	# Don't trigger inconveniences when player is about to clock out
@@ -654,3 +671,29 @@ func _hide_time_stop_overlay() -> void:
 	else:
 		time_stop_overlay.queue_free()
 		time_stop_overlay = null
+
+# ── JUMPSCARE (Loop 10+) ──
+func _show_jumpscare() -> void:
+	var tex = load("res://Assets/jumpscare.png")
+	if not tex:
+		return
+	
+	var canvas = CanvasLayer.new()
+	canvas.layer = 150  # Above everything
+	
+	var img_rect = TextureRect.new()
+	img_rect.texture = tex
+	img_rect.set_anchors_preset(Control.PRESET_FULL_RECT)
+	img_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	img_rect.stretch_mode = TextureRect.STRETCH_SCALE
+	img_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	canvas.add_child(img_rect)
+	
+	add_child(canvas)
+	
+	# Remove after 0.1 seconds (subliminal flash)
+	var timer = get_tree().create_timer(0.1, true, false, true)
+	timer.timeout.connect(func():
+		if is_instance_valid(canvas):
+			canvas.queue_free()
+	)
