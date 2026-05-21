@@ -115,6 +115,7 @@ func _get_clock_frame(index: int) -> Texture2D:
 	return tex
 
 func _on_current_task_changed(_idx: int) -> void:
+	_refresh_task_text()
 	_update_direction_arrow()
 
 func _on_room_changed(_room_name: String) -> void:

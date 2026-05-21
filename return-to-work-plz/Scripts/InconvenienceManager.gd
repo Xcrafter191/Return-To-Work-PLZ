@@ -147,6 +147,12 @@ func _reset_permanent_inconveniences() -> void:
 	is_time_erased = false
 	pending_reverse_task_id = ""
 	_hide_time_stop_overlay()
+
+## Full reset — clears everything including red ambience. Call on game over / exit to menu.
+func full_reset() -> void:
+	_reset_permanent_inconveniences()
+	if red_ambience_rect:
+		red_ambience_rect.color.a = 0.0
 	
 	if is_gibberish:
 		is_gibberish = false

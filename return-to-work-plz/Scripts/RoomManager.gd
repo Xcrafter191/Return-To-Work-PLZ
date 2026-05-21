@@ -199,12 +199,15 @@ func _apply_boundary(side: String, need_wall: bool, need_exit: bool) -> void:
 		wall.process_mode = Node.PROCESS_MODE_INHERIT if need_wall else Node.PROCESS_MODE_DISABLED
 		wall.visible = need_wall
 	elif need_wall:
-		# Room tidak punya WallLeft/WallRight (special rooms) — spawn dinamis
+		# Room tidak punya WallLeft/WallRight — spawn dinamis
 		_spawn_temp_wall(side)
 	
 	# Handle exit node
 	if exit:
 		exit.process_mode = Node.PROCESS_MODE_INHERIT if need_exit else Node.PROCESS_MODE_DISABLED
+	elif need_exit:
+		# Room doesn't have an exit on this side — spawn a temporary one
+		_spawn_temp_exit(side)
 	if visual: visual.visible = need_exit
 	if label:  label.visible  = need_exit
 
@@ -234,6 +237,45 @@ func _spawn_temp_wall(side: String) -> void:
 		shape.position = Vector2(-2, 55)
 	
 	print("[RoomManager] Spawned temp wall on %s for room '%s'" % [side, current_room_name])
+
+func _spawn_temp_exit(side: String) -> void:
+	# Cegah duplikat
+	var existing = current_room.get_node_or_null("TempExit" + side)
+	if existing: return
+	
+	var exit_area = Area2D.new()
+	exit_area.name = "TempExit" + side
+	exit_area.collision_layer = 0
+	exit_area.collision_mask = 1  # Detect player (layer 1)
+	
+	var shape = CollisionShape2D.new()
+	var rect = RectangleShape2D.new()
+	rect.size = Vector2(42, 972)  # Match exit collision size from room scenes
+	shape.shape = rect
+	exit_area.add_child(shape)
+	current_room.add_child(exit_area)
+	
+	# Position at room edge, matching existing exit positions
+	var exit_dir: int
+	if side == "Left":
+		exit_area.position = Vector2(10, 780)
+		shape.position = Vector2(0, -290)
+		exit_dir = -1
+	else:
+		exit_area.position = Vector2(1910, 780)
+		shape.position = Vector2(0, -290)
+		exit_dir = 1
+	
+	# Connect the body_entered signal to trigger room transition
+	exit_area.body_entered.connect(func(body: Node2D):
+		if body.is_in_group("player"):
+			if exit_dir == -1:
+				go_left()
+			else:
+				go_right()
+	)
+	
+	print("[RoomManager] Spawned temp exit on %s for room '%s'" % [side, current_room_name])
 
 func go_left() -> void:
 	var active_slots = active_slots_f1 if current_floor == 1 else active_slots_f2

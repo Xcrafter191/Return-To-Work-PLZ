@@ -80,7 +80,7 @@ func _trigger_game_over() -> void:
 		player.cancel_task()
 
 	if has_node("/root/InconvenienceManager"):
-		InconvenienceManager._reset_permanent_inconveniences()
+		InconvenienceManager.full_reset()
 	
 	# Show the GameOver overlay instead of changing scene
 	var game_over = get_tree().current_scene.get_node_or_null("GameOver")
@@ -105,7 +105,7 @@ func reset_game_state() -> void:
 	_build_objectives()
 	
 	if has_node("/root/InconvenienceManager"):
-		InconvenienceManager._reset_permanent_inconveniences()
+		InconvenienceManager.full_reset()
 
 	if has_node("/root/SkillCheck"):
 		SkillCheck.reset_tutorial_state()
@@ -228,9 +228,9 @@ func reverse_last_task() -> void:
 	if current_task_index <= 0:
 		print("[GameManager] Time Reverse: No task to reverse!")
 		return
-	# Don't reverse clock_in — that would be confusing
-	if current_task_index == 1:
-		print("[GameManager] Time Reverse: Can't reverse clock_in.")
+	# Don't reverse clock_in or coffee — those are intro tasks
+	if current_task_index <= 2:
+		print("[GameManager] Time Reverse: Can't reverse past coffee (index %d)." % current_task_index)
 		return
 	
 	current_task_index -= 1
@@ -244,7 +244,29 @@ func reverse_last_task() -> void:
 	print("[GameManager] Time Reverse! Must redo: %s" % obj["id"])
 
 ## Force Room Swap — inject a random special room into Floor 2 layout (ADD only, never removes)
+## Also randomizes layout if loop 4+ for extra chaos
 func force_inject_special_room() -> void:
+	# If loop 4+, also do a random room swap for chaos
+	if current_loop >= 4:
+		var swappable_slots = []
+		for slot in RoomManager.current_layout.keys():
+			if "Elevator" in slot: continue
+			if slot == "Slot_F1_Left": continue
+			swappable_slots.append(slot)
+		if swappable_slots.size() >= 2:
+			var idx_a = randi() % swappable_slots.size()
+			var idx_b = randi() % swappable_slots.size()
+			while idx_b == idx_a:
+				idx_b = randi() % swappable_slots.size()
+			var slot_a = swappable_slots[idx_a]
+			var slot_b = swappable_slots[idx_b]
+			var temp = RoomManager.current_layout[slot_a]
+			RoomManager.current_layout[slot_a] = RoomManager.current_layout[slot_b]
+			RoomManager.current_layout[slot_b] = temp
+			print("[GameManager] Force swap: %s ↔ %s" % [slot_a, slot_b])
+		_validate_objective_rooms_present()
+	
+	# Inject a special room
 	var special_rooms = ["Special_Castle", "Special_Beach", "Special_Ikea", "Special_Market", "Special_Spaceship"]
 	# Filter out rooms already in layout
 	var available_rooms = []
@@ -267,14 +289,6 @@ func force_inject_special_room() -> void:
 			continue
 		if RoomManager.active_slots_f2[i].begins_with("Slot_Special"):
 			continue
-		# Defensive check: don't inject next to a slot containing an objective-required room
-		var slot_at_idx = RoomManager.active_slots_f2[i]
-		if slot_at_idx in RoomManager.current_layout:
-			var room_at_slot = RoomManager.current_layout[slot_at_idx]
-			if room_at_slot in OBJECTIVE_REQUIRED_ROOMS:
-				continue
-			if room_at_slot.begins_with("Cubicle"):
-				continue
 		valid_indices.append(i)
 	
 	if valid_indices.size() > 0:
@@ -387,8 +401,48 @@ func shuffle_rooms(is_start_of_loop: bool = false) -> void:
 	for key in keys_to_remove:
 		RoomManager.current_layout.erase(key)
 	
-	# Room swap triggers from loop 3 onwards (guaranteed)
-	# It only ADDS rooms, never removes or shuffles existing ones
+	# ── PHASE 1: Room layout randomization (loop 4+) ──
+	# Shuffle non-objective rooms between their slots for chaos
+	if current_loop >= 4:
+		# Determine how many rooms to randomize based on loop
+		var num_swaps: int = 1
+		if current_loop >= 5:
+			num_swaps = 2
+		if current_loop >= 7:
+			num_swaps = 3
+		if current_loop >= 10:
+			num_swaps = 5
+		
+		# Collect swappable slots (not Lobby, not Elevator, not objective-required)
+		var swappable_slots = []
+		for slot in RoomManager.current_layout.keys():
+			if "Elevator" in slot: continue
+			if slot == "Slot_F1_Left": continue  # Lobby slot never moves
+			var room_in_slot = RoomManager.current_layout[slot]
+			# Objective rooms CAN be swapped between slots (they stay in layout, just move position)
+			swappable_slots.append(slot)
+		
+		# Perform random pair swaps
+		for _i in range(num_swaps):
+			if swappable_slots.size() < 2:
+				break
+			var idx_a = randi() % swappable_slots.size()
+			var idx_b = randi() % swappable_slots.size()
+			while idx_b == idx_a and swappable_slots.size() > 1:
+				idx_b = randi() % swappable_slots.size()
+			var slot_a = swappable_slots[idx_a]
+			var slot_b = swappable_slots[idx_b]
+			# Swap the rooms between these two slots
+			var temp = RoomManager.current_layout[slot_a]
+			RoomManager.current_layout[slot_a] = RoomManager.current_layout[slot_b]
+			RoomManager.current_layout[slot_b] = temp
+			print("[GameManager] Swapped rooms: %s ↔ %s" % [slot_a, slot_b])
+		
+		# Validate objective rooms are still present after swaps
+		_validate_objective_rooms_present()
+	
+	# ── PHASE 2: Inject special rooms (loop 3+) ──
+	# Special rooms are ADDED to the layout, never replacing regular rooms
 	var should_inject: bool = false
 	if is_start_of_loop:
 		if current_loop >= 3:
@@ -425,14 +479,6 @@ func shuffle_rooms(is_start_of_loop: bool = false) -> void:
 					continue
 				if RoomManager.active_slots_f2[i].begins_with("Slot_Special"):
 					continue
-				# Don't inject next to a slot containing an objective-required room
-				var slot_at_idx = RoomManager.active_slots_f2[i]
-				if slot_at_idx in RoomManager.current_layout:
-					var room_at_slot = RoomManager.current_layout[slot_at_idx]
-					if room_at_slot in OBJECTIVE_REQUIRED_ROOMS:
-						continue
-					if room_at_slot.begins_with("Cubicle"):
-						continue
 				valid_indices.append(i)
 			
 			if valid_indices.size() > 0:
@@ -442,7 +488,7 @@ func shuffle_rooms(is_start_of_loop: bool = false) -> void:
 				RoomManager.current_layout[slot_id] = chosen_room
 				print("[GameManager] Injected special room %s at F2 index %d" % [chosen_room, insert_idx])
 	
-	# Post-injection validation: ensure all objective-required rooms are still present
+	# Final validation: ensure all objective-required rooms are still present
 	_validate_objective_rooms_present()
 
 ## Post-shuffle validation: ensure all objective-required rooms remain in the layout.

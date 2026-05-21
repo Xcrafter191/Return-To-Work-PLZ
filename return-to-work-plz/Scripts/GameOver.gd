@@ -65,6 +65,8 @@ func _on_main_menu_pressed():
 	get_tree().paused = false
 	if has_node("/root/MusicManager"):
 		MusicManager.stop_music()
+	if has_node("/root/GameManager"):
+		GameManager.reset_game_state()
 	get_tree().change_scene_to_file("res://Scenes/UI/MainMenu.tscn")
 
 func _on_restart_button_pressed() -> void:
