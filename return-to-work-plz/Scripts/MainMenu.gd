@@ -326,48 +326,6 @@ func _on_exit_pressed():
 	print("Exit button pressed")
 	get_tree().quit()
 
-func _create_about_button() -> void:
-	about_button = Button.new()
-	about_button.text = "ABOUT"
-	about_button.custom_minimum_size = Vector2(400, 70)
-	
-	# Style to match the menu aesthetic
-	var normal_style = StyleBoxFlat.new()
-	normal_style.bg_color = Color(0.15, 0.15, 0.15, 0.9)
-	normal_style.border_color = Color(1.0, 1.0, 1.0, 0.3)
-	normal_style.set_border_width_all(2)
-	normal_style.set_corner_radius_all(4)
-	normal_style.set_content_margin_all(8)
-	about_button.add_theme_stylebox_override("normal", normal_style)
-	
-	var hover_style = StyleBoxFlat.new()
-	hover_style.bg_color = Color(0.25, 0.25, 0.25, 0.95)
-	hover_style.border_color = Color(1.0, 1.0, 1.0, 0.6)
-	hover_style.set_border_width_all(2)
-	hover_style.set_corner_radius_all(4)
-	hover_style.set_content_margin_all(8)
-	about_button.add_theme_stylebox_override("hover", hover_style)
-	
-	var pressed_style = StyleBoxFlat.new()
-	pressed_style.bg_color = Color(0.1, 0.1, 0.1, 1.0)
-	pressed_style.border_color = Color(1.0, 1.0, 1.0, 0.8)
-	pressed_style.set_border_width_all(2)
-	pressed_style.set_corner_radius_all(4)
-	pressed_style.set_content_margin_all(8)
-	about_button.add_theme_stylebox_override("pressed", pressed_style)
-	
-	about_button.add_theme_font_size_override("font_size", 20)
-	about_button.add_theme_color_override("font_color", Color.WHITE)
-	about_button.add_theme_color_override("font_hover_color", Color(1.0, 0.9, 0.6))
-	
-	# Insert between Options and Exit in VBoxContainer
-	var vbox = $VBoxContainer
-	vbox.add_child(about_button)
-	vbox.move_child(about_button, options_button.get_index() + 1)
-	
-	about_button.pressed.connect(_on_about_pressed)
-	about_button.mouse_entered.connect(_on_button_hover)
-
 func _on_about_pressed() -> void:
 	UISoundManager.play_click()
 	_show_about_panel()
