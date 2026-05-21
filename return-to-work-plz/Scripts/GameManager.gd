@@ -267,8 +267,7 @@ func force_inject_special_room() -> void:
 		_validate_objective_rooms_present()
 	
 	# Inject a special room
-	var special_rooms = ["Special_Castle", "Special_Beach", "Special_Ikea", "Special_Market", "Special_Spaceship"]
-	# Filter out rooms already in layout
+	var special_rooms = ["Special_Beach", "Special_Ikea", "Special_Market"]
 	var available_rooms = []
 	var existing_rooms = RoomManager.current_layout.values()
 	for room in special_rooms:
@@ -459,7 +458,7 @@ func shuffle_rooms(is_start_of_loop: bool = false) -> void:
 		if current_loop >= 8:
 			num_injections = 3
 		
-		var special_rooms = ["Special_Castle", "Special_Beach", "Special_Ikea", "Special_Market", "Special_Spaceship"]
+		var special_rooms = ["Special_Beach", "Special_Ikea", "Special_Market"]
 		special_rooms.shuffle()
 		
 		for n in range(num_injections):
