@@ -22,10 +22,7 @@ size = Vector2(42, 972.5)
 size = Vector2(40, 917)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_emailarea"]
-size = Vector2(80, 80)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_sheetarea"]
-size = Vector2(80, 80)
+size = Vector2(248, 448)
 
 [node name="Cubicle_Left" type="Node2D" unique_id=1557580093]
 
@@ -79,18 +76,8 @@ task_id = "type_report"
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Workstation/DetectionArea" unique_id=457516351]
-position = Vector2(-98, -276)
+position = Vector2(557, -297)
 shape = SubResource("RectangleShape2D_workarea")
-
-[node name="PromptLabel" type="Label" parent="Workstation" unique_id=1691507351]
-visible = false
-modulate = Color(0, 0, 0, 1)
-offset_left = -60.0
-offset_top = -100.0
-offset_right = 60.0
-offset_bottom = -80.0
-text = "Press [E] to work"
-horizontal_alignment = 1
 
 [node name="ExitLeft" type="Area2D" parent="." unique_id=1467300475]
 position = Vector2(10, 733)
@@ -110,14 +97,6 @@ offset_right = 30.0
 offset_bottom = 883.0
 color = Color(0.3, 0.3, 0.5, 0.4)
 
-[node name="ExitLabel_Left" type="Label" parent="." unique_id=1235615835]
-offset_left = 10.0
-offset_top = 760.0
-offset_right = 120.0
-offset_bottom = 790.0
-text = "← Lounge"
-horizontal_alignment = 1
-
 [node name="ExitRight" type="Area2D" parent="." unique_id=1848990083]
 position = Vector2(1910, 733)
 collision_layer = 0
@@ -132,14 +111,6 @@ offset_top = 583.0
 offset_right = 1920.0
 offset_bottom = 883.0
 color = Color(0.3, 0.3, 0.5, 0.4)
-
-[node name="ExitLabel_Right" type="Label" parent="." unique_id=769523559]
-offset_left = 1800.0
-offset_top = 760.0
-offset_right = 1910.0
-offset_bottom = 790.0
-text = "→ Elevator"
-horizontal_alignment = 1
 
 [node name="WallRight" type="StaticBody2D" parent="." unique_id=769106155]
 position = Vector2(1946, 540)
@@ -169,37 +140,5 @@ task_id = "reply_email"
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EmailStation/DetectionArea" unique_id=280691694]
-position = Vector2(0, -40)
+position = Vector2(651, -245)
 shape = SubResource("RectangleShape2D_emailarea")
-
-[node name="PromptLabel" type="Label" parent="EmailStation" unique_id=1251176507]
-visible = false
-offset_left = -80.0
-offset_top = -100.0
-offset_right = 80.0
-offset_bottom = -80.0
-text = "Press [E] - Reply email"
-horizontal_alignment = 1
-
-[node name="SpreadsheetStation" type="Node2D" parent="." unique_id=1038356516]
-position = Vector2(1400, 910)
-script = ExtResource("5_interact")
-task_name = "Fixing spreadsheet..."
-task_duration = 3.5
-task_id = "fix_spreadsheet"
-
-[node name="DetectionArea" type="Area2D" parent="SpreadsheetStation" unique_id=157981374]
-collision_layer = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SpreadsheetStation/DetectionArea" unique_id=979029316]
-position = Vector2(0, -40)
-shape = SubResource("RectangleShape2D_sheetarea")
-
-[node name="PromptLabel" type="Label" parent="SpreadsheetStation" unique_id=789070685]
-visible = false
-offset_left = -80.0
-offset_top = -100.0
-offset_right = 80.0
-offset_bottom = -80.0
-text = "Press [E] - Fix spreadsheet"
-horizontal_alignment = 1

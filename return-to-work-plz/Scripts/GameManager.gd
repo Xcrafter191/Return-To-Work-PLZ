@@ -102,6 +102,12 @@ func reset_game_state() -> void:
 	if has_node("/root/InconvenienceManager"):
 		InconvenienceManager._reset_permanent_inconveniences()
 
+	if has_node("/root/SkillCheck"):
+		SkillCheck.reset_tutorial_state()
+
+	if has_node("/root/AttackSequenceManager"):
+		AttackSequenceManager.reset_attack_state()
+
 	if has_node("/root/RoomManager"):
 		RoomManager.reset_layout()
 	loop_restarted.emit(1)
@@ -238,6 +244,14 @@ func force_inject_special_room() -> void:
 	for i in range(1, RoomManager.active_slots_f2.size()):
 		if not "Elevator" in RoomManager.active_slots_f2[i] and not "Elevator" in RoomManager.active_slots_f2[i-1]:
 			if not RoomManager.active_slots_f2[i].begins_with("Slot_Special"):
+				# Defensive check: don't inject next to a slot containing an objective-required room
+				var slot_at_idx = RoomManager.active_slots_f2[i]
+				if slot_at_idx in RoomManager.current_layout:
+					var room_at_slot = RoomManager.current_layout[slot_at_idx]
+					if room_at_slot in OBJECTIVE_REQUIRED_ROOMS:
+						continue
+					if room_at_slot.begins_with("Cubicle"):
+						continue
 				valid_indices.append(i)
 	
 	if valid_indices.size() > 0:
@@ -315,15 +329,27 @@ func restore_npc_positions(room_name: String, room_node: Node2D) -> void:
 				child.global_position = positions[child.name]
 
 # ── Dynamic Room Swapping ──
+const OBJECTIVE_REQUIRED_ROOMS = ["Lobby", "Lounge", "Meeting", "Printer", "Cubicle_Middle"]
+
 func shuffle_rooms(is_start_of_loop: bool = false) -> void:
-	# Expand floor 2 at Loop 5
+	# Expand floor 2 at Loop 5 — BEFORE collecting swappable rooms
 	if current_loop >= 5:
 		if "Slot_Cubicle_Left" not in RoomManager.active_slots_f2:
-			print("[GameManager] Expanding Floor 2 layout (Loop 5+)")
-			RoomManager.active_slots_f2.insert(1, "Slot_Cubicle_Left")
-			RoomManager.active_slots_f2.insert(3, "Slot_Cubicle_Right")
-			RoomManager.current_layout["Slot_Cubicle_Left"] = "Cubicle_Left"
-			RoomManager.current_layout["Slot_Cubicle_Right"] = "Cubicle_Right"
+			# Deduplication: only add Cubicle_Left/Right if not already in layout values
+			var existing_rooms = RoomManager.current_layout.values()
+			var should_add_left = "Cubicle_Left" not in existing_rooms
+			var should_add_right = "Cubicle_Right" not in existing_rooms
+			
+			if should_add_left or should_add_right:
+				print("[GameManager] Expanding Floor 2 layout (Loop 5+)")
+			if should_add_left:
+				RoomManager.active_slots_f2.insert(1, "Slot_Cubicle_Left")
+				RoomManager.current_layout["Slot_Cubicle_Left"] = "Cubicle_Left"
+			if should_add_right:
+				# Adjust insert index based on whether left was added
+				var right_idx = 3 if should_add_left else 2
+				RoomManager.active_slots_f2.insert(right_idx, "Slot_Cubicle_Right")
+				RoomManager.current_layout["Slot_Cubicle_Right"] = "Cubicle_Right"
 	
 	# Clean up any existing special rooms from previous shuffle
 	var keys_to_remove = []
@@ -361,6 +387,9 @@ func shuffle_rooms(is_start_of_loop: bool = false) -> void:
 		
 		for i in range(slots_to_swap.size()):
 			RoomManager.current_layout[slots_to_swap[i]] = swappable_rooms[i]
+		
+		# Post-shuffle validation: ensure all objective-required rooms are present
+		_validate_objective_rooms_present()
 			
 	# Inject a Special Room at the start of the loop
 	if is_start_of_loop:
@@ -372,6 +401,14 @@ func shuffle_rooms(is_start_of_loop: bool = false) -> void:
 			var valid_indices = []
 			for i in range(1, RoomManager.active_slots_f2.size()):
 				if not "Elevator" in RoomManager.active_slots_f2[i] and not "Elevator" in RoomManager.active_slots_f2[i-1]:
+					# Defensive check: don't inject at a slot containing an objective-required room
+					var slot_at_idx = RoomManager.active_slots_f2[i]
+					if slot_at_idx in RoomManager.current_layout:
+						var room_at_slot = RoomManager.current_layout[slot_at_idx]
+						if room_at_slot in OBJECTIVE_REQUIRED_ROOMS:
+							continue
+						if room_at_slot.begins_with("Cubicle"):
+							continue
 					valid_indices.append(i)
 			
 			if valid_indices.size() > 0:
@@ -380,6 +417,50 @@ func shuffle_rooms(is_start_of_loop: bool = false) -> void:
 				RoomManager.active_slots_f2.insert(insert_idx, slot_id)
 				RoomManager.current_layout[slot_id] = chosen_room
 				print("[GameManager] Spawned special room %s at F2 index %d" % [chosen_room, insert_idx])
+
+## Post-shuffle validation: ensure all objective-required rooms remain in the layout.
+## If any are missing, swap them back in by replacing a non-objective room.
+func _validate_objective_rooms_present() -> void:
+	var layout_values = RoomManager.current_layout.values()
+	
+	for required_room in OBJECTIVE_REQUIRED_ROOMS:
+		if required_room in layout_values:
+			continue
+		
+		# Special handling: if Cubicle_Middle is missing, check if any Cubicle variant exists
+		if required_room == "Cubicle_Middle":
+			var has_cubicle_variant = false
+			for room in layout_values:
+				if room.begins_with("Cubicle"):
+					has_cubicle_variant = true
+					break
+			if has_cubicle_variant:
+				continue
+		
+		# Required room is missing — find a non-objective slot to swap it into
+		print("[GameManager] Post-shuffle fix: %s missing from layout, swapping back in" % required_room)
+		var replaced = false
+		for slot in RoomManager.current_layout.keys():
+			if "Elevator" in slot: continue
+			if slot == "Slot_F1_Left": continue  # Never touch Lobby slot
+			var current_room_in_slot = RoomManager.current_layout[slot]
+			# Don't replace another objective-required room or cubicle variant
+			if current_room_in_slot in OBJECTIVE_REQUIRED_ROOMS:
+				continue
+			if current_room_in_slot.begins_with("Cubicle"):
+				continue
+			if current_room_in_slot.begins_with("Special"):
+				continue
+			# Replace this non-objective room with the missing required room
+			RoomManager.current_layout[slot] = required_room
+			replaced = true
+			break
+		
+		if not replaced:
+			push_warning("[GameManager] Could not find a slot to restore %s!" % required_room)
+		
+		# Refresh layout_values for subsequent checks
+		layout_values = RoomManager.current_layout.values()
 
 func determine_special_npc_spawns() -> void:
 	special_npc_assignments.clear()

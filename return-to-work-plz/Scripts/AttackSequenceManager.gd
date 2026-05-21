@@ -8,10 +8,15 @@ signal sequence_finished
 @onready var dialogue_label: Label = null
 @onready var dialogue_name_label: Label = null
 @onready var fake_console: TextEdit = null
+@onready var cmd_panel: TextureRect = null
+@onready var cmd_title_label: Label = null
+@onready var cmd_body_label: RichTextLabel = null
+var _use_cmd_panel: bool = false
 
 var is_attacking: bool = false
 var _current_inconvenience: String = ""
 var total_inconveniences: int = 0
+var _first_attack_seen: bool = false
 
 var milestone_dialogues = {
 	1: ["You enjoy this, don't you?", "Making me relive the same five minutes like a broken office microwave.", "Fine. HR can't stop me now."],
@@ -23,7 +28,6 @@ var inconvenience_dialogues = {
 	"lights_out": ["Power-saving mode activated.", "You're welcome, environment."],
 	"random_ui": ["Accessibility settings are now emotionally driven."],
 	"shaky": ["Did the building always wobble like cheap jelly?"],
-	"clock_stop": ["You like loops, right?", "Enjoy eternity."],
 	"sprite_flip": ["Maximum workplace efficiency achieved.", "Unfortunately, upside down."],
 	"blur": ["Your eyes are filing a formal complaint."],
 	"fps": ["Congratulations!", "You are now running on office Wi-Fi."],
@@ -48,7 +52,6 @@ var console_commands = {
 	"lights_out": "[st_brightness set 0]",
 	"random_ui": "[ui_setsize set float(0.1, 0.9)]",
 	"shaky": "[ui_transform_x_y set float(0.4, 0.6)]",
-	"clock_stop": "[st_time set 0]",
 	"sprite_flip": "[sprites_transform_yzoom set -1]",
 	"blur": "[st_overlay linear set 0.2, st_overlay alpha set 0.5]",
 	"fps": "[st_framerate set 5]",
@@ -135,18 +138,56 @@ func _setup_ui() -> void:
 	# Initially hide the dialogue
 	dialogue_bubble.modulate.a = 0.0
 	
-	# ── Console (small, will be positioned above player's hand by user) ──
-	fake_console = TextEdit.new()
-	fake_console.set_anchors_preset(Control.PRESET_CENTER)
-	fake_console.offset_left = -200
-	fake_console.offset_right = 200
-	fake_console.offset_top = 50
-	fake_console.offset_bottom = 200
-	fake_console.editable = false
-	fake_console.add_theme_color_override("font_color", Color.GREEN)
-	fake_console.add_theme_font_size_override("font_size", 18)
-	fake_console.modulate.a = 0.0
-	popup_panel.add_child(fake_console)
+	# ── Console panel (CMD.png-based or fallback) ──
+	var cmd_texture = load("res://Assets/CMD.png")
+	
+	if cmd_texture:
+		_use_cmd_panel = true
+		cmd_panel = TextureRect.new()
+		cmd_panel.set_anchors_preset(Control.PRESET_CENTER)
+		cmd_panel.offset_left = -200
+		cmd_panel.offset_right = 200
+		cmd_panel.offset_top = 50
+		cmd_panel.offset_bottom = 200
+		cmd_panel.texture = cmd_texture
+		cmd_panel.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		cmd_panel.stretch_mode = TextureRect.STRETCH_SCALE
+		cmd_panel.modulate.a = 0.0
+		popup_panel.add_child(cmd_panel)
+		
+		# Body text area using RichTextLabel
+		cmd_body_label = RichTextLabel.new()
+		cmd_body_label.set_anchors_preset(Control.PRESET_FULL_RECT)
+		cmd_body_label.offset_left = 10
+		cmd_body_label.offset_top = 30
+		cmd_body_label.offset_right = -10
+		cmd_body_label.offset_bottom = -10
+		cmd_body_label.bbcode_enabled = false
+		cmd_body_label.scroll_following = true
+		if font:
+			cmd_body_label.add_theme_font_override("normal_font", font)
+		cmd_body_label.add_theme_font_size_override("normal_font_size", 14)
+		cmd_body_label.add_theme_color_override("default_color", Color(1, 1, 1, 1))
+		cmd_panel.add_child(cmd_body_label)
+		
+		# Keep fake_console reference pointing to a hidden TextEdit for compatibility
+		fake_console = TextEdit.new()
+		fake_console.visible = false
+		popup_panel.add_child(fake_console)
+	else:
+		push_warning("CMD.png not found at res://Assets/CMD.png — falling back to ColorRect console panel")
+		_use_cmd_panel = false
+		fake_console = TextEdit.new()
+		fake_console.set_anchors_preset(Control.PRESET_CENTER)
+		fake_console.offset_left = -200
+		fake_console.offset_right = 200
+		fake_console.offset_top = 50
+		fake_console.offset_bottom = 200
+		fake_console.editable = false
+		fake_console.add_theme_color_override("font_color", Color(1, 1, 1, 1))
+		fake_console.add_theme_font_size_override("font_size", 18)
+		fake_console.modulate.a = 0.0
+		popup_panel.add_child(fake_console)
 
 func trigger_attack(inconvenience_name: String) -> void:
 	if is_attacking: return
@@ -157,8 +198,12 @@ func trigger_attack(inconvenience_name: String) -> void:
 	# Pause the game
 	get_tree().paused = true
 	popup_panel.visible = true
-	fake_console.text = ""
-	fake_console.modulate.a = 0.0
+	if _use_cmd_panel:
+		cmd_body_label.text = ""
+		cmd_panel.modulate.a = 0.0
+	else:
+		fake_console.text = ""
+		fake_console.modulate.a = 0.0
 	dialogue_label.text = ""
 	dialogue_bubble.modulate.a = 0.0
 	
@@ -202,7 +247,10 @@ func trigger_attack(inconvenience_name: String) -> void:
 	tween.tween_interval(0.3)
 	
 	# Fade in console and type
-	tween.tween_property(fake_console, "modulate:a", 0.8, 0.4)
+	if _use_cmd_panel:
+		tween.tween_property(cmd_panel, "modulate:a", 0.8, 0.4)
+	else:
+		tween.tween_property(fake_console, "modulate:a", 0.8, 0.4)
 	tween.tween_callback(_type_console_command)
 
 func _type_console_command() -> void:
@@ -217,10 +265,18 @@ func _type_console_command() -> void:
 	var tween = create_tween().set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
 	var type_speed = 0.04
 	
-	fake_console.text = ""
-	for i in range(full_text.length()):
-		tween.tween_callback(func(): fake_console.text += full_text[i])
-		tween.tween_interval(type_speed)
+	if _use_cmd_panel:
+		cmd_body_label.text = ""
+		for i in range(full_text.length()):
+			var char_idx = i
+			tween.tween_callback(func(): cmd_body_label.text += full_text[char_idx])
+			tween.tween_interval(type_speed)
+	else:
+		fake_console.text = ""
+		for i in range(full_text.length()):
+			var char_idx = i
+			tween.tween_callback(func(): fake_console.text += full_text[char_idx])
+			tween.tween_interval(type_speed)
 		
 	tween.tween_interval(1.5)
 	tween.tween_callback(_finish_attack)
@@ -240,3 +296,19 @@ func _finish_attack() -> void:
 			player.play_state(idle_anim)
 	
 	sequence_finished.emit()
+	
+	if not _first_attack_seen:
+		_first_attack_seen = true
+		_show_retaliation_tutorial()
+
+func _show_retaliation_tutorial() -> void:
+	var timer = get_tree().create_timer(0.3)
+	timer.timeout.connect(func():
+		var tutorial_scene = load("res://Scenes/UI/LoopTutorial.tscn")
+		if tutorial_scene:
+			var tut = tutorial_scene.instantiate()
+			get_tree().current_scene.add_child(tut)
+	)
+
+func reset_attack_state() -> void:
+	_first_attack_seen = false

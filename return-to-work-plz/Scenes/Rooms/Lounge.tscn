@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://cge2twkky6a4n" path="res://Scripts/RoomExit.gd" id="1_exit"]
 [ext_resource type="Texture2D" uid="uid://bdq1mkqnk8olw" path="res://Assets/Rooms/lounge.png" id="1_fqsfy"]
-[ext_resource type="PackedScene" uid="uid://npcstat001" path="res://Scenes/NPCs/StationaryNPC.tscn" id="2_npc_stat"]
 [ext_resource type="AudioStream" uid="uid://db0bgevh3iwji" path="res://Assets/Audio/SFX/Coffe_Sound.MP3" id="3_fqsfy"]
 [ext_resource type="Script" uid="uid://dr0o7y0vodg2x" path="res://Scripts/InteractableObject.gd" id="3_interact"]
 [ext_resource type="Texture2D" uid="uid://bmb4rt8vljrax" path="res://Assets/UI V4/TEXTBOX/INTERACT.png" id="3_u0cjq"]
@@ -97,11 +96,6 @@ offset_bottom = 86.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("4_fqsfy")
 text = "PRESS E TO INTERACT"
-
-[node name="SleepingEmployee" parent="." unique_id=594218817 instance=ExtResource("2_npc_stat")]
-position = Vector2(1518, 873)
-npc_name = "Sleeping Employee"
-dialogue_text = "Zzz..."
 
 [node name="ExitRight" type="Area2D" parent="." unique_id=2033369156]
 position = Vector2(1910, 780)

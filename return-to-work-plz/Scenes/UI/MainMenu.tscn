@@ -118,6 +118,15 @@ grow_vertical = 2
 expand_mode = 1
 stretch_mode = 6
 
+[node name="DarkOverlay" type="ColorRect" parent="." unique_id=676113825]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.5882353)
+
 [node name="LogoRect" type="TextureRect" parent="." unique_id=2122166198]
 layout_mode = 1
 anchors_preset = 8

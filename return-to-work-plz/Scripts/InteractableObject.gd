@@ -25,9 +25,14 @@ func _ready() -> void:
 	$DetectionArea.body_entered.connect(_on_body_entered)
 	$DetectionArea.body_exited.connect(_on_body_exited)
 	GameManager.loop_restarted.connect(_on_loop_restarted)
-	# Update prompt when task changes (in case player is already standing here)
+	# Update prompt and glow when task changes
 	GameManager.current_task_changed.connect(_on_task_changed)
+	GameManager.all_objectives_completed.connect(_on_all_completed)
 	_setup_highlight_rect()
+	# Add to group so InconvenienceManager can find us for Time Reverse reset
+	add_to_group("interactables")
+	# Initial glow state check (in case this workstation is already the active task)
+	call_deferred("_update_glow_state")
 
 func _setup_highlight_rect() -> void:
 	var area = get_node_or_null("DetectionArea")
@@ -82,7 +87,7 @@ func _on_body_entered(body: Node2D) -> void:
 		player_in_range = true
 		current_player = body
 		body.set_nearby_workstation(self)
-		_update_prompt()
+		_update_prompt_visibility()
 
 func _on_body_exited(body: Node2D) -> void:
 	if body.is_in_group("player"):
@@ -96,11 +101,19 @@ func _on_task_changed(_idx: int) -> void:
 	if task_completed and task_id != "" and GameManager.is_task_active(task_id):
 		task_completed = false
 		prompt_label.modulate.a = 1.0
+	# Update glow based on whether this workstation is now the active task
+	_update_glow_state()
 	if player_in_range:
-		_update_prompt()
+		_update_prompt_visibility()
 
-func _update_prompt() -> void:
+func _update_prompt_visibility() -> void:
 	if _is_available():
+		# Time Stop: block interaction immediately, show frozen prompt without E press
+		if InconvenienceManager.is_time_stopped:
+			prompt_label.text = "[TIME FROZEN]"
+			prompt_label.visible = true
+			return
+		
 		var display_name = task_name
 		if InconvenienceManager.is_task_deception:
 			var fake_names = ["Typing report...", "Fixing spreadsheet...", "Replying email...", "Print documents", "Present to Manager"]
@@ -111,10 +124,20 @@ func _update_prompt() -> void:
 		else:
 			prompt_label.text = "Press [E] - %s" % display_name
 		prompt_label.visible = true
-		_start_glow()
 	else:
 		prompt_label.visible = false
+
+func _update_glow_state() -> void:
+	if task_id == "" or task_completed:
+		_stop_glow()
+		return
+	if task_id == GameManager.get_current_task_id():
 		_start_glow()
+	else:
+		_stop_glow()
+
+func _on_all_completed() -> void:
+	_stop_glow()
 
 var _glow_tween: Tween = null
 func _start_glow() -> void:
@@ -140,11 +163,13 @@ func on_interact_start() -> void:
 
 func on_interact_complete() -> void:
 	task_completed = true
+	_stop_glow()
 	if task_sfx:
 		task_sfx.stop()
 	
 	# Time Erase: task finishes but doesn't count!
 	if InconvenienceManager.is_time_erased:
+		print("[InteractableObject] DEBUG time_erase: task '%s' completed but ERASED (is_time_erased=true)" % task_id)
 		prompt_label.text = "[ERASED]"
 		prompt_label.visible = true
 		task_completed = false  # Let them redo it
@@ -190,3 +215,4 @@ func _on_loop_restarted(_loop_number: int) -> void:
 	prompt_label.text = "Press [E] - " + task_name
 	prompt_label.modulate.a = 1.0
 	prompt_label.visible = false
+	_update_glow_state()

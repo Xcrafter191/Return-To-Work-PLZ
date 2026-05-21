@@ -9,9 +9,6 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
 size = Vector2(1920, 40)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_workarea"]
-size = Vector2(358, 552)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_exit"]
 size = Vector2(40, 300)
 
@@ -21,11 +18,8 @@ size = Vector2(42, 972.5)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_udknq"]
 size = Vector2(40, 917)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_emailarea"]
-size = Vector2(80, 80)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sheetarea"]
-size = Vector2(80, 80)
+size = Vector2(263, 440)
 
 [node name="Cubicle_Right" type="Node2D" unique_id=1910980708]
 
@@ -54,43 +48,12 @@ position = Vector2(242, 878)
 [node name="SpawnRight" type="Marker2D" parent="." unique_id=692679774]
 position = Vector2(1750, 878)
 
-[node name="RoomLabel" type="Label" parent="." unique_id=410745723]
-offset_left = 830.0
-offset_top = 30.0
-offset_right = 1090.0
-offset_bottom = 60.0
-text = "CUBICLE FLOOR"
-horizontal_alignment = 1
-
 [node name="CoworkerAmelia" parent="." unique_id=158648881 instance=ExtResource("2_amelia")]
 position = Vector2(700, 876)
 
 [node name="CoworkerGreg" parent="." unique_id=802225576 instance=ExtResource("3_greg")]
 position = Vector2(400, 876)
 patrol_right_x = 1600.0
-
-[node name="Workstation" type="Node2D" parent="." unique_id=512417770]
-position = Vector2(1100, 910)
-script = ExtResource("5_interact")
-task_name = "Typing report..."
-task_id = "type_report"
-
-[node name="DetectionArea" type="Area2D" parent="Workstation" unique_id=1742172695]
-collision_layer = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Workstation/DetectionArea" unique_id=316549546]
-position = Vector2(-98, -276)
-shape = SubResource("RectangleShape2D_workarea")
-
-[node name="PromptLabel" type="Label" parent="Workstation" unique_id=1437050525]
-visible = false
-modulate = Color(0, 0, 0, 1)
-offset_left = -60.0
-offset_top = -100.0
-offset_right = 60.0
-offset_bottom = -80.0
-text = "Press [E] to work"
-horizontal_alignment = 1
 
 [node name="ExitLeft" type="Area2D" parent="." unique_id=1602156443]
 position = Vector2(10, 733)
@@ -109,14 +72,6 @@ offset_top = 583.0
 offset_right = 30.0
 offset_bottom = 883.0
 color = Color(0.3, 0.3, 0.5, 0.4)
-
-[node name="ExitLabel_Left" type="Label" parent="." unique_id=431169757]
-offset_left = 10.0
-offset_top = 760.0
-offset_right = 120.0
-offset_bottom = 790.0
-text = "← Lounge"
-horizontal_alignment = 1
 
 [node name="ExitRight" type="Area2D" parent="." unique_id=2145076360]
 position = Vector2(1910, 733)
@@ -159,27 +114,6 @@ collision_mask = 0
 position = Vector2(-2, -49.5)
 shape = SubResource("RectangleShape2D_udknq")
 
-[node name="EmailStation" type="Node2D" parent="." unique_id=329704430]
-position = Vector2(600, 910)
-script = ExtResource("5_interact")
-task_name = "Replying email..."
-task_id = "reply_email"
-
-[node name="DetectionArea" type="Area2D" parent="EmailStation" unique_id=1291508806]
-collision_layer = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="EmailStation/DetectionArea" unique_id=251680490]
-position = Vector2(0, -40)
-shape = SubResource("RectangleShape2D_emailarea")
-
-[node name="PromptLabel" type="Label" parent="EmailStation" unique_id=1961034344]
-offset_left = -80.0
-offset_top = -100.0
-offset_right = 80.0
-offset_bottom = -80.0
-text = "Press [E] - Reply email"
-horizontal_alignment = 1
-
 [node name="SpreadsheetStation" type="Node2D" parent="." unique_id=2084451663]
 position = Vector2(1400, 910)
 script = ExtResource("5_interact")
@@ -191,14 +125,5 @@ task_id = "fix_spreadsheet"
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SpreadsheetStation/DetectionArea" unique_id=1266972406]
-position = Vector2(0, -40)
+position = Vector2(-982.5, -251)
 shape = SubResource("RectangleShape2D_sheetarea")
-
-[node name="PromptLabel" type="Label" parent="SpreadsheetStation" unique_id=1687097092]
-visible = false
-offset_left = -80.0
-offset_top = -100.0
-offset_right = 80.0
-offset_bottom = -80.0
-text = "Press [E] - Fix spreadsheet"
-horizontal_alignment = 1

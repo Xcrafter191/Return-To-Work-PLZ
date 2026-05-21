@@ -11,8 +11,9 @@ extends CanvasLayer
 @onready var task_label: Label = $TaskBackground/TaskLabel
 @onready var clockout_label: Label = $ClockOutLabel
 
-var deadline_label: Label = null
-var direction_arrow: Label = null  ## Flashing arrow CTA pointing toward task room
+var clock_rect: TextureRect = null  ## Animated clock deadline indicator
+var _clock_frames_cache: Dictionary = {}  ## Cache for loaded clock frame textures
+var direction_arrow: TextureRect = null  ## Flashing arrow CTA pointing toward task room
 var _cta_tween: Tween = null
 
 # Slot order on each floor for direction logic
@@ -55,42 +56,63 @@ func _ready() -> void:
 	_on_morale_changed(GameManager.morale)
 	_on_productivity_changed(GameManager.productivity)
 	
-	# Create Deadline Label dynamically
-	deadline_label = Label.new()
-	deadline_label.set_anchors_preset(Control.PRESET_TOP_WIDE)
-	deadline_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	deadline_label.offset_top = 40
-	deadline_label.add_theme_font_size_override("font_size", 36)
-	deadline_label.add_theme_color_override("font_color", Color(0.8, 0.1, 0.1))
-	add_child(deadline_label)
+	# Create animated clock deadline indicator (TextureRect)
+	clock_rect = TextureRect.new()
+	clock_rect.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
+	clock_rect.offset_left   = 20    # jarak dari tepi kiri
+	clock_rect.offset_bottom = -20   # jarak dari tepi bawah (negatif = naik)
+	clock_rect.offset_right  = 20 + 96   # offset_left + lebar clock (sesuaikan)
+	clock_rect.offset_top    = -20 - 96  # offset_bottom - tinggi clock (sesuaikan)
+	clock_rect.expand_mode = TextureRect.EXPAND_KEEP_SIZE
+	clock_rect.visible = false
+	add_child(clock_rect)
 	
-	# Create directional arrow indicator
-	direction_arrow = Label.new()
+	# Create directional arrow indicator (TextureRect with ARROW.png)
+	direction_arrow = TextureRect.new()
+	direction_arrow.texture = load("res://Assets/ARROW.png")
+	direction_arrow.custom_minimum_size = Vector2(48, 48)
+	direction_arrow.expand_mode = TextureRect.EXPAND_KEEP_SIZE
 	direction_arrow.set_anchors_preset(Control.PRESET_CENTER_LEFT)
 	direction_arrow.offset_left = 30
-	direction_arrow.offset_top = -40
-	direction_arrow.offset_right = 200
-	direction_arrow.offset_bottom = 40
-	direction_arrow.add_theme_font_size_override("font_size", 64)
-	direction_arrow.add_theme_color_override("font_color", Color(1.0, 0.85, 0.0))
-	direction_arrow.text = ""
+	direction_arrow.offset_top = -24
+	direction_arrow.offset_right = 78
+	direction_arrow.offset_bottom = 24
+	direction_arrow.pivot_offset = direction_arrow.custom_minimum_size / 2.0
 	direction_arrow.visible = false
 	add_child(direction_arrow)
 	
 	_update_direction_arrow()
 
 func _process(_delta: float) -> void:
-	if not deadline_label: return
+	if not clock_rect: return
 	
-	if GameManager.is_deadline_active:
-		if InconvenienceManager.is_clock_stopped:
-			# Freeze the text
-			pass
-		else:
-			var t = maxf(GameManager.task_deadline_time, 0.0)
-			deadline_label.text = "TIME REMAINING: %.1fs" % t
+	if not GameManager.is_deadline_active:
+		clock_rect.visible = false
+		return
+	
+	clock_rect.visible = true
+	var total_deadline: float = 24.0 * GameManager.difficulty_modifier
+	var remaining: float = GameManager.task_deadline_time
+	var elapsed: float = total_deadline - remaining
+	var frame_idx: int = clampi(int((elapsed / total_deadline) * 240), 0, 240)
+	var frame_tex: Texture2D = _get_clock_frame(frame_idx)
+	if frame_tex:
+		clock_rect.texture = frame_tex
 	else:
-		deadline_label.text = ""
+		clock_rect.visible = false
+		push_warning("HUD: Clock frame %d unavailable — hiding clock." % frame_idx)
+
+## Load (and cache) a clock frame texture by index (0–240).
+func _get_clock_frame(index: int) -> Texture2D:
+	if _clock_frames_cache.has(index):
+		return _clock_frames_cache[index]
+	var path = "res://Assets/clock/time/time_%03d.png" % index
+	var tex = load(path)
+	if tex:
+		_clock_frames_cache[index] = tex
+	else:
+		push_warning("HUD: Failed to load clock frame at %s" % path)
+	return tex
 
 func _on_current_task_changed(_idx: int) -> void:
 	_update_direction_arrow()
@@ -150,8 +172,7 @@ func _update_direction_arrow() -> void:
 			_stop_cta_flash()
 			direction_arrow.visible = false
 			return
-		var arrow_text = "↑" if target_floor > RoomManager.current_floor else "↓"
-		direction_arrow.text = arrow_text
+		direction_arrow.rotation_degrees = 270.0 if target_floor > RoomManager.current_floor else 90.0
 		direction_arrow.set_anchors_preset(Control.PRESET_CENTER)
 		direction_arrow.offset_left   = -50
 		direction_arrow.offset_right  =  50
@@ -159,6 +180,12 @@ func _update_direction_arrow() -> void:
 		direction_arrow.offset_bottom =  50
 		direction_arrow.visible = true
 		_start_cta_flash()
+		return
+	
+	# --- Guard: target_floor == 0 means slot not found in either floor array ---
+	if target_floor == 0:
+		_stop_cta_flash()
+		direction_arrow.visible = false
 		return
 	
 	# --- Target di lantai berbeda: tunjuk ke elevator ---
@@ -191,12 +218,12 @@ func _update_direction_arrow() -> void:
 ## Helper: true = kiri, false = kanan
 func _set_arrow_side(is_left: bool) -> void:
 	if is_left:
-		direction_arrow.text = "←"
+		direction_arrow.rotation_degrees = 180.0
 		direction_arrow.set_anchors_preset(Control.PRESET_CENTER_LEFT)
 		direction_arrow.offset_left   =  30
 		direction_arrow.offset_right  = 200
 	else:
-		direction_arrow.text = "→"
+		direction_arrow.rotation_degrees = 0.0
 		direction_arrow.set_anchors_preset(Control.PRESET_CENTER_RIGHT)
 		direction_arrow.offset_right  = -30
 		direction_arrow.offset_left   = -170
@@ -207,15 +234,15 @@ func _start_cta_flash() -> void:
 	if _cta_tween and _cta_tween.is_valid():
 		return  # Already flashing
 	_cta_tween = create_tween().set_loops()
-	_cta_tween.tween_property(task_bg, "modulate:a", 0.4, 0.45).set_ease(Tween.EASE_IN_OUT)
-	_cta_tween.tween_property(task_bg, "modulate:a", 1.0, 0.45).set_ease(Tween.EASE_IN_OUT)
+	_cta_tween.tween_property(direction_arrow, "modulate:a", 0.4, 0.45).set_ease(Tween.EASE_IN_OUT)
+	_cta_tween.tween_property(direction_arrow, "modulate:a", 1.0, 0.45).set_ease(Tween.EASE_IN_OUT)
 
 func _stop_cta_flash() -> void:
 	if _cta_tween and _cta_tween.is_valid():
 		_cta_tween.kill()
 		_cta_tween = null
-	if task_bg:
-		task_bg.modulate.a = 1.0
+	if direction_arrow:
+		direction_arrow.modulate.a = 1.0
 
 func _on_morale_changed(val: float) -> void:
 	var tween = create_tween()

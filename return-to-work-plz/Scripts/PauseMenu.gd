@@ -39,11 +39,12 @@ var is_paused: bool = false
 # Keybind system
 var keybind_buttons: Dictionary = {}  # { action_name: Button }
 var awaiting_rebind: String = ""  # Action currently being rebound
-var keybind_actions: Array = ["move_left", "move_right", "interact"]
+var keybind_actions: Array = ["move_left", "move_right", "interact", "qte_confirm"]
 var keybind_display_names: Dictionary = {
 	"move_left": "Move Left",
 	"move_right": "Move Right",
 	"interact": "Interact",
+	"qte_confirm": "QTE Confirm",
 }
 
 # Resolution options

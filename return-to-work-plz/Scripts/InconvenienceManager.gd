@@ -25,7 +25,6 @@ var is_gibberish: bool = false
 var fake_ads_container: CanvasLayer = null
 
 # New Inconveniences
-var is_clock_stopped: bool = false
 var is_sprite_flipped: bool = false
 var is_unpause_hack: bool = false
 var is_upside_down: bool = false
@@ -116,7 +115,6 @@ func _on_loop_restarted(loop_num: int) -> void:
 
 func _reset_permanent_inconveniences() -> void:
 	is_shaky = false
-	is_clock_stopped = false
 	is_sprite_flipped = false
 	is_unpause_hack = false
 	is_upside_down = false
@@ -213,11 +211,13 @@ func _trigger_random_inconvenience() -> void:
 			specific_choice = ["lights_out", "random_ui", "sprite_flip", "blur"].pick_random()
 		Difficulty.MEDIUM: 
 			specific_choice = ["fps", "unplug", "keybind", "time_stop", "time_accelerate", "force_room_swap"].pick_random()
+
 		Difficulty.MAJOR: 
 			specific_choice = ["fake_ad", "gibberish", "task_deception", "stuck_99", "time_reverse", "time_erase"].pick_random()
 		
 	AttackSequenceManager.trigger_attack(specific_choice)
 	AttackSequenceManager.sequence_finished.connect(func():
+		print("[InconvenienceManager] DEBUG: Attack sequence finished, executing %s at difficulty %s" % [specific_choice, str(chosen_diff)])
 		match chosen_diff:
 			Difficulty.MINOR: _execute_minor(specific_choice)
 			Difficulty.MEDIUM: _execute_medium(specific_choice)
@@ -229,7 +229,8 @@ func _trigger_random_inconvenience() -> void:
 # No-solution: 5 seconds. Has-solution: 30 seconds.
 
 func _auto_fix(choice: String, timeout: float) -> void:
-	var timer = get_tree().create_timer(timeout)
+	# Use process_always so timer ticks even if tree is paused (e.g. during attack sequences)
+	var timer = get_tree().create_timer(timeout, true, false, true)
 	timer.timeout.connect(func(): _revert_inconvenience(choice))
 
 func _revert_inconvenience(choice: String) -> void:
@@ -248,8 +249,6 @@ func _revert_inconvenience(choice: String) -> void:
 				hud.scale = Vector2.ONE
 		"shaky":
 			is_shaky = false
-		"clock_stop":
-			is_clock_stopped = false
 		"sprite_flip":
 			is_sprite_flipped = false
 			var players = get_tree().get_nodes_in_group("player")
@@ -305,6 +304,7 @@ func _revert_inconvenience(choice: String) -> void:
 			is_time_accelerated = false
 		"time_erase":
 			is_time_erased = false
+			print("[InconvenienceManager] DEBUG time_erase: flag reverted to false after 7s timeout")
 
 # ── MINOR ──
 func _execute_minor(choice: String) -> void:
@@ -325,9 +325,6 @@ func _execute_minor(choice: String) -> void:
 	
 	elif choice == "shaky":
 		is_shaky = true
-		
-	elif choice == "clock_stop":
-		is_clock_stopped = true
 		
 	elif choice == "sprite_flip":
 		is_sprite_flipped = true
@@ -382,17 +379,38 @@ func _execute_medium(choice: String) -> void:
 		var main = get_tree().current_scene
 		var pm = main.get_node_or_null("PauseMenu")
 		if pm:
-			var left_events = InputMap.action_get_events("move_left")
-			var right_events = InputMap.action_get_events("move_right")
-			InputMap.action_erase_events("move_left")
-			InputMap.action_erase_events("move_right")
-			for ev in right_events:
-				InputMap.action_add_event("move_left", ev)
-			for ev in left_events:
-				InputMap.action_add_event("move_right", ev)
+			var remappable_actions = ["move_left", "move_right", "interact", "qte_confirm"]
+			# Collect current key events for all remappable actions, excluding ESC and numpad keys
+			var collected_events: Array = []
+			for action in remappable_actions:
+				var events = InputMap.action_get_events(action)
+				for ev in events:
+					if ev is InputEventKey:
+						var kc = ev.physical_keycode if ev.physical_keycode != 0 else ev.keycode
+						# Exclude ESC and numpad keys from the pool
+						if kc == KEY_ESCAPE:
+							continue
+						if kc >= KEY_KP_0 and kc <= KEY_KP_9:
+							continue
+						if kc in [KEY_KP_MULTIPLY, KEY_KP_SUBTRACT, KEY_KP_ADD, KEY_KP_PERIOD, KEY_KP_DIVIDE, KEY_KP_ENTER]:
+							continue
+						collected_events.append(ev)
 			
-			pm.keybind_buttons["move_left"].text = pm._get_action_key_name("move_left")
-			pm.keybind_buttons["move_right"].text = pm._get_action_key_name("move_right")
+			# Shuffle collected events for random reassignment
+			collected_events.shuffle()
+			
+			# Erase all events from remappable actions
+			for action in remappable_actions:
+				InputMap.action_erase_events(action)
+			
+			# Reassign shuffled events to actions in order
+			for i in range(min(collected_events.size(), remappable_actions.size())):
+				InputMap.action_add_event(remappable_actions[i], collected_events[i])
+			
+			# Update keybind button display text for all affected actions
+			for action in remappable_actions:
+				if action in pm.keybind_buttons:
+					pm.keybind_buttons[action].text = pm._get_action_key_name(action)
 			pm.save_settings()
 		# keybind has a solution (player can fix in settings) → 30s
 		_auto_fix(choice, AUTOFIX_HAS_SOLUTION)
@@ -464,11 +482,23 @@ func _execute_major(choice: String) -> void:
 		is_stuck_99 = true
 	elif choice == "time_reverse":
 		GameManager.reverse_last_task()
+		# Explicit group query to reset workstation task_completed for the reversed task
+		# This ensures the reset happens even if the signal path doesn't reach all workstations
+		var reversed_task_id = GameManager.get_current_task_id()
+		if reversed_task_id != "":
+			var interactables = get_tree().get_nodes_in_group("interactables")
+			for obj in interactables:
+				if obj.task_id == reversed_task_id and obj.task_completed:
+					obj.task_completed = false
+					if obj.has_node("PromptLabel"):
+						obj.get_node("PromptLabel").modulate.a = 1.0
+					print("[InconvenienceManager] Time Reverse: Reset workstation '%s' task_completed" % obj.task_id)
 		# No auto-fix needed — it's a one-shot effect
 		return
 	elif choice == "time_erase":
 		is_time_erased = true
 		print("[InconvenienceManager] Time erased! Tasks completed in next 7s won't count.")
+		print("[InconvenienceManager] DEBUG time_erase: flag set to true, auto-fix in 7s (process_always)")
 		_auto_fix("time_erase", 7.0)
 		return
 
@@ -509,17 +539,25 @@ func _on_fake_ad_gui_input(event: InputEvent, ad_node: Control) -> void:
 		if bounds.position.x > 1600 or bounds.position.y > 900 or bounds.end.x < 300 or bounds.end.y < 200:
 			ad_node.queue_free()
 
+func _generate_random_string(length: int) -> String:
+	const CHAR_POOL = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz@#$%^&*!?~"
+	var result = ""
+	for i in length:
+		result += CHAR_POOL[randi() % CHAR_POOL.length()]
+	return result
+
 func _scramble_all_labels(node: Node) -> void:
 	if node is Label or node is RichTextLabel or node is Button:
-		if node.text != "!@#$%^&*()_+":
+		if not node.has_meta("orig_text"):
 			node.set_meta("orig_text", node.text)
-			node.text = "!@#$%^&*()_+"
+			node.text = _generate_random_string(node.get_meta("orig_text").length())
 	elif node is OptionButton:
 		for i in node.item_count:
-			var txt = node.get_item_text(i)
-			if txt != "!@#$%^&*()_+":
-				node.set_meta("orig_text_" + str(i), txt)
-				node.set_item_text(i, "!@#$%^&*()_+")
+			var meta_key = "orig_text_" + str(i)
+			if not node.has_meta(meta_key):
+				var txt = node.get_item_text(i)
+				node.set_meta(meta_key, txt)
+				node.set_item_text(i, _generate_random_string(txt.length()))
 	for child in node.get_children():
 		_scramble_all_labels(child)
 

@@ -245,7 +245,7 @@ func _generate_checkpoints(count: int) -> Array:
 ## Show QTE bar
 func _launch_qte() -> void:
 	var base_speed = 400.0 * GameManager.difficulty_modifier
-	SkillCheck.start_skill_check(base_speed)
+	SkillCheck.begin_skill_check(base_speed)
 
 func _on_qte_completed(success: bool) -> void:
 	if success:
