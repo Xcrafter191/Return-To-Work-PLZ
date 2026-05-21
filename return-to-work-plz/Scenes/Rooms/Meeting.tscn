@@ -35,7 +35,7 @@ position = Vector2(967, 594)
 texture = ExtResource("1_sqrf7")
 
 [node name="Sprite2D2" type="Sprite2D" parent="." unique_id=2071199220]
-position = Vector2(965, 456)
+position = Vector2(965, 421)
 texture = ExtResource("2_5xjlf")
 
 [node name="WallRight" type="StaticBody2D" parent="." unique_id=1136195116]

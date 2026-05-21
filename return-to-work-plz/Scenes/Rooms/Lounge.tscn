@@ -20,7 +20,7 @@ size = Vector2(40, 708)
 [node name="Lounge" type="Node2D" unique_id=151286094]
 
 [node name="Background" type="Sprite2D" parent="." unique_id=1043223518]
-position = Vector2(960, 540)
+position = Vector2(960, 527)
 texture = ExtResource("1_fqsfy")
 
 [node name="Floor" type="StaticBody2D" parent="." unique_id=1159748134]

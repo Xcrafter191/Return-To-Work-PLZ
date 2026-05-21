@@ -93,6 +93,46 @@ func _ready():
 	
 	_load_resources()
 	_setup_random_menu()
+	
+	# Putar animasi intro UI
+	_play_intro_animation()
+
+func _play_intro_animation():
+	# Persiapan state awal
+	logo_rect.pivot_offset = logo_rect.size / 2.0
+	logo_rect.scale = Vector2.ZERO
+	
+	var vbox = $VBoxContainer
+	var vbox_original_y = vbox.position.y
+	vbox.position.y = vbox_original_y - 200 # Posisikan di balik logo
+	
+	for btn in vbox.get_children():
+		btn.modulate.a = 0.0 # Tombol transparan di awal
+		
+	var tween = create_tween()
+	
+	# 1. Fase Kemunculan Logo (00:00 - 00:01)
+	# Membesar dari 0 ke 1 dengan overshoot (bounce / spring)
+	tween.tween_property(logo_rect, "scale", Vector2(1.0, 1.0), 1.0).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	
+	# 2. Fase Kemunculan Tombol (00:01 - 00:02)
+	# VBox turun ke bawah (drop-down)
+	tween.tween_property(vbox, "position:y", vbox_original_y, 1.0).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	
+	# Tombol muncul satu per satu (cascade)
+	var delay = 0.0
+	for btn in vbox.get_children():
+		tween.parallel().tween_property(btn, "modulate:a", 1.0, 0.4).set_delay(delay)
+		delay += 0.2
+		
+	# Lanjut ke animasi idle (00:02 - dst)
+	tween.tween_callback(_start_idle_animation)
+
+func _start_idle_animation():
+	var idle_tween = create_tween().set_loops()
+	# Breathing / Pulsing animation (membesar-mengecil perlahan)
+	idle_tween.tween_property(logo_rect, "scale", Vector2(1.05, 1.05), 2.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	idle_tween.tween_property(logo_rect, "scale", Vector2(1.0, 1.0), 2.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 
 func _process(delta):
 	for data in active_moving_npcs:
@@ -102,12 +142,14 @@ func _process(delta):
 			npc.position.x += speed * delta
 			if npc.position.x > data.right_bound:
 				data.moving_right = false
-				_flip_npc(npc, false)
+				# Langsung pakai variabel data.moving_right (nilainya sekarang false)
+				_flip_npc(npc, data.moving_right) 
 		else:
 			npc.position.x -= speed * delta
 			if npc.position.x < data.left_bound:
 				data.moving_right = true
-				_flip_npc(npc, true)
+				# Langsung pakai variabel data.moving_right (nilainya sekarang true)
+				_flip_npc(npc, data.moving_right)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if awaiting_rebind != "":
@@ -187,14 +229,18 @@ func _setup_random_menu():
 	npc_container.name = "NPCs"
 	add_child(npc_container)
 	move_child(npc_container, 1) # Behind UI
-	
+	# Di dalam fungsi _setup_random_menu()
 	# Stationary NPCs (Left and Right edges)
+	# Stationary NPCs (Kiri dan Kanan)
 	if stationary_npcs.size() >= 1:
-		_spawn_npc(stationary_npcs[0], Vector2(screen_size.x * 0.15, ground_y), false, npc_container)
+		var left_npc = _spawn_npc(stationary_npcs[0], Vector2(screen_size.x * 0.15, ground_y), false, npc_container)
+		if left_npc:
+			_flip_npc(left_npc, true) # Bikin NPC kiri ngadep kanan (ke logo)
+			
 	if stationary_npcs.size() >= 2:
 		var right_npc = _spawn_npc(stationary_npcs[1], Vector2(screen_size.x * 0.85, ground_y), false, npc_container)
 		if right_npc:
-			_flip_npc(right_npc, false) # Face left
+			_flip_npc(right_npc, false) # Bikin NPC kanan ngadep kiri (ke logo)
 			
 	# Moving NPCs (Middle area)
 	if moving_npcs.size() >= 1:
@@ -243,6 +289,10 @@ func _spawn_npc(scene: PackedScene, pos: Vector2, is_moving: bool, parent: Node)
 			"right_bound": right_b
 		})
 		_flip_npc(inst, true)
+	var anim_sprite = inst.get_node_or_null("AnimSprite")
+	if anim_sprite:
+		anim_sprite.frame = randi() % anim_sprite.sprite_frames.get_frame_count(anim_sprite.animation)
+
 		
 	return inst
 

@@ -33,7 +33,7 @@ collision_layer = 8
 collision_mask = 8
 
 [node name="Background" type="Sprite2D" parent="." unique_id=2027456219]
-position = Vector2(912, 555)
+position = Vector2(921, 510)
 texture = ExtResource("3_q7psc")
 
 [node name="Floor2" type="StaticBody2D" parent="." unique_id=1405555423]

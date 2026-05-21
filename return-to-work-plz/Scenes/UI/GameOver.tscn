@@ -4,9 +4,7 @@
 [ext_resource type="FontFile" uid="uid://c41kv0pko2t4q" path="res://Assets/Font/Pixeled.ttf" id="2_bnh5c"]
 [ext_resource type="Texture2D" uid="uid://dr150a77yrqpd" path="res://Assets/UI V4/PAUSE/BUTTONS/RESTART_N.png" id="3_7n8ck"]
 [ext_resource type="Texture2D" uid="uid://dl5ofm5h3f3mi" path="res://Assets/UI V4/PAUSE/BUTTONS/RESTART_H.png" id="4_3gbkx"]
-[ext_resource type="Texture2D" uid="uid://dxghmx2wisx6l" path="res://Assets/UI V4/PAUSE/BUTTONS/Group 113.png" id="5_3gbkx"]
 [ext_resource type="Texture2D" uid="uid://dwik52i6spdl5" path="res://Assets/UI V4/PAUSE/BUTTONS/TITLE_N.png" id="5_hnsw0"]
-[ext_resource type="Texture2D" uid="uid://c57riptktorsi" path="res://Assets/UI V4/PAUSE/BUTTONS/Group 114.png" id="6_hnsw0"]
 [ext_resource type="Texture2D" uid="uid://d2pd3gmggyfi" path="res://Assets/UI V4/PAUSE/BUTTONS/TITLE_H.png" id="6_pu2ms"]
 [ext_resource type="AudioStream" uid="uid://clwiux4qeqe8u" path="res://Assets/Music/gameover.mp3" id="9_3gbkx"]
 
@@ -46,12 +44,20 @@ text = "GAME OVER"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Subtitle" type="Label" parent="Content" unique_id=63931536]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_bnh5c")
+theme_override_font_sizes/font_size = 24
+text = "Your productivity dropped below 0!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="Spacer" type="Control" parent="Content" unique_id=686356090]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 
 [node name="RestartButton" type="TextureButton" parent="Content" unique_id=852817946]
-custom_minimum_size = Vector2(0, 120)
+custom_minimum_size = Vector2(90, 130)
 layout_mode = 2
 texture_normal = ExtResource("3_7n8ck")
 texture_hover = ExtResource("4_3gbkx")
@@ -59,20 +65,24 @@ ignore_texture_size = true
 stretch_mode = 0
 
 [node name="MainMenuButton" type="TextureButton" parent="Content" unique_id=711961534]
-custom_minimum_size = Vector2(0, 120)
+custom_minimum_size = Vector2(0, 130)
 layout_mode = 2
 texture_normal = ExtResource("5_hnsw0")
 texture_hover = ExtResource("6_pu2ms")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="ExitButton" type="TextureButton" parent="Content" unique_id=605114483]
-custom_minimum_size = Vector2(0, 120)
+[node name="Spacer2" type="Control" parent="Content" unique_id=686356091]
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
-texture_normal = ExtResource("5_3gbkx")
-texture_hover = ExtResource("6_hnsw0")
-ignore_texture_size = true
-stretch_mode = 0
+
+[node name="ScoreLabel" type="Label" parent="Content" unique_id=63931537]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_bnh5c")
+theme_override_font_sizes/font_size = 32
+text = "SCORE: 0"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="GameOverBGM" type="AudioStreamPlayer2D" parent="." unique_id=122451898]
 stream = ExtResource("9_3gbkx")

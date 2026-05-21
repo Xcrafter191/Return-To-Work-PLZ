@@ -15,6 +15,7 @@ signal productivity_changed(value: float)
 # ── Player Stats (Dummy values for UI) ──
 var morale: float = 100.0
 var productivity: float = 100.0
+var current_score: int = 0
 
 # ── Deadline State ──
 var task_deadline_time: float = 0.0
@@ -64,6 +65,9 @@ func set_productivity(val: float) -> void:
 	if productivity <= 0.0:
 		_trigger_game_over()
 
+func add_loop_score() -> void:
+	current_score += 10
+
 func _trigger_game_over() -> void:
 	# Clean up any active state
 	var player = get_tree().get_first_node_in_group("player")
@@ -86,6 +90,7 @@ func reset_game_state() -> void:
 	difficulty_modifier = 1.0
 	productivity = 100.0
 	morale = 100.0
+	current_score = 0
 	consecutive_tasks = 0
 	talked_npcs.clear()
 	npc_positions.clear()
@@ -276,6 +281,7 @@ func clock_out() -> void:
 	complete_objective("clock_out")
 	current_loop += 1
 	difficulty_modifier += 0.15
+	add_loop_score()
 	
 	# Morale resets every loop. Productivity carries over.
 	set_morale(100.0)
