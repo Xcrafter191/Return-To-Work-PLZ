@@ -178,7 +178,7 @@ ignore_texture_size = true
 stretch_mode = 0
 
 [node name="AboutButton" type="TextureButton" parent="VBoxContainer" unique_id=528938170]
-custom_minimum_size = Vector2(2, 100)
+custom_minimum_size = Vector2(2, 90)
 layout_mode = 2
 texture_normal = ExtResource("7_ecrs6")
 texture_hover = ExtResource("8_sqe33")

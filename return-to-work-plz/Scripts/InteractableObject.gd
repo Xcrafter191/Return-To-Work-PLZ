@@ -187,7 +187,6 @@ func on_interact_complete() -> void:
 	# Time Erase: task finishes but doesn't count!
 	# Guard checks both the flag AND that the attack sequence has finished (no race condition)
 	if InconvenienceManager.is_time_erased:
-		print("[InteractableObject] DEBUG time_erase: task '%s' completed but ERASED (is_time_erased=%s, attack_active=%s)" % [task_id, str(InconvenienceManager.is_time_erased), str(AttackSequenceManager.is_attacking)])
 		prompt_label.text = "[ERASED]"
 		prompt_label.visible = true
 		task_completed = false  # Reset so player can retry
@@ -228,7 +227,6 @@ func _skip_task() -> void:
 	
 	# Time Erase: skip also doesn't count during erase window
 	if InconvenienceManager.is_time_erased:
-		print("[InteractableObject] DEBUG time_erase: task '%s' skipped but ERASED (is_time_erased=true)" % task_id)
 		prompt_label.text = "[ERASED]"
 		prompt_label.visible = true
 		task_completed = false  # Reset so player can retry

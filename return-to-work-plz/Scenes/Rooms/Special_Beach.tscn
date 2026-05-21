@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cge2twkky6a4n" path="res://Scripts/RoomExit.gd" id="1_exit"]
 [ext_resource type="Texture2D" uid="uid://c0ii20vvs2ofi" path="res://Assets/Rooms/beach.png" id="2_bg"]
-[ext_resource type="PackedScene" path="res://Scenes/NPCs/Derek.tscn" id="3_npc"]
+[ext_resource type="PackedScene" uid="uid://cvqy5nea6xm5y" path="res://Scenes/NPCs/Derek.tscn" id="3_npc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
 size = Vector2(1920, 40)
@@ -14,7 +14,6 @@ size = Vector2(40, 708)
 
 [node name="Background" type="Sprite2D" parent="." unique_id=61288680]
 position = Vector2(960, 540)
-scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_bg")
 
 [node name="Floor" type="StaticBody2D" parent="." unique_id=65381671]

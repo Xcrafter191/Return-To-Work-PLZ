@@ -173,12 +173,24 @@ func _update_direction_arrow() -> void:
 			_stop_cta_flash()
 			direction_arrow.visible = false
 			return
-		direction_arrow.rotation_degrees = 90.0 if target_floor > RoomManager.current_floor else 270.0
-		direction_arrow.set_anchors_preset(Control.PRESET_CENTER)
-		direction_arrow.offset_left   = -50
-		direction_arrow.offset_right  =  50
-		direction_arrow.offset_top    = -50
-		direction_arrow.offset_bottom =  50
+		# If target is on a DIFFERENT floor, show vertical arrow
+		if target_floor != RoomManager.current_floor:
+			direction_arrow.rotation_degrees = 90.0 if target_floor > RoomManager.current_floor else 270.0
+			direction_arrow.set_anchors_preset(Control.PRESET_CENTER)
+			direction_arrow.offset_left   = -50
+			direction_arrow.offset_right  =  50
+			direction_arrow.offset_top    = -50
+			direction_arrow.offset_bottom =  50
+			direction_arrow.visible = true
+			_start_cta_flash()
+			return
+		# Target is on the SAME floor as the elevator — show horizontal arrow
+		var target_idx_elev = active_slots.find(target_slot)
+		if cur_idx == -1 or target_idx_elev == -1:
+			_stop_cta_flash()
+			direction_arrow.visible = false
+			return
+		_set_arrow_side(target_idx_elev < cur_idx)
 		direction_arrow.visible = true
 		_start_cta_flash()
 		return

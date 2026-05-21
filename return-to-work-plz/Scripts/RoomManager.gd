@@ -121,6 +121,10 @@ func change_room(slot_name: String, spawn_point_name: String = "SpawnDefault", f
 					npc_inst.patrol_left_x = 300.0
 					npc_inst.patrol_right_x = 1500.0
 					npc_inst.move_speed = 40.0
+				elif npc_id == "AlienSol":
+					spawn_pos = Vector2(700, 873)
+				elif npc_id == "Zugad":
+					spawn_pos = Vector2(1200, 873)
 				
 				current_room.add_child(npc_inst)
 				npc_inst.global_position = spawn_pos
@@ -278,12 +282,30 @@ func _spawn_temp_exit(side: String) -> void:
 	print("[RoomManager] Spawned temp exit on %s for room '%s'" % [side, current_room_name])
 
 func go_left() -> void:
+	# Room Lock: teleport player to opposite side instead of transitioning
+	if InconvenienceManager.is_room_locked:
+		if player:
+			var spawn_right = current_room.get_node_or_null("SpawnRight")
+			if spawn_right:
+				player.global_position = spawn_right.global_position
+			else:
+				player.global_position.x = 1700
+		return
 	var active_slots = active_slots_f1 if current_floor == 1 else active_slots_f2
 	var idx = active_slots.find(current_slot)
 	if idx > 0:
 		change_room(active_slots[idx - 1], "SpawnRight")
 
 func go_right() -> void:
+	# Room Lock: teleport player to opposite side instead of transitioning
+	if InconvenienceManager.is_room_locked:
+		if player:
+			var spawn_left = current_room.get_node_or_null("SpawnLeft")
+			if spawn_left:
+				player.global_position = spawn_left.global_position
+			else:
+				player.global_position.x = 200
+		return
 	var active_slots = active_slots_f1 if current_floor == 1 else active_slots_f2
 	var idx = active_slots.find(current_slot)
 	if idx >= 0 and idx < active_slots.size() - 1:

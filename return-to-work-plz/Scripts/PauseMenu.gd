@@ -62,8 +62,8 @@ var resolutions: Array = [
 # Defaults
 const DEFAULTS = {
 	"master_vol": 50.0,
-	"music_vol": 50.0,
-	"sfx_vol": 50.0,
+	"music_vol": 30.0,
+	"sfx_vol": 80.0,
 	"audio_type": 0,
 	"fps_cap": 60,
 	"window_type": 0,

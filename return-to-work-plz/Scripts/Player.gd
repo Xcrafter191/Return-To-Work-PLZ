@@ -60,6 +60,9 @@ func _physics_process(delta: float) -> void:
 		# Don't call _update_animation — let the attack anim play uninterrupted
 	else:
 		var input_dir: float = Input.get_axis("move_left", "move_right")
+		# Reverse Controls retaliation: invert movement direction
+		if InconvenienceManager.is_reverse_controls and input_dir != 0.0:
+			input_dir = float(InconvenienceManager.reverse_controls_direction)
 		velocity.x = input_dir * move_speed
 		if input_dir != 0.0:
 			var sprite = $Sprite if has_node("Sprite") else anim_sprite

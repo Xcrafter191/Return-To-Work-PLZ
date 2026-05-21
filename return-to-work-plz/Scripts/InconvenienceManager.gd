@@ -33,6 +33,9 @@ var is_stuck_99: bool = false
 var is_time_stopped: bool = false
 var is_time_accelerated: bool = false
 var is_time_erased: bool = false
+var is_room_locked: bool = false
+var is_reverse_controls: bool = false
+var reverse_controls_direction: int = -1  # -1 = invert to left, 1 = invert to right
 var pending_reverse_task_id: String = ""  # Track reversed task for cross-room reset
 
 var red_ambience_rect: ColorRect = null
@@ -145,6 +148,8 @@ func _reset_permanent_inconveniences() -> void:
 	is_time_stopped = false
 	is_time_accelerated = false
 	is_time_erased = false
+	is_room_locked = false
+	is_reverse_controls = false
 	pending_reverse_task_id = ""
 	_hide_time_stop_overlay()
 
@@ -240,16 +245,13 @@ func _trigger_random_inconvenience() -> void:
 		Difficulty.MINOR: 
 			specific_choice = ["lights_out", "random_ui", "sprite_flip", "blur"].pick_random()
 		Difficulty.MEDIUM: 
-			specific_choice = ["fps", "unplug", "keybind", "time_stop", "time_accelerate", "force_room_swap"].pick_random()
+			specific_choice = ["fps", "unplug", "keybind", "time_stop", "time_accelerate", "force_room_swap", "room_lock", "reverse_controls"].pick_random()
 
 		Difficulty.MAJOR: 
 			specific_choice = ["fake_ad", "gibberish", "task_deception", "stuck_99", "time_reverse", "time_erase"].pick_random()
 		
 	AttackSequenceManager.trigger_attack(specific_choice)
 	AttackSequenceManager.sequence_finished.connect(func():
-		print("[InconvenienceManager] DEBUG: Attack sequence finished, executing %s at difficulty %s" % [specific_choice, str(chosen_diff)])
-		if specific_choice == "time_erase":
-			print("[InconvenienceManager] DEBUG time_erase: sequence_finished signal received, about to call _execute_major()")
 		match chosen_diff:
 			Difficulty.MINOR: _execute_minor(specific_choice)
 			Difficulty.MEDIUM: _execute_medium(specific_choice)
@@ -337,7 +339,10 @@ func _revert_inconvenience(choice: String) -> void:
 			is_time_accelerated = false
 		"time_erase":
 			is_time_erased = false
-			print("[InconvenienceManager] DEBUG time_erase: flag reverted to false after 10s timeout (is_time_erased=%s)" % str(is_time_erased))
+		"room_lock":
+			is_room_locked = false
+		"reverse_controls":
+			is_reverse_controls = false
 
 # ── MINOR ──
 func _execute_minor(choice: String) -> void:
@@ -471,6 +476,18 @@ func _execute_medium(choice: String) -> void:
 	elif choice == "force_room_swap":
 		GameManager.force_inject_special_room()
 		return
+	
+	elif choice == "room_lock":
+		is_room_locked = true
+		_auto_fix("room_lock", 10.0)
+		return
+	
+	elif choice == "reverse_controls":
+		is_reverse_controls = true
+		# Random direction: player always moves this way regardless of input
+		reverse_controls_direction = [-1, 1].pick_random()
+		_auto_fix("reverse_controls", 8.0)
+		return
 
 	# Auto-fix: most medium inconveniences have no solution → 5 seconds
 	_auto_fix(choice, AUTOFIX_NO_SOLUTION)
@@ -530,14 +547,7 @@ func _execute_major(choice: String) -> void:
 		return
 	elif choice == "time_erase":
 		is_time_erased = true
-		print("[InconvenienceManager] DEBUG time_erase: === TRIGGER PATH START ===")
-		print("[InconvenienceManager] DEBUG time_erase: flag set to true (is_time_erased=%s)" % str(is_time_erased))
-		print("[InconvenienceManager] DEBUG time_erase: attack sequence finished (is_attacking=%s)" % str(AttackSequenceManager.is_attacking))
-		print("[InconvenienceManager] DEBUG time_erase: tree paused=%s" % str(get_tree().paused))
-		print("[InconvenienceManager] DEBUG time_erase: auto-fix timer starting (10s, process_always=true)")
-		print("[InconvenienceManager] Time erased! Tasks completed in next 10s won't count.")
 		_auto_fix("time_erase", 10.0)
-		print("[InconvenienceManager] DEBUG time_erase: === TRIGGER PATH COMPLETE ===")
 		return
 
 	# Auto-fix: all major inconveniences have solutions → 30 seconds

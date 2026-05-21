@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://d4g23c65v6xio"]
 
 [ext_resource type="Script" uid="uid://cge2twkky6a4n" path="res://Scripts/RoomExit.gd" id="1_exit"]
-[ext_resource type="Texture2D" uid="uid://c5cc2i26op0os" path="res://Assets/Rooms/lobby_space.png" id="1_gvs2b"]
+[ext_resource type="Texture2D" uid="uid://blb2dg1574b48" path="res://Assets/Rooms/lobby_space.png" id="1_gvs2b"]
 [ext_resource type="PackedScene" uid="uid://cs816ugb3wtle" path="res://Scenes/NPCs/Linda.tscn" id="2_linda"]
 [ext_resource type="PackedScene" uid="uid://1dcylxfmysnm" path="res://Scenes/NPCs/Mike.tscn" id="3_mike"]
 [ext_resource type="Texture2D" uid="uid://bcv3fpjfi12oj" path="res://Assets/Rooms/Objects/lobby_desk.png" id="3_q7psc"]

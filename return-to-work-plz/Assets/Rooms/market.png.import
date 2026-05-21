@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cxmk57vdlc3j7"
-path="res://.godot/imported/street_market.png-5f2246fa242e939d979ceed861d9bb02.ctex"
+uid="uid://cmm66o83xb68x"
+path="res://.godot/imported/market.png-e273ea84d0511e55a6f553838c47f53f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Rooms/street_market.png"
-dest_files=["res://.godot/imported/street_market.png-5f2246fa242e939d979ceed861d9bb02.ctex"]
+source_file="res://Assets/Rooms/market.png"
+dest_files=["res://.godot/imported/market.png-e273ea84d0511e55a6f553838c47f53f.ctex"]
 
 [params]
 

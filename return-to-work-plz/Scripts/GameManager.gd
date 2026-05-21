@@ -12,11 +12,6 @@ signal npc_talk_updated(count: int)
 signal morale_changed(value: float)
 signal productivity_changed(value: float)
 
-# ── Debug Mode ──
-## When true, the debug panel is accessible via Ctrl+Shift+D.
-## When false, the debug panel is completely hidden and game behaves identically to release build.
-var debug_mode: bool = false
-
 # ── Player Stats (Dummy values for UI) ──
 var morale: float = 100.0
 var productivity: float = 100.0
@@ -537,39 +532,43 @@ func _validate_objective_rooms_present() -> void:
 func determine_special_npc_spawns() -> void:
 	special_npc_assignments.clear()
 	
-	# Probability schedule (per NPC):
-	# - loop 1: 0%
-	# - loop 2: 30%
-	# - loop 3: 50%
-	# - loop 4-5: 60%
-	# - loop 6+: 75%
-	var chance: float = 0.0
+	# All 3 main NPCs always spawn from loop 1, each in a different room.
+	# Chance per NPC scales with loop:
+	# - loop 1: 30%
+	# - loop 2: 50%
+	# - loop 3: 60%
+	# - loop 4-5: 75%
+	# - loop 6+: 90%
+	var chance: float = 0.3
 	if current_loop == 1:
-		chance = 0.0
-	elif current_loop == 2:
 		chance = 0.3
-	elif current_loop == 3:
+	elif current_loop == 2:
 		chance = 0.5
-	elif current_loop >= 4 and current_loop <= 5:
+	elif current_loop == 3:
 		chance = 0.6
-	else:
+	elif current_loop >= 4 and current_loop <= 5:
 		chance = 0.75
+	else:
+		chance = 0.9
 		
 	var to_spawn: Array = []
 	for npc_name in ["Steve", "Hans", "Chloe"]:
 		if randf() < chance:
 			to_spawn.append(npc_name)
+	# AlienSol and Zugad only spawn from loop 4+
+	if current_loop >= 4:
+		for npc_name in ["AlienSol", "Zugad"]:
+			if randf() < chance:
+				to_spawn.append(npc_name)
 			
 	if to_spawn.is_empty():
 		return
 		
-	# Get all active rooms in layout, excluding Lobby and Elevators
+	# Get all active rooms in layout, including Elevators (NPCs can appear anywhere)
 	var valid_rooms: Array = []
 	if has_node("/root/RoomManager"):
 		for slot in RoomManager.current_layout.keys():
 			var rname = RoomManager.current_layout[slot]
-			if "Elevator" in rname:
-				continue
 			if rname == "Lobby":
 				continue
 			valid_rooms.append(rname)

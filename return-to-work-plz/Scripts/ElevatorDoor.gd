@@ -18,6 +18,9 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
 	# Cek tombol interact, player ada, dan tidak sedang teleportasi
 	if event.is_action_pressed("interact") and player_in_range and not is_teleporting:
+		# Room Lock: block elevator usage
+		if InconvenienceManager.is_room_locked:
+			return
 		if current_player:
 			is_teleporting = true
 			prompt_label.visible = false

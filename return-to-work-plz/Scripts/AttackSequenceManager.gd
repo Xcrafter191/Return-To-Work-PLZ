@@ -44,7 +44,9 @@ var inconvenience_dialogues = {
 	"time_reverse": ["Nope.", "Do it again."],
 	"time_accelerate": ["FASTER.", "THE DEADLINE IS APPROACHING."],
 	"time_erase": ["Lunch break has been permanently removed for productivity reasons."],
-	"force_room_swap": ["If you're lost, that's called exploration."]
+	"force_room_swap": ["If you're lost, that's called exploration."],
+	"room_lock": ["You're not going anywhere.", "This is YOUR desk now."],
+	"reverse_controls": ["Left is right.", "Right is... also wrong."]
 }
 
 # Console commands from the design doc, keyed by inconvenience id
@@ -68,7 +70,9 @@ var console_commands = {
 	"time_reverse": "[st_time set -1]",
 	"time_accelerate": "[st_time speed 4.0]",
 	"time_erase": "[st_time remove]",
-	"force_room_swap": "[st_rooms set float(0.1, 0.9)]"
+	"force_room_swap": "[st_rooms set float(0.1, 0.9)]",
+	"room_lock": "[st_exit set disabled --duration 10]",
+	"reverse_controls": "[st_input invert --axis x]"
 }
 
 func _ready() -> void:
