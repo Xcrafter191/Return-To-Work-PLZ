@@ -175,6 +175,14 @@ texture_hover = ExtResource("6_opt_h")
 ignore_texture_size = true
 stretch_mode = 0
 
+[node name="AboutButton" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(400, 70)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 0.9, 0.6, 1)
+theme_override_font_sizes/font_size = 20
+text = "ABOUT"
+
 [node name="ExitButton" type="TextureButton" parent="VBoxContainer" unique_id=1795230594]
 custom_minimum_size = Vector2(400, 90)
 layout_mode = 2

@@ -2,11 +2,11 @@ extends Control
 
 @onready var play_button = $VBoxContainer/PlayButton
 @onready var options_button = $VBoxContainer/OptionsButton
+@onready var about_button = $VBoxContainer/AboutButton
 @onready var exit_button = $VBoxContainer/ExitButton
 @onready var logo_rect = $LogoRect
 @onready var background_rect = $BackgroundRect
 
-var about_button: Button = null
 var about_panel: ColorRect = null
 
 #suara hoover + click
@@ -65,14 +65,13 @@ func _ready():
 	play_button.pressed.connect(_on_play_pressed)
 	options_button.pressed.connect(_on_options_pressed)
 	exit_button.pressed.connect(_on_exit_pressed)
-	
-	# Create About button between Options and Exit
-	_create_about_button()
+	about_button.pressed.connect(_on_about_pressed)
 	
 	# Hubungkan fungsi hover (mouse masuk ke area button)
 	play_button.mouse_entered.connect(_on_button_hover)
 	exit_button.mouse_entered.connect(_on_button_hover)
 	options_button.mouse_entered.connect(_on_button_hover)
+	about_button.mouse_entered.connect(_on_button_hover)
 	
 	# Settings signals
 	close_btn.pressed.connect(_close_settings)
