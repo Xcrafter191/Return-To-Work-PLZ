@@ -33,9 +33,11 @@ var is_stuck_99: bool = false
 var is_time_stopped: bool = false
 var is_time_accelerated: bool = false
 var is_time_erased: bool = false
+var pending_reverse_task_id: String = ""  # Track reversed task for cross-room reset
 
 var red_ambience_rect: ColorRect = null
 var blur_rect: ColorRect = null
+var time_stop_overlay: CanvasLayer = null
 
 # Auto-fix timer constants
 const AUTOFIX_NO_SOLUTION: float = 10.0
@@ -59,6 +61,26 @@ func _on_room_changed(_room_name: String) -> void:
 		var scene = get_tree().current_scene
 		if scene:
 			_scramble_all_labels(scene)
+	# Time Reverse: reset workstations in newly loaded room if they match the reversed task
+	if pending_reverse_task_id != "":
+		var interactables = get_tree().get_nodes_in_group("interactables")
+		for obj in interactables:
+			if obj.task_id == pending_reverse_task_id and obj.task_completed:
+				obj.task_completed = false
+				if obj.has_node("PromptLabel"):
+					obj.get_node("PromptLabel").modulate.a = 1.0
+				obj._update_glow_state()
+				if obj.player_in_range:
+					obj._update_prompt_visibility()
+				print("[InconvenienceManager] Time Reverse (room load): Reset workstation '%s'" % obj.task_id)
+		# Clear the pending flag once the workstation is found and reset
+		var found = false
+		for obj in interactables:
+			if obj.task_id == pending_reverse_task_id:
+				found = true
+				break
+		if found:
+			pending_reverse_task_id = ""
 
 func _setup_red_ambience() -> void:
 	var canvas = CanvasLayer.new()
@@ -123,6 +145,8 @@ func _reset_permanent_inconveniences() -> void:
 	is_time_stopped = false
 	is_time_accelerated = false
 	is_time_erased = false
+	pending_reverse_task_id = ""
+	_hide_time_stop_overlay()
 	
 	if is_gibberish:
 		is_gibberish = false
@@ -218,6 +242,8 @@ func _trigger_random_inconvenience() -> void:
 	AttackSequenceManager.trigger_attack(specific_choice)
 	AttackSequenceManager.sequence_finished.connect(func():
 		print("[InconvenienceManager] DEBUG: Attack sequence finished, executing %s at difficulty %s" % [specific_choice, str(chosen_diff)])
+		if specific_choice == "time_erase":
+			print("[InconvenienceManager] DEBUG time_erase: sequence_finished signal received, about to call _execute_major()")
 		match chosen_diff:
 			Difficulty.MINOR: _execute_minor(specific_choice)
 			Difficulty.MEDIUM: _execute_medium(specific_choice)
@@ -300,11 +326,12 @@ func _revert_inconvenience(choice: String) -> void:
 			is_stuck_99 = false
 		"time_stop":
 			is_time_stopped = false
+			_hide_time_stop_overlay()
 		"time_accelerate":
 			is_time_accelerated = false
 		"time_erase":
 			is_time_erased = false
-			print("[InconvenienceManager] DEBUG time_erase: flag reverted to false after 7s timeout")
+			print("[InconvenienceManager] DEBUG time_erase: flag reverted to false after 10s timeout (is_time_erased=%s)" % str(is_time_erased))
 
 # ── MINOR ──
 func _execute_minor(choice: String) -> void:
@@ -416,11 +443,9 @@ func _execute_medium(choice: String) -> void:
 		_auto_fix(choice, AUTOFIX_HAS_SOLUTION)
 		return
 			
-	elif choice == "unpause_hack":
-		is_unpause_hack = true
-	
 	elif choice == "time_stop":
 		is_time_stopped = true
+		_show_time_stop_overlay()
 		print("[InconvenienceManager] Time stopped! Player can move but can't interact for 5s.")
 		_auto_fix("time_stop", 5.0)
 		return
@@ -482,9 +507,11 @@ func _execute_major(choice: String) -> void:
 		is_stuck_99 = true
 	elif choice == "time_reverse":
 		GameManager.reverse_last_task()
+		# Store the reversed task ID so workstations in other rooms can reset when loaded
+		var reversed_task_id = GameManager.get_current_task_id()
+		pending_reverse_task_id = reversed_task_id
 		# Explicit group query to reset workstation task_completed for the reversed task
 		# This ensures the reset happens even if the signal path doesn't reach all workstations
-		var reversed_task_id = GameManager.get_current_task_id()
 		if reversed_task_id != "":
 			var interactables = get_tree().get_nodes_in_group("interactables")
 			for obj in interactables:
@@ -497,9 +524,14 @@ func _execute_major(choice: String) -> void:
 		return
 	elif choice == "time_erase":
 		is_time_erased = true
-		print("[InconvenienceManager] Time erased! Tasks completed in next 7s won't count.")
-		print("[InconvenienceManager] DEBUG time_erase: flag set to true, auto-fix in 7s (process_always)")
-		_auto_fix("time_erase", 7.0)
+		print("[InconvenienceManager] DEBUG time_erase: === TRIGGER PATH START ===")
+		print("[InconvenienceManager] DEBUG time_erase: flag set to true (is_time_erased=%s)" % str(is_time_erased))
+		print("[InconvenienceManager] DEBUG time_erase: attack sequence finished (is_attacking=%s)" % str(AttackSequenceManager.is_attacking))
+		print("[InconvenienceManager] DEBUG time_erase: tree paused=%s" % str(get_tree().paused))
+		print("[InconvenienceManager] DEBUG time_erase: auto-fix timer starting (10s, process_always=true)")
+		print("[InconvenienceManager] Time erased! Tasks completed in next 10s won't count.")
+		_auto_fix("time_erase", 10.0)
+		print("[InconvenienceManager] DEBUG time_erase: === TRIGGER PATH COMPLETE ===")
 		return
 
 	# Auto-fix: all major inconveniences have solutions → 30 seconds
@@ -573,3 +605,36 @@ func _unscramble_all_labels(node: Node) -> void:
 				node.remove_meta("orig_text_" + str(i))
 	for child in node.get_children():
 		_unscramble_all_labels(child)
+
+# ── TIME STOP VISUAL OVERLAY ──
+func _show_time_stop_overlay() -> void:
+	if time_stop_overlay != null:
+		return
+	time_stop_overlay = CanvasLayer.new()
+	time_stop_overlay.layer = 9  # Below UI, above world
+	var rect = ColorRect.new()
+	rect.name = "TimeStopTint"
+	rect.set_anchors_preset(Control.PRESET_FULL_RECT)
+	rect.color = Color(0.3, 0.5, 0.8, 0.0)
+	rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	time_stop_overlay.add_child(rect)
+	add_child(time_stop_overlay)
+	# Fade in the tint
+	var tween = create_tween()
+	tween.tween_property(rect, "color:a", 0.25, 0.3)
+
+func _hide_time_stop_overlay() -> void:
+	if time_stop_overlay == null:
+		return
+	var rect = time_stop_overlay.get_node_or_null("TimeStopTint")
+	if rect:
+		var tween = create_tween()
+		tween.tween_property(rect, "color:a", 0.0, 0.3)
+		tween.tween_callback(func():
+			if is_instance_valid(time_stop_overlay):
+				time_stop_overlay.queue_free()
+				time_stop_overlay = null
+		)
+	else:
+		time_stop_overlay.queue_free()
+		time_stop_overlay = null

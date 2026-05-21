@@ -220,18 +220,18 @@ func _spawn_temp_wall(side: String) -> void:
 	
 	var shape = CollisionShape2D.new()
 	var rect  = RectangleShape2D.new()
-	rect.size = Vector2(32, 2000)  # tinggi lebih dari cukup
+	rect.size = Vector2(40, 2000)  # Match wall width from room scenes, tall enough
 	shape.shape = rect
 	body.add_child(shape)
 	current_room.add_child(body)
 	
-	# Posisi: tempel di tepi kiri atau kanan viewport
-	var vp_width = get_viewport().get_visible_rect().size.x
+	# Posisi: tempel di tepi kiri atau kanan viewport (match room wall positions)
 	if side == "Left":
-		# Place wall flush against the left edge (half-width offset so collision covers the boundary)
-		body.position = Vector2(16, 0)
+		body.position = Vector2(-10, 513)
+		shape.position = Vector2(-2, 55)
 	else:
-		body.position = Vector2(vp_width - 16, 0)
+		body.position = Vector2(1945, 524)
+		shape.position = Vector2(-2, 55)
 	
 	print("[RoomManager] Spawned temp wall on %s for room '%s'" % [side, current_room_name])
 

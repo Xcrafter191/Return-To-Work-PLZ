@@ -46,6 +46,17 @@ func _ready() -> void:
 	$InteractionArea.body_exited.connect(_on_player_exited)
 
 func _physics_process(delta: float) -> void:
+	# Time Stop: freeze NPC animation
+	if InconvenienceManager.is_time_stopped:
+		velocity = Vector2.ZERO
+		if anim_sprite and anim_sprite.is_playing():
+			anim_sprite.pause()
+		return
+	else:
+		if anim_sprite and not anim_sprite.is_playing():
+			if anim_sprite.sprite_frames and anim_sprite.sprite_frames.has_animation("idle"):
+				anim_sprite.play("idle")
+	
 	if not is_on_floor():
 		velocity.y += gravity * delta
 	else:

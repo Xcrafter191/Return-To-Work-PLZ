@@ -4,7 +4,7 @@ extends SceneTree
 ## Tests that verify EXISTING correct behavior on UNFIXED code.
 ## These tests capture baseline behavior that must be preserved after bugfixes.
 ##
-## **Validates: Requirements 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8, 3.9, 3.10**
+## **Validates: Requirements 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8, 3.9, 3.10, 3.11**
 ##
 ## Run with: godot --headless --script res://Tests/test_preservation.gd
 
@@ -67,6 +67,11 @@ func _run_all_tests() -> void:
 	_test_time_accelerate_reverts_after_2s()
 	_test_inconvenience_quotas_respected()
 	_test_accumulated_chance_mechanics()
+	
+	# Property 2.9: Debug panel hidden by default (Req 3.11)
+	_test_debug_panel_hidden_by_default()
+	_test_debug_panel_starts_offscreen()
+	_test_debug_panel_no_visible_ui_without_toggle()
 
 # ═══════════════════════════════════════════════════════════════════
 # HELPERS
@@ -402,3 +407,37 @@ func _test_accumulated_chance_mechanics() -> void:
 		"Resets accumulated_chance to base_chance after trigger")
 	_assert(source.contains("accumulated_chance += base_chance"),
 		"Accumulates chance on miss")
+
+
+# ═══════════════════════════════════════════════════════════════════
+# Property 2.9: Debug Panel Hidden By Default
+# **Validates: Requirements 3.11**
+# For all states where debug flag is disabled, no debug panel is visible.
+# ═══════════════════════════════════════════════════════════════════
+
+func _test_debug_panel_hidden_by_default() -> void:
+	# AdminPanel starts with is_open = false
+	var script = load("res://Scripts/AdminPanel.gd") as GDScript
+	var source = script.source_code
+	
+	_assert(source.contains("var is_open: bool = false"),
+		"AdminPanel starts with is_open = false (hidden by default)")
+
+func _test_debug_panel_starts_offscreen() -> void:
+	# AdminPanel panel position starts at x = -300 (off-screen left)
+	var script = load("res://Scripts/AdminPanel.gd") as GDScript
+	var source = script.source_code
+	
+	_assert(source.contains("panel.position = Vector2(-300"),
+		"AdminPanel panel starts off-screen (x = -300)")
+
+func _test_debug_panel_no_visible_ui_without_toggle() -> void:
+	# AdminPanel only shows when F1 is pressed (_toggle_panel)
+	# When not toggled, panel remains at x = -300 (invisible)
+	var script = load("res://Scripts/AdminPanel.gd") as GDScript
+	var source = script.source_code
+	
+	_assert(source.contains("_toggle_panel()"),
+		"AdminPanel requires explicit toggle to show")
+	_assert(source.contains("tween_property(panel, \"position:x\", -300.0"),
+		"AdminPanel hides by tweening to x = -300 (off-screen)")

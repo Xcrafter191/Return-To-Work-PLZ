@@ -10,20 +10,31 @@ extends Node2D
 @export var task_id: String = ""  ## Must match a GameManager objective id
 @export var on_complete_npc_path: NodePath = ""  ## Optional: NPC to change dialogue on completion
 @export var on_complete_npc_dialogue: String = ""  ## New dialogue for that NPC
-@onready var task_sfx: AudioStreamPlayer2D = $TaskSFX
+var task_sfx: AudioStreamPlayer2D = null
 
 var player_in_range: bool = false
 var current_player: CharacterBody2D = null
 var task_completed: bool = false
 
-@onready var prompt_label: Label = $PromptLabel
+var prompt_label: Label = null
 
 var _highlight_rect: ColorRect = null
 
 func _ready() -> void:
+	task_sfx = get_node_or_null("TaskSFX")
+	prompt_label = get_node_or_null("PromptLabel")
+	if prompt_label == null:
+		# Create a fallback PromptLabel so the rest of the script doesn't crash
+		prompt_label = Label.new()
+		prompt_label.name = "PromptLabel"
+		prompt_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		prompt_label.position = Vector2(0, -60)
+		add_child(prompt_label)
 	prompt_label.visible = false
-	$DetectionArea.body_entered.connect(_on_body_entered)
-	$DetectionArea.body_exited.connect(_on_body_exited)
+	var detection_area = get_node_or_null("DetectionArea")
+	if detection_area:
+		detection_area.body_entered.connect(_on_body_entered)
+		detection_area.body_exited.connect(_on_body_exited)
 	GameManager.loop_restarted.connect(_on_loop_restarted)
 	# Update prompt and glow when task changes
 	GameManager.current_task_changed.connect(_on_task_changed)
@@ -124,11 +135,17 @@ func _update_prompt_visibility() -> void:
 		else:
 			prompt_label.text = "Press [E] - %s" % display_name
 		prompt_label.visible = true
+		_start_glow()
 	else:
 		prompt_label.visible = false
+		_stop_glow()
 
 func _update_glow_state() -> void:
 	if task_id == "" or task_completed:
+		_stop_glow()
+		return
+	# Do NOT glow during time_stop — player cannot interact anyway
+	if InconvenienceManager.is_time_stopped:
 		_stop_glow()
 		return
 	if task_id == GameManager.get_current_task_id():
@@ -168,15 +185,22 @@ func on_interact_complete() -> void:
 		task_sfx.stop()
 	
 	# Time Erase: task finishes but doesn't count!
+	# Guard checks both the flag AND that the attack sequence has finished (no race condition)
 	if InconvenienceManager.is_time_erased:
-		print("[InteractableObject] DEBUG time_erase: task '%s' completed but ERASED (is_time_erased=true)" % task_id)
+		print("[InteractableObject] DEBUG time_erase: task '%s' completed but ERASED (is_time_erased=%s, attack_active=%s)" % [task_id, str(InconvenienceManager.is_time_erased), str(AttackSequenceManager.is_attacking)])
 		prompt_label.text = "[ERASED]"
 		prompt_label.visible = true
-		task_completed = false  # Let them redo it
+		task_completed = false  # Reset so player can retry
+		_update_glow_state()  # Re-enable glow for retry
 		var tween = create_tween()
 		tween.tween_interval(1.5)
 		tween.tween_property(prompt_label, "modulate:a", 0.0, 1.0)
-		tween.tween_callback(func(): prompt_label.visible = false; prompt_label.modulate.a = 1.0)
+		tween.tween_callback(func():
+			prompt_label.visible = false
+			prompt_label.modulate.a = 1.0
+			if player_in_range:
+				_update_prompt_visibility()
+		)
 		return
 	
 	prompt_label.text = "Done!"
@@ -201,6 +225,25 @@ func _skip_task() -> void:
 	task_completed = true
 	if task_sfx:
 		task_sfx.stop()
+	
+	# Time Erase: skip also doesn't count during erase window
+	if InconvenienceManager.is_time_erased:
+		print("[InteractableObject] DEBUG time_erase: task '%s' skipped but ERASED (is_time_erased=true)" % task_id)
+		prompt_label.text = "[ERASED]"
+		prompt_label.visible = true
+		task_completed = false  # Reset so player can retry
+		_update_glow_state()
+		var tween = create_tween()
+		tween.tween_interval(1.5)
+		tween.tween_property(prompt_label, "modulate:a", 0.0, 1.0)
+		tween.tween_callback(func():
+			prompt_label.visible = false
+			prompt_label.modulate.a = 1.0
+			if player_in_range:
+				_update_prompt_visibility()
+		)
+		return
+	
 	prompt_label.text = "Skipped"
 	prompt_label.visible = true
 	if task_id != "":

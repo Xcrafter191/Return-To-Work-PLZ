@@ -64,6 +64,17 @@ func _update_dialogue_position() -> void:
 	dialogue_box.position.y = sprite_top + dialogue_offset_y
 
 func _physics_process(delta: float) -> void:
+	# Time Stop: freeze NPC movement entirely
+	if InconvenienceManager.is_time_stopped:
+		velocity = Vector2.ZERO
+		if anim_sprite and anim_sprite.is_playing():
+			anim_sprite.pause()
+		return
+	else:
+		if anim_sprite and not anim_sprite.is_playing():
+			if anim_sprite.sprite_frames and anim_sprite.sprite_frames.has_animation("walk"):
+				anim_sprite.play("walk")
+	
 	if not is_on_floor():
 		velocity.y += gravity * delta
 	else:

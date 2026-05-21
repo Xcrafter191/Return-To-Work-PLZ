@@ -62,7 +62,7 @@ func _ready() -> void:
 	clock_rect.offset_left   = 20    # jarak dari tepi kiri
 	clock_rect.offset_bottom = -20   # jarak dari tepi bawah (negatif = naik)
 	clock_rect.offset_right  = 20 + 96   # offset_left + lebar clock (sesuaikan)
-	clock_rect.offset_top    = -20 - 96  # offset_bottom - tinggi clock (sesuaikan)
+	clock_rect.offset_top    = -115 - 100  # offset_bottom - tinggi clock (sesuaikan)
 	clock_rect.expand_mode = TextureRect.EXPAND_KEEP_SIZE
 	clock_rect.visible = false
 	add_child(clock_rect)
@@ -172,7 +172,7 @@ func _update_direction_arrow() -> void:
 			_stop_cta_flash()
 			direction_arrow.visible = false
 			return
-		direction_arrow.rotation_degrees = 270.0 if target_floor > RoomManager.current_floor else 90.0
+		direction_arrow.rotation_degrees = 90.0 if target_floor > RoomManager.current_floor else 270.0
 		direction_arrow.set_anchors_preset(Control.PRESET_CENTER)
 		direction_arrow.offset_left   = -50
 		direction_arrow.offset_right  =  50
@@ -218,12 +218,12 @@ func _update_direction_arrow() -> void:
 ## Helper: true = kiri, false = kanan
 func _set_arrow_side(is_left: bool) -> void:
 	if is_left:
-		direction_arrow.rotation_degrees = 180.0
+		direction_arrow.rotation_degrees = 0.0
 		direction_arrow.set_anchors_preset(Control.PRESET_CENTER_LEFT)
 		direction_arrow.offset_left   =  30
 		direction_arrow.offset_right  = 200
 	else:
-		direction_arrow.rotation_degrees = 0.0
+		direction_arrow.rotation_degrees = 180.0
 		direction_arrow.set_anchors_preset(Control.PRESET_CENTER_RIGHT)
 		direction_arrow.offset_right  = -30
 		direction_arrow.offset_left   = -170

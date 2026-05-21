@@ -12,6 +12,11 @@ signal npc_talk_updated(count: int)
 signal morale_changed(value: float)
 signal productivity_changed(value: float)
 
+# ── Debug Mode ──
+## When true, the debug panel is accessible via Ctrl+Shift+D.
+## When false, the debug panel is completely hidden and game behaves identically to release build.
+var debug_mode: bool = false
+
 # ── Player Stats (Dummy values for UI) ──
 var morale: float = 100.0
 var productivity: float = 100.0
@@ -49,7 +54,7 @@ func _process(delta: float) -> void:
 		task_deadline_time -= delta
 		if task_deadline_time <= 0:
 			# Failed deadline!
-			set_productivity(productivity - 10.0)
+			set_productivity(productivity - 5.0)
 			consecutive_tasks = 0
 			# Reset to 20 seconds to keep the pressure on!
 			task_deadline_time = 20.0
@@ -169,7 +174,7 @@ func complete_objective(task_id: String) -> void:
 	if is_deadline_active and task_deadline_time > 0:
 		consecutive_tasks += 1
 		if consecutive_tasks >= 2:
-			set_productivity(productivity + 5.0)
+			set_productivity(productivity + 10.0)
 			consecutive_tasks = 0
 			print("[GameManager] 2 tasks done in time! Recovered 5% productivity.")
 	
@@ -212,8 +217,11 @@ func punish_wrong_task() -> void:
 
 ## Check if the current task can be auto-completed (e.g., talk_npcs already met)
 func _check_auto_complete() -> void:
-	if get_current_task_id() == "talk_npcs" and talked_npcs.size() >= REQUIRED_NPC_TALKS:
-		complete_objective("talk_npcs")
+	if get_current_task_id() == "talk_npcs":
+		# Reset NPC talk count when this task becomes active — only talks DURING this task count
+		talked_npcs.clear()
+		npc_talk_updated.emit(0)
+		print("[GameManager] talk_npcs task now active — NPC talk counter reset to 0.")
 
 ## Time Reverse — undo the last completed task so the player must redo it
 func reverse_last_task() -> void:
@@ -235,28 +243,43 @@ func reverse_last_task() -> void:
 	_start_task_deadline()
 	print("[GameManager] Time Reverse! Must redo: %s" % obj["id"])
 
-## Force Room Swap — inject a random special room into Floor 2 layout
+## Force Room Swap — inject a random special room into Floor 2 layout (ADD only, never removes)
 func force_inject_special_room() -> void:
 	var special_rooms = ["Special_Castle", "Special_Beach", "Special_Ikea", "Special_Market", "Special_Spaceship"]
-	var chosen_room = special_rooms.pick_random()
+	# Filter out rooms already in layout
+	var available_rooms = []
+	var existing_rooms = RoomManager.current_layout.values()
+	for room in special_rooms:
+		if room not in existing_rooms:
+			available_rooms.append(room)
+	
+	if available_rooms.is_empty():
+		print("[GameManager] All special rooms already in layout, nothing to inject!")
+		return
+	
+	var chosen_room = available_rooms.pick_random()
 	
 	var valid_indices = []
 	for i in range(1, RoomManager.active_slots_f2.size()):
-		if not "Elevator" in RoomManager.active_slots_f2[i] and not "Elevator" in RoomManager.active_slots_f2[i-1]:
-			if not RoomManager.active_slots_f2[i].begins_with("Slot_Special"):
-				# Defensive check: don't inject next to a slot containing an objective-required room
-				var slot_at_idx = RoomManager.active_slots_f2[i]
-				if slot_at_idx in RoomManager.current_layout:
-					var room_at_slot = RoomManager.current_layout[slot_at_idx]
-					if room_at_slot in OBJECTIVE_REQUIRED_ROOMS:
-						continue
-					if room_at_slot.begins_with("Cubicle"):
-						continue
-				valid_indices.append(i)
+		if "Elevator" in RoomManager.active_slots_f2[i]:
+			continue
+		if i > 0 and "Elevator" in RoomManager.active_slots_f2[i-1]:
+			continue
+		if RoomManager.active_slots_f2[i].begins_with("Slot_Special"):
+			continue
+		# Defensive check: don't inject next to a slot containing an objective-required room
+		var slot_at_idx = RoomManager.active_slots_f2[i]
+		if slot_at_idx in RoomManager.current_layout:
+			var room_at_slot = RoomManager.current_layout[slot_at_idx]
+			if room_at_slot in OBJECTIVE_REQUIRED_ROOMS:
+				continue
+			if room_at_slot.begins_with("Cubicle"):
+				continue
+		valid_indices.append(i)
 	
 	if valid_indices.size() > 0:
 		var insert_idx = valid_indices.pick_random()
-		var slot_id = "Slot_Special_" + str(randi() % 1000)
+		var slot_id = "Slot_Special_" + str(randi() % 10000)
 		RoomManager.active_slots_f2.insert(insert_idx, slot_id)
 		RoomManager.current_layout[slot_id] = chosen_room
 		print("[GameManager] Force injected special room %s at F2 index %d" % [chosen_room, insert_idx])
@@ -267,12 +290,15 @@ func force_inject_special_room() -> void:
 
 ## Called by NPC scripts when player enters their interaction area
 func register_npc_talk(npc_name: String) -> void:
+	# Only count NPC talks when the talk_npcs task is the active task
+	if get_current_task_id() != "talk_npcs":
+		return
 	if npc_name not in talked_npcs:
 		talked_npcs[npc_name] = true
 		print("[GameManager] Talked to: %s (%d/%d unique NPCs)" % [npc_name, talked_npcs.size(), REQUIRED_NPC_TALKS])
 		npc_talk_updated.emit(talked_npcs.size())
-		# If the talk_npcs task is active and we've met the quota, auto-complete
-		if get_current_task_id() == "talk_npcs" and talked_npcs.size() >= REQUIRED_NPC_TALKS:
+		# If we've met the quota, auto-complete
+		if talked_npcs.size() >= REQUIRED_NPC_TALKS:
 			complete_objective("talk_npcs")
 
 func get_talked_count() -> int:
@@ -361,62 +387,63 @@ func shuffle_rooms(is_start_of_loop: bool = false) -> void:
 	for key in keys_to_remove:
 		RoomManager.current_layout.erase(key)
 	
-	var chance = 0.0
+	# Room swap triggers from loop 3 onwards (guaranteed)
+	# It only ADDS rooms, never removes or shuffles existing ones
+	var should_inject: bool = false
 	if is_start_of_loop:
-		if current_loop == 1: chance = 0.0
-		elif current_loop == 2: chance = 0.05
-		elif current_loop == 3: chance = 0.15
-		elif current_loop == 4: chance = 0.30
-		else: chance = 0.50 + min((current_loop - 5) * 0.10, 0.49)
+		if current_loop >= 3:
+			should_inject = true
 	else:
-		chance = 1.0 # Mid-loop attack
+		should_inject = true  # Mid-loop attack always injects
 		
-	if randf() <= chance:
-		print("[GameManager] SHUFFLING ROOMS!")
-		var swappable_rooms = []
-		var slots_to_swap = []
+	if should_inject:
+		print("[GameManager] INJECTING SPECIAL ROOMS (loop %d)!" % current_loop)
+		# Determine how many special rooms to inject based on loop
+		var num_injections: int = 1
+		if current_loop >= 5:
+			num_injections = 2
+		if current_loop >= 8:
+			num_injections = 3
 		
-		for slot in RoomManager.current_layout.keys():
-			if "Elevator" in slot: continue
-			if slot == "Slot_F1_Left": continue # Lobby never swaps
+		var special_rooms = ["Special_Castle", "Special_Beach", "Special_Ikea", "Special_Market", "Special_Spaceship"]
+		special_rooms.shuffle()
+		
+		for n in range(num_injections):
+			if n >= special_rooms.size():
+				break
+			var chosen_room = special_rooms[n]
 			
-			swappable_rooms.append(RoomManager.current_layout[slot])
-			slots_to_swap.append(slot)
-				
-		swappable_rooms.shuffle()
-		
-		for i in range(slots_to_swap.size()):
-			RoomManager.current_layout[slots_to_swap[i]] = swappable_rooms[i]
-		
-		# Post-shuffle validation: ensure all objective-required rooms are present
-		_validate_objective_rooms_present()
-			
-	# Inject a Special Room at the start of the loop
-	if is_start_of_loop:
-		var special_chance = min((current_loop - 1) * 0.05, 0.40)
-		if randf() <= special_chance:
-			var special_rooms = ["Special_Castle", "Special_Beach", "Special_Ikea", "Special_Market", "Special_Spaceship"]
-			var chosen_room = special_rooms.pick_random()
+			# Check if this special room is already in the layout
+			if chosen_room in RoomManager.current_layout.values():
+				continue
 			
 			var valid_indices = []
 			for i in range(1, RoomManager.active_slots_f2.size()):
-				if not "Elevator" in RoomManager.active_slots_f2[i] and not "Elevator" in RoomManager.active_slots_f2[i-1]:
-					# Defensive check: don't inject at a slot containing an objective-required room
-					var slot_at_idx = RoomManager.active_slots_f2[i]
-					if slot_at_idx in RoomManager.current_layout:
-						var room_at_slot = RoomManager.current_layout[slot_at_idx]
-						if room_at_slot in OBJECTIVE_REQUIRED_ROOMS:
-							continue
-						if room_at_slot.begins_with("Cubicle"):
-							continue
-					valid_indices.append(i)
+				if "Elevator" in RoomManager.active_slots_f2[i]:
+					continue
+				if i > 0 and "Elevator" in RoomManager.active_slots_f2[i-1]:
+					continue
+				if RoomManager.active_slots_f2[i].begins_with("Slot_Special"):
+					continue
+				# Don't inject next to a slot containing an objective-required room
+				var slot_at_idx = RoomManager.active_slots_f2[i]
+				if slot_at_idx in RoomManager.current_layout:
+					var room_at_slot = RoomManager.current_layout[slot_at_idx]
+					if room_at_slot in OBJECTIVE_REQUIRED_ROOMS:
+						continue
+					if room_at_slot.begins_with("Cubicle"):
+						continue
+				valid_indices.append(i)
 			
 			if valid_indices.size() > 0:
 				var insert_idx = valid_indices.pick_random()
-				var slot_id = "Slot_Special_" + str(randi() % 1000)
+				var slot_id = "Slot_Special_" + str(randi() % 10000)
 				RoomManager.active_slots_f2.insert(insert_idx, slot_id)
 				RoomManager.current_layout[slot_id] = chosen_room
-				print("[GameManager] Spawned special room %s at F2 index %d" % [chosen_room, insert_idx])
+				print("[GameManager] Injected special room %s at F2 index %d" % [chosen_room, insert_idx])
+	
+	# Post-injection validation: ensure all objective-required rooms are still present
+	_validate_objective_rooms_present()
 
 ## Post-shuffle validation: ensure all objective-required rooms remain in the layout.
 ## If any are missing, swap them back in by replacing a non-objective room.
@@ -465,20 +492,23 @@ func _validate_objective_rooms_present() -> void:
 func determine_special_npc_spawns() -> void:
 	special_npc_assignments.clear()
 	
-	# Probability schedule:
+	# Probability schedule (per NPC):
 	# - loop 1: 0%
-	# - loop 2-3: 10%
-	# - loop 4-7: 30%
-	# - loop 8+: 40%
+	# - loop 2: 30%
+	# - loop 3: 50%
+	# - loop 4-5: 60%
+	# - loop 6+: 75%
 	var chance: float = 0.0
 	if current_loop == 1:
 		chance = 0.0
-	elif current_loop in [2, 3]:
-		chance = 0.1
-	elif current_loop >= 4 and current_loop <= 7:
+	elif current_loop == 2:
 		chance = 0.3
+	elif current_loop == 3:
+		chance = 0.5
+	elif current_loop >= 4 and current_loop <= 5:
+		chance = 0.6
 	else:
-		chance = 0.4
+		chance = 0.75
 		
 	var to_spawn: Array = []
 	for npc_name in ["Steve", "Hans", "Chloe"]:
