@@ -37,14 +37,6 @@ position = Vector2(297, 870)
 [node name="SpawnRight" type="Marker2D" parent="." unique_id=627397390]
 position = Vector2(1750, 877)
 
-[node name="RoomLabel" type="Label" parent="." unique_id=1163974170]
-offset_left = 860.0
-offset_top = 30.0
-offset_right = 1060.0
-offset_bottom = 60.0
-text = "BEACH"
-horizontal_alignment = 1
-
 [node name="Derek" parent="." unique_id=1904495921 instance=ExtResource("3_npc")]
 position = Vector2(960, 873)
 
@@ -64,14 +56,6 @@ offset_right = 30.0
 offset_bottom = 874.0
 color = Color(0.3, 0.3, 0.5, 0.4)
 
-[node name="ExitLabel_Left" type="Label" parent="." unique_id=1197072923]
-offset_left = 10.0
-offset_top = 760.0
-offset_right = 120.0
-offset_bottom = 790.0
-text = "<- Lobby"
-horizontal_alignment = 1
-
 [node name="ExitRight" type="Area2D" parent="." unique_id=2043404934]
 position = Vector2(1910, 780)
 collision_layer = 0
@@ -87,14 +71,6 @@ offset_top = 574.0
 offset_right = 1920.0
 offset_bottom = 874.0
 color = Color(0.3, 0.3, 0.5, 0.4)
-
-[node name="ExitLabel_Right" type="Label" parent="." unique_id=1943172882]
-offset_left = 1800.0
-offset_top = 760.0
-offset_right = 1910.0
-offset_bottom = 790.0
-text = "Cubicle ->"
-horizontal_alignment = 1
 
 [node name="WallRight" type="StaticBody2D" parent="." unique_id=446817420]
 position = Vector2(1945, 524)

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://p0jousohicni"
-path="res://.godot/imported/meeting_room.png-539a8cfed6d4a26b62a5ee27f07fb240.ctex"
+uid="uid://e0qs47s2crey"
+path="res://.godot/imported/spaceship.png-560556a420affe39364a54098ad2068e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Rooms/meeting_room.png"
-dest_files=["res://.godot/imported/meeting_room.png-539a8cfed6d4a26b62a5ee27f07fb240.ctex"]
+source_file="res://Assets/Rooms/spaceship.png"
+dest_files=["res://.godot/imported/spaceship.png-560556a420affe39364a54098ad2068e.ctex"]
 
 [params]
 

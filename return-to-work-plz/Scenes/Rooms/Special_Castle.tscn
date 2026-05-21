@@ -1,0 +1,91 @@
+[gd_scene format=3 uid="uid://bnhksuo4i5q5v"]
+
+[ext_resource type="Script" uid="uid://cge2twkky6a4n" path="res://Scripts/RoomExit.gd" id="1_exit"]
+[ext_resource type="Texture2D" uid="uid://dljbdlexlnmbm" path="res://Assets/Rooms/castle.png" id="2_bg"]
+[ext_resource type="PackedScene" uid="uid://d3fj6pd03ipin" path="res://Scenes/NPCs/Zugad.tscn" id="3_npc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
+size = Vector2(1920, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_exit"]
+size = Vector2(40, 708)
+
+[node name="Special_Castle" type="Node2D" unique_id=1377818007]
+
+[node name="Background" type="Sprite2D" parent="." unique_id=1295401106]
+position = Vector2(960, 540)
+texture = ExtResource("2_bg")
+
+[node name="Floor" type="StaticBody2D" parent="." unique_id=733496438]
+position = Vector2(960, 873)
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=267158760]
+position = Vector2(-3, 22)
+shape = SubResource("RectangleShape2D_floor")
+
+[node name="RoomCenter" type="Marker2D" parent="." unique_id=1790389235]
+position = Vector2(960, 540)
+
+[node name="SpawnDefault" type="Marker2D" parent="." unique_id=592032886]
+position = Vector2(297, 870)
+
+[node name="SpawnLeft" type="Marker2D" parent="." unique_id=302356240]
+position = Vector2(297, 870)
+
+[node name="SpawnRight" type="Marker2D" parent="." unique_id=1672250227]
+position = Vector2(1750, 877)
+
+[node name="Zugad" parent="." unique_id=577123657 instance=ExtResource("3_npc")]
+position = Vector2(960, 873)
+
+[node name="ExitLeft" type="Area2D" parent="." unique_id=658410585]
+position = Vector2(10, 780)
+collision_layer = 0
+script = ExtResource("1_exit")
+exit_direction = -1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitLeft" unique_id=1782790676]
+position = Vector2(-2, -198)
+shape = SubResource("RectangleShape2D_exit")
+
+[node name="ExitVisual_Left" type="ColorRect" parent="." unique_id=877341222]
+offset_top = 574.0
+offset_right = 30.0
+offset_bottom = 874.0
+color = Color(0.3, 0.3, 0.5, 0.4)
+
+[node name="ExitRight" type="Area2D" parent="." unique_id=658359417]
+position = Vector2(1910, 780)
+collision_layer = 0
+script = ExtResource("1_exit")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitRight" unique_id=124696678]
+position = Vector2(-2, -198)
+shape = SubResource("RectangleShape2D_exit")
+
+[node name="ExitVisual_Right" type="ColorRect" parent="." unique_id=1574467394]
+offset_left = 1890.0
+offset_top = 574.0
+offset_right = 1920.0
+offset_bottom = 874.0
+color = Color(0.3, 0.3, 0.5, 0.4)
+
+[node name="WallRight" type="StaticBody2D" parent="." unique_id=533713555]
+position = Vector2(1945, 524)
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallRight" unique_id=2021500750]
+position = Vector2(-2, 55)
+shape = SubResource("RectangleShape2D_exit")
+
+[node name="WallLeft" type="StaticBody2D" parent="." unique_id=522780940]
+position = Vector2(-10, 513)
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallLeft" unique_id=589684475]
+position = Vector2(-2, 55)
+shape = SubResource("RectangleShape2D_exit")

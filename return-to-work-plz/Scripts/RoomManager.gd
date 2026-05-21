@@ -121,10 +121,6 @@ func change_room(slot_name: String, spawn_point_name: String = "SpawnDefault", f
 					npc_inst.patrol_left_x = 300.0
 					npc_inst.patrol_right_x = 1500.0
 					npc_inst.move_speed = 40.0
-				elif npc_id == "AlienSol":
-					spawn_pos = Vector2(700, 873)
-				elif npc_id == "Zugad":
-					spawn_pos = Vector2(1200, 873)
 				
 				current_room.add_child(npc_inst)
 				npc_inst.global_position = spawn_pos

@@ -141,9 +141,9 @@ func _on_loop_restarted(loop_num: int) -> void:
 	_setup_loop_quotas(loop_num)
 	_update_red_ambience(loop_num)
 	_reset_permanent_inconveniences()
-	# Jumpscare: pick a random task index for this loop (loop 10+)
+	# Jumpscare: pick a random task index for this loop (loop 10 only)
 	_jumpscare_triggered_this_loop = false
-	if loop_num >= 10:
+	if loop_num == 10:
 		_jumpscare_task_index = randi_range(0, GameManager.objectives.size() - 1)
 	else:
 		_jumpscare_task_index = -1
@@ -203,7 +203,7 @@ func full_reset() -> void:
 
 func _on_objective_completed(_task_id: String) -> void:
 	# Jumpscare: loop 10+, triggers once per loop on a random task
-	if GameManager.current_loop >= 10 and not _jumpscare_triggered_this_loop:
+	if GameManager.current_loop == 10 and not _jumpscare_triggered_this_loop:
 		# Check if this is the chosen task
 		if GameManager.current_task_index - 1 == _jumpscare_task_index:
 			_jumpscare_triggered_this_loop = true

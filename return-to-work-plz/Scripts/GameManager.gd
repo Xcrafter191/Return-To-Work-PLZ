@@ -262,7 +262,7 @@ func force_inject_special_room() -> void:
 		_validate_objective_rooms_present()
 	
 	# Inject a special room
-	var special_rooms = ["Special_Beach", "Special_Ikea", "Special_Market"]
+	var special_rooms = ["Special_Beach", "Special_Ikea", "Special_Market", "Special_Spaceship", "Special_Castle"]
 	var available_rooms = []
 	var existing_rooms = RoomManager.current_layout.values()
 	for room in special_rooms:
@@ -453,7 +453,7 @@ func shuffle_rooms(is_start_of_loop: bool = false) -> void:
 		if current_loop >= 8:
 			num_injections = 3
 		
-		var special_rooms = ["Special_Beach", "Special_Ikea", "Special_Market"]
+		var special_rooms = ["Special_Beach", "Special_Ikea", "Special_Market", "Special_Spaceship", "Special_Castle"]
 		special_rooms.shuffle()
 		
 		for n in range(num_injections):
@@ -555,12 +555,6 @@ func determine_special_npc_spawns() -> void:
 	for npc_name in ["Steve", "Hans", "Chloe"]:
 		if randf() < chance:
 			to_spawn.append(npc_name)
-	# AlienSol and Zugad only spawn from loop 4+
-	if current_loop >= 4:
-		for npc_name in ["AlienSol", "Zugad"]:
-			if randf() < chance:
-				to_spawn.append(npc_name)
-			
 	if to_spawn.is_empty():
 		return
 		

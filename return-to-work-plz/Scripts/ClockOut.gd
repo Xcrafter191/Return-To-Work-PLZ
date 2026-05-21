@@ -48,22 +48,20 @@ func _on_loop_restarted(_loop: int) -> void:
 func _update_prompt() -> void:
 	var current_task = GameManager.get_current_task_id()
 	if current_task == "clock_in":
-		prompt_label.visible = true
+		prompt_label.visible = false
 	elif current_task == "clock_out":
-		prompt_label.visible = true
+		prompt_label.visible = false
 	else:
 		prompt_label.visible = false
 
 func _do_clock_in() -> void:
-	prompt_label.text = "Clocking in..."
-	prompt_label.visible = true
+	prompt_label.visible = false
 	GameManager.complete_objective("clock_in")
 	await get_tree().create_timer(0.5).timeout
 	prompt_label.visible = false
 
 func _do_clock_out() -> void:
-	prompt_label.text = "Clocking out..."
-	prompt_label.visible = true
+	prompt_label.visible = false
 	
 	# Disable player movement
 	var players = get_tree().get_nodes_in_group("player")
