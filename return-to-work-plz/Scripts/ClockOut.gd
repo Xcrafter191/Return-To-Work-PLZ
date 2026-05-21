@@ -47,11 +47,7 @@ func _on_loop_restarted(_loop: int) -> void:
 
 func _update_prompt() -> void:
 	var current_task = GameManager.get_current_task_id()
-	if current_task == "clock_in":
-		prompt_label.text = "Press [E] - Clock In"
-		prompt_label.visible = true
-	elif current_task == "clock_out":
-		prompt_label.text = "Press [E] - Clock Out"
+	if current_task == "clock_in" or current_task == "clock_out":
 		prompt_label.visible = true
 	else:
 		prompt_label.visible = false

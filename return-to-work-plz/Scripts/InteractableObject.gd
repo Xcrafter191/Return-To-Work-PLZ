@@ -127,13 +127,13 @@ func _update_prompt_visibility() -> void:
 		
 		var display_name = task_name
 		if InconvenienceManager.is_task_deception:
-			var fake_names = ["Typing report...", "Fixing spreadsheet...", "Replying email...", "Print documents", "Present to Manager"]
+			var fake_names = ["", "", "", "", ""]
 			display_name = fake_names.pick_random()
 			
 		if _is_skippable():
-			prompt_label.text = "Press [E] - %s  |  [Q] Skip" % display_name
+			prompt_label.text = "%s" % display_name
 		else:
-			prompt_label.text = "Press [E] - %s" % display_name
+			prompt_label.text = "%s" % display_name
 		prompt_label.visible = true
 		_start_glow()
 	else:

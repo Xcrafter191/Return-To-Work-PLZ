@@ -133,17 +133,30 @@ func _update_direction_arrow() -> void:
 		return
 	
 	var task_room: String = GameManager.objectives[task_idx].get("room", "")
-	if task_room == "Any" or task_room == "Cubicle":
+	if task_room == "Any":
 		_stop_cta_flash()
 		direction_arrow.visible = false
 		return
 	
 	# Cari slot yang megang task room ini
 	var target_slot = ""
-	for slot in RoomManager.current_layout:
-		if RoomManager.current_layout[slot] == task_room:
-			target_slot = slot
-			break
+	if task_room == "Cubicle":
+		# "Cubicle" tasks can be done at any Cubicle variant — find the first one in layout
+		for slot in RoomManager.current_layout:
+			var rname = RoomManager.current_layout[slot]
+			if rname.begins_with("Cubicle"):
+				# If player is already in a cubicle, hide arrow
+				if slot == RoomManager.current_slot:
+					_stop_cta_flash()
+					direction_arrow.visible = false
+					return
+				if target_slot == "":
+					target_slot = slot
+	else:
+		for slot in RoomManager.current_layout:
+			if RoomManager.current_layout[slot] == task_room:
+				target_slot = slot
+				break
 	
 	if target_slot == "" or target_slot == RoomManager.current_slot:
 		_stop_cta_flash()
