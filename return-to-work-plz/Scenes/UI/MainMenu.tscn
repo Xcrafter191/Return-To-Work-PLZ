@@ -9,6 +9,8 @@
 [ext_resource type="Texture2D" uid="uid://bcs73r7y6py20" path="res://Assets/UI V4/PAUSE/BUTTONS/Group 111.png" id="5_opt_n"]
 [ext_resource type="Texture2D" uid="uid://dv2sfbk45lro7" path="res://Assets/UI V4/PAUSE/BUTTONS/Group 112.png" id="6_opt_h"]
 [ext_resource type="Texture2D" uid="uid://c57riptktorsi" path="res://Assets/UI V4/PAUSE/BUTTONS/Group 114.png" id="6_ynupv"]
+[ext_resource type="Texture2D" uid="uid://dd4t7kpipjpl2" path="res://Assets/UI V4/PAUSE/BUTTONS/ABOUT_US_N.png" id="7_ecrs6"]
+[ext_resource type="Texture2D" uid="uid://cqqk4frwlj1qp" path="res://Assets/UI V4/PAUSE/BUTTONS/ABOUT_US_H.png" id="8_sqe33"]
 [ext_resource type="FontFile" uid="uid://c41kv0pko2t4q" path="res://Assets/Font/Pixeled.ttf" id="10_font"]
 [ext_resource type="Texture2D" uid="uid://cs7udj2lvluqs" path="res://Assets/UI V4/PAUSE/MAIN/MAIN_BOX.png" id="11_mainbox"]
 [ext_resource type="Texture2D" uid="uid://cx5hqpfi3mgya" path="res://Assets/UI V4/PAUSE/MAIN/SELECTED_BOX.png" id="12_selbox"]
@@ -175,13 +177,13 @@ texture_hover = ExtResource("6_opt_h")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="AboutButton" type="Button" parent="VBoxContainer"]
-custom_minimum_size = Vector2(400, 70)
+[node name="AboutButton" type="TextureButton" parent="VBoxContainer" unique_id=528938170]
+custom_minimum_size = Vector2(2, 100)
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_hover_color = Color(1, 0.9, 0.6, 1)
-theme_override_font_sizes/font_size = 20
-text = "ABOUT"
+texture_normal = ExtResource("7_ecrs6")
+texture_hover = ExtResource("8_sqe33")
+ignore_texture_size = true
+stretch_mode = 0
 
 [node name="ExitButton" type="TextureButton" parent="VBoxContainer" unique_id=1795230594]
 custom_minimum_size = Vector2(400, 90)
